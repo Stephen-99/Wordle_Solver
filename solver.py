@@ -107,14 +107,6 @@ def DetermineGuess(commonalityLookup, words):
         #a commonality score for this word won't make sense, as some of the letters might be missing
         return Guess(PickVarietyWord(commonalityLookup, len(bestWord))), 0
 
-
-    #TODO:
-    #if len(bestWord) >= 3 and len(words) < SOME LIMIT (maybe like 8)
-        #then try find a new word with as many of the unique letters as possible
-        #Will need a new function for this. NOTE: not all cases will have just 1 letter different
-            #look for the minimum used 5 letters in the lookup, try make a word with those.
-                #otherwise drop to 4, with the other letter being anything etc.
-
     return Guess(bestWord[0]), bestScore
 
 def PickVarietyWord(lookup, numWords):
@@ -127,6 +119,24 @@ def PickVarietyWord(lookup, numWords):
     print("\nLooking for the least common letters:")
     letters = lookup.GetLeastCommonLetters(numWords)
     print(letters, "\n")
+
+
+    #Much better idea is to go through the valid words, keep track of the ones that contain the most of the letters we want.
+        #exit as soon as there is one word with 5 of the letters we want
+        #will need to check as we go also using the letters in letters[1] and letters[2] in case none match perfectly
+            #maybe have some sort of score to give them, and keep track of the best word
+
+    #if len(letters[0] >= 5):
+        #for Each set of 5 letters in letters[0]:
+            #if its a valid word:
+                #return word
+        
+        #for each set of 4 letters 
+            #for each letter in the alphabet:
+                #for each set with the 4 letters and the letter:
+                    #if its a valid word:
+                        #return word
+
 
     #TODO find a valid word using these letters.
         #if its more than 5 letters, and we can't find a word witht eh first 5, we want to swap the last one
@@ -301,23 +311,22 @@ class CharCommonality:
     def GetLeastCommonLetters(self, numWords):
         #only worth looking at the single instance of letters
         sortedList = sorted(self.dicts[0].items(), key = lambda x: x[1])
-        
-        #TODO return least commonLetters as a dictionary of num occurences to letters
-            # we don't really care about the number of occurences though, only that they are different,
-            #could just use the lastVal to check where we need to make a change and return a list of lists
 
-        leastCommonLetters = [[]]
+        #TODO feels like bad code. Refactor it to be better
+        leastCommonLetters = []
         lastVal = 0
-        ii = 0
+        ii = -1
+        count = 0
         for charNVal in sortedList:
             if charNVal[1] >= numWords:
                 break
-            if (len(leastCommonLetters) >= 5) and (charNVal[1] > lastVal):
+            if (count >= 5) and (charNVal[1] > lastVal):
                 break
             if (charNVal[1] > lastVal):
                 leastCommonLetters.append([])
                 ii += 1
             leastCommonLetters[ii].append(charNVal[0])
+            count += 1
             lastVal = charNVal[1]
         return leastCommonLetters
 
