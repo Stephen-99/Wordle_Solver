@@ -5,9 +5,11 @@ from pathlib import Path
 import csv
 from bs4 import BeautifulSoup
 
+#TODO: refactor this to actually be the passed in filename, we want a different one when getting all the allwoed words
 filename = "words.csv"
 
 def main():
+    GetAllowedWords()
     words = ReadWordsFromCsv()
 
     #TEST WORD UPDATE THIS TO EITHER
@@ -30,9 +32,6 @@ def main():
         # try input guesses into the actual site
             #otherwise just scrape for the answer and use that.
         # add option for user to play for a random word, or the offical word of the day
-        # make a list of words with equal highest commonality
-            #pick the word from there with the most variety of letters.
-
 
 def WriteWordsToCsv(words):
     with open(filename, 'w') as csvFile:
@@ -60,6 +59,7 @@ def ReadWordsFromCsv():
 
 def ScrapeWebpage():
     words = WordUnscrambler()
+    allowedWords = GetAllowedWords()
     WriteWordsToCsv(words)
     return words
 
@@ -69,11 +69,22 @@ def WordUnscrambler():
     soup = BeautifulSoup(response.text, 'html.parser')
 
     wordsHtml = soup.findAll('li', {'class': 'invert light'})
-    words = []
     
+    #TODO update to use a list comprehension
+    words = []
     for htmlWord in wordsHtml:
         words.append(htmlWord.text.strip())
 
+    return words
+
+#TODO read/write them to csv
+def GetAllowedWords():
+    url = "https://github.com/tabatkins/wordle-list/blob/main/words"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    wordsHtml = soup.findAll('td', {'class': 'blob-code blob-code-inner js-file-line'})
+    words = [word.text.strip() for word in wordsHtml]
     return words
 
 def DetermineNumberOfOccurrences(words):
@@ -110,6 +121,8 @@ def DetermineGuess(commonalityLookup, words):
     return Guess(bestWord[0]), bestScore
 
 def PickVarietyWord(lookup, numWords):
+    #may want to just pick most variety from the best guesses, may want to pick the best variety from all letters
+
     #sort key value pairs from the dictionary, and pick the minimum ones to create a new word
         #do we just look at the single letters here or double too?
             #we limit it to when small number of words. The cost of including a double letter 
@@ -125,6 +138,7 @@ def PickVarietyWord(lookup, numWords):
         #exit as soon as there is one word with 5 of the letters we want
         #will need to check as we go also using the letters in letters[1] and letters[2] in case none match perfectly
             #maybe have some sort of score to give them, and keep track of the best word
+        #Maybe I can filter the allowed words list with a regex?
 
     #if len(letters[0] >= 5):
         #for Each set of 5 letters in letters[0]:
@@ -172,10 +186,6 @@ class Testing:
     def __init__(self):
         self.wordsLostTo = ['foyer', 'goner', 'homer', 'jolly', 'patch', 'pound', 'saner', 'shave', 'silly', 'swore', 'taste', 'tight', 'vaunt', 'waste', 'watch', 'wight', 'willy', 'wound']
 
-    #TODO do testing on words were it loses to see if it can be improved.
-        #when theres more than 2 with only 1 letter different, try find a word which uses all the 
-        #different letters and so deduce which one is in the word.
-            #may need to scrape an allowed wordlist which is different than the answers list.
     def TestWordsLostTo(self):
         self.words = ReadWordsFromCsv()
         lookup = DetermineNumberOfOccurrences(self.words)
@@ -295,7 +305,6 @@ class CharCommonality:
         for word in words:
             charCount = CharOccurrencesInWord(word)
             for char, count in charCount.items():
-                #TODO: check if its actually better with this change, or if just adding it to count-1 was better
                 for ii in range(count):
                     self._AddCharCommonality(char, ii)
 
