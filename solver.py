@@ -78,6 +78,10 @@ def WordUnscrambler():
     return words
 
 #TODO read/write them to csv
+#TODO use a MongoDB database to store and load these words
+    #can then call queires against it to effectively check for words with
+    #particular letters.
+    #Can also maek queries to check if it needs updating after scraping the site...
 def GetAllowedWords():
     url = "https://github.com/tabatkins/wordle-list/blob/main/words"
     response = requests.get(url)
