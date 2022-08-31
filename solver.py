@@ -71,9 +71,7 @@ def WordUnscrambler():
     wordsHtml = soup.findAll('li', {'class': 'invert light'})
     
     #TODO update to use a list comprehension
-    words = []
-    for htmlWord in wordsHtml:
-        words.append(htmlWord.text.strip())
+    words = [htmlWord.text.strip() for htmlWord in wordsHtml]
 
     return words
 
