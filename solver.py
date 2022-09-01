@@ -155,12 +155,17 @@ def PickVarietyWord(lookup, numWords):
 
 
     #TODO find a valid word using these letters.
-        #if its more than 5 letters, and we can't find a word witht eh first 5, we want to swap the last one
+        #if its more than 5 letters, and we can't find a word with the first 5, we want to swap the last one
         #but if the second last or third last etc. have the same val we could swap with them and get more 
         #letter combinations that might give us a valid word with the same amount of variability
 
         #So may need to pass in the values, but better would be a way to return the letters segregated 
         #into their commonality. Maybe as a dictionary?
+    #This is meant to crash the program since we assume 5 letters in a lot of places
+    #could maybe look to change that though. At the least use a global constant.
+
+    #TODO deal with this in the guess class since at some point the user will enter a string and we want to 
+    #ensure its within a valid length, although we could verify that after input...
     return "test non standard length word"
 
 def FilterWords(words, guess):
@@ -270,6 +275,11 @@ class Testing:
 
 class Guess:
     def __init__(self, word):
+        #TODO catch this exception.
+        #Also, seems like a bad idea to have an exception in the constructot maybe make a GuessFactory to perform injection
+        #also also, make a custom exception or find a better suited one.
+        if (len(word) != 5):
+            raise Exception("length of word should be 5")
         self.word = word
         self.correct = [False, False, False, False, False]
         self.misplaced = [False, False, False, False, False]
