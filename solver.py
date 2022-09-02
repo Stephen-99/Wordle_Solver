@@ -70,14 +70,13 @@ def WordUnscrambler():
 
     wordsHtml = soup.findAll('li', {'class': 'invert light'})
     
-    #TODO update to use a list comprehension
     words = [htmlWord.text.strip() for htmlWord in wordsHtml]
 
     return words
 
 #TODO read/write them to csv
 #TODO use a MongoDB database to store and load these words
-    #can then call queires against it to effectively check for words with
+    #can then call queries against it to effectively check for words with
     #particular letters.
     #Can also maek queries to check if it needs updating after scraping the site...
 def GetAllowedWords():
@@ -102,6 +101,8 @@ def CharOccurrencesInWord(word):
         else:
             charCount[char] = 1
     return charCount
+
+#work as a wrapper for DetermineGuess, makes it easier to change out if we want to get a guess from the user
 
 def DetermineGuess(commonalityLookup, words):
     #TODO Won't need to return bestScore once all setup
@@ -175,14 +176,22 @@ def GetRandomWord(words):
     return random.choice(words)
 
 def RunGame(validWords, commonalityLookup, answer):
-    guess, score = DetermineGuess(commonalityLookup, validWords)
+    try:
+        guess, score = DetermineGuess(commonalityLookup, validWords)
+    except InvalidWordLength as e:
+        print(e.message)
+        return
     print("Best guess is:", guess.word, " With a score of:", score)
     correctGuess = guess.ValidateGuess(answer)
     guesses = 1
     while not correctGuess:
         validWords = FilterWords(validWords, guess)
         commonalityLookup = DetermineNumberOfOccurrences(validWords)
-        guess, score = DetermineGuess(commonalityLookup, validWords)
+        try:
+            guess, score = DetermineGuess(commonalityLookup, validWords)
+        except InvalidWordLength as e:
+            print(e.message)
+            return
         print("Best guess is:", guess.word, " With a score of:", score)
         correctGuess = guess.ValidateGuess(answer)
         guesses += 1
@@ -279,7 +288,7 @@ class Guess:
         #Also, seems like a bad idea to have an exception in the constructot maybe make a GuessFactory to perform injection
         #also also, make a custom exception or find a better suited one.
         if (len(word) != 5):
-            raise Exception("length of word should be 5")
+            raise InvalidWordLength()
         self.word = word
         self.correct = [False, False, False, False, False]
         self.misplaced = [False, False, False, False, False]
@@ -367,6 +376,11 @@ class CharCommonality:
         except IndexError:
             print("\n\nERROR:\tCouldn't add commonality for a word with the same letter", index+1, "times\n\n")
 
+
+class InvalidWordLength(Exception):
+    def __init__(self, length = 5, message = "Word length must be "):
+        self.message = message + str(length)
+        super().__init__(self.message)
 
 
 if __name__ == "__main__":
