@@ -102,8 +102,6 @@ def CharOccurrencesInWord(word):
             charCount[char] = 1
     return charCount
 
-#work as a wrapper for DetermineGuess, makes it easier to change out if we want to get a guess from the user
-
 def DetermineGuess(commonalityLookup, words):
     #TODO Won't need to return bestScore once all setup
     bestScore = 0
@@ -125,12 +123,6 @@ def DetermineGuess(commonalityLookup, words):
 
 def PickVarietyWord(lookup, numWords):
     #may want to just pick most variety from the best guesses, may want to pick the best variety from all letters
-
-    #sort key value pairs from the dictionary, and pick the minimum ones to create a new word
-        #do we just look at the single letters here or double too?
-            #we limit it to when small number of words. The cost of including a double letter 
-            #for 1 extra letter of variability is highly unlikely to pay off.
-                #we limit the number of equal weighted guesses, not the number of valid words...
 
     print("\nLooking for the least common letters:")
     letters = lookup.GetLeastCommonLetters(numWords)
@@ -165,8 +157,6 @@ def PickVarietyWord(lookup, numWords):
     #This is meant to crash the program since we assume 5 letters in a lot of places
     #could maybe look to change that though. At the least use a global constant.
 
-    #TODO deal with this in the guess class since at some point the user will enter a string and we want to 
-    #ensure its within a valid length, although we could verify that after input...
     return "test non standard length word"
 
 def FilterWords(words, guess):
