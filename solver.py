@@ -57,6 +57,7 @@ def ReadWordsFromCsv():
     print("Finished reading from", filename)
     return words
 
+#TODO store the allowed words here in the db.
 def ScrapeWebpage():
     words = WordUnscrambler()
     allowedWords = GetAllowedWords()
