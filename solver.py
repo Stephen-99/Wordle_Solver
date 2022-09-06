@@ -1,17 +1,20 @@
 import random
 import requests
 import time
-from pathlib import Path
 import csv
+import pymongo
+import certifi
+from pathlib import Path
 from bs4 import BeautifulSoup
 
 #TODO: refactor this to actually be the passed in filename, we want a different one when getting all the allwoed words
 filename = "words.csv"
 
 def main():
-    GetAllowedWords()
-    words = ReadWordsFromCsv()
+    UpdateDB(GetAllowedWords())
+    #words = ReadWordsFromCsv()
 
+    """
     #TEST WORD UPDATE THIS TO EITHER
         #Scrape from webpage
         #randomly pick a word
@@ -32,7 +35,7 @@ def main():
         # try input guesses into the actual site
             #otherwise just scrape for the answer and use that.
         # add option for user to play for a random word, or the offical word of the day
-
+    """
 def WriteWordsToCsv(words):
     with open(filename, 'w') as csvFile:
         writer = csv.writer(csvFile)
@@ -57,7 +60,27 @@ def ReadWordsFromCsv():
     print("Finished reading from", filename)
     return words
 
-#TODO store the allowed words here in the db.
+def ConnectToDB():
+    with open("password") as passFile:
+        password = passFile.readline()
+
+    cert = certifi.where()
+    client = pymongo.MongoClient("mongodb+srv://admin:" + password + "@wordlesolver.u6oi1ao.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=cert)
+    return client.wordle
+
+def UpdateDB(words):
+    db = ConnectToDB()
+    allowedWords = db["allowedWords"]
+    
+    wordsDoc = {}
+    wordsIter = iter(words)
+    for ii in range(len(words)):
+        word = next(wordsIter)
+        wordsDoc[str(ii)] = word
+    
+    foundDoc = allowedWords.find_one()
+    allowedWords.update_one(foundDoc, {"$set": wordsDoc}, upsert=True)
+
 def ScrapeWebpage():
     words = WordUnscrambler()
     allowedWords = GetAllowedWords()
@@ -75,11 +98,7 @@ def WordUnscrambler():
 
     return words
 
-#TODO read/write them to csv
-#TODO use a MongoDB database to store and load these words
-    #can then call queries against it to effectively check for words with
-    #particular letters.
-    #Can also maek queries to check if it needs updating after scraping the site...
+
 def GetAllowedWords():
     url = "https://github.com/tabatkins/wordle-list/blob/main/words"
     response = requests.get(url)
@@ -122,6 +141,7 @@ def DetermineGuess(commonalityLookup, words):
 
     return Guess(bestWord[0]), bestScore
 
+#TODO Query the allowed word db for words containing specific letters.
 def PickVarietyWord(lookup, numWords):
     #may want to just pick most variety from the best guesses, may want to pick the best variety from all letters
 
