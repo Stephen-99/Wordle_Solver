@@ -36,11 +36,14 @@ def main():
             #otherwise just scrape for the answer and use that.
         # add option for user to play for a random word, or the offical word of the day
     """
+
+#TODO add another collection in the db and use that for accessing and filtering the words
 def WriteWordsToCsv(words):
     with open(filename, 'w') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(words)
     print("Finished writing to csv")
+
 
 def ReadWordsFromCsv():
     last_modified = time.time() - Path(filename).stat().st_mtime
@@ -71,15 +74,18 @@ def ConnectToDB():
 def UpdateDB(words):
     db = ConnectToDB()
     allowedWords = db["allowedWords"]
+
+    #To delete all if needed
+    #allowedWords.delete_many({})
+    wordDocs = []
+    for word in words:
+        wordDocs.append({"word": word})
     
-    wordsDoc = {}
-    wordsIter = iter(words)
-    for ii in range(len(words)):
-        word = next(wordsIter)
-        wordsDoc[str(ii)] = word
-    
-    foundDoc = allowedWords.find_one()
-    allowedWords.update_one(foundDoc, {"$set": wordsDoc}, upsert=True)
+    #TODO make this an update
+        #will become a word-by word basis
+        #if it doesn't exist, add it.
+        #If it exists and we don't have it, delete it.
+    allowedWords.insert_many(wordDocs)
 
 def ScrapeWebpage():
     words = WordUnscrambler()
@@ -92,13 +98,11 @@ def WordUnscrambler():
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    wordsHtml = soup.findAll('li', {'class': 'invert light'})
-    
-    words = [htmlWord.text.strip() for htmlWord in wordsHtml]
+    wordsHtml = soup.findAll('li', {'class': 'invert light'})    
+    return [htmlWord.text.strip() for htmlWord in wordsHtml]
 
-    return words
-
-
+#TODO: update this to only get called on scrape webpage
+    #all other calls should access the database
 def GetAllowedWords():
     url = "https://github.com/tabatkins/wordle-list/blob/main/words"
     response = requests.get(url)
@@ -142,6 +146,9 @@ def DetermineGuess(commonalityLookup, words):
     return Guess(bestWord[0]), bestScore
 
 #TODO Query the allowed word db for words containing specific letters.
+    #Example query: 
+        # {$and: [{word: {$regex: 'e.*e.*e'}}, {word: {$regex: 'b'}}]}
+        #can and each letter to find together. multiple instances of the same letter need special handling
 def PickVarietyWord(lookup, numWords):
     #may want to just pick most variety from the best guesses, may want to pick the best variety from all letters
 
