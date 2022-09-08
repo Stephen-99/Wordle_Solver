@@ -304,7 +304,6 @@ class Guess:
     def __init__(self, word):
         #TODO catch this exception.
         #Also, seems like a bad idea to have an exception in the constructot maybe make a GuessFactory to perform injection
-        #also also, make a custom exception or find a better suited one.
         if (len(word) != 5):
             raise InvalidWordLength()
         self.word = word
