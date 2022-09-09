@@ -75,21 +75,26 @@ def UpdateDB(words):
     db = ConnectToDB()
     allowedWords = db["allowedWords"]
 
-    #To delete all if needed
+    #To delete all if needed:
     #allowedWords.delete_many({})
-    wordDocs = []
     for word in words:
-        wordDocs.append({"word": word})
+        if not allowedWords.find_one({"word": word}):
+            allowedWords.insert_one({"word": word})
+
     
     #TODO make this an update
         #will become a word-by word basis
         #if it doesn't exist, add it.
         #If it exists and we don't have it, delete it.
-    allowedWords.insert_many(wordDocs)
+            #this is a bit trickier, requires looping over all items in the db.
+                # do a find all
+                #then for each check if its in the list.
+    #allowedWords.insert_many(wordDocs)
+    #allowedWords.update_many({}, wordDocs)
 
 def ScrapeWebpage():
     words = WordUnscrambler()
-    allowedWords = GetAllowedWords()
+    UpdateDB(GetAllowedWords())
     WriteWordsToCsv(words)
     return words
 
@@ -302,8 +307,7 @@ class Testing:
 
 class Guess:
     def __init__(self, word):
-        #TODO catch this exception.
-        #Also, seems like a bad idea to have an exception in the constructot maybe make a GuessFactory to perform injection
+        #TODO seems like a bad idea to have an exception in the constructor maybe make a GuessFactory to perform injection
         if (len(word) != 5):
             raise InvalidWordLength()
         self.word = word
