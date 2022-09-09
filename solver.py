@@ -77,8 +77,13 @@ def UpdateDB(words):
 
     #To delete all if needed:
     #allowedWords.delete_many({})
+
+    #ok so this takes a long time.
+    #Alternatives:
+        # 1. Delete all words currently there and then insert all the new words
+        # 2. Load all the words from the db into memory, work out which ones need to be added and deleted, then just add or delete those words
     for word in words:
-        if not allowedWords.find_one({"word": word}):
+        if allowedWords.find_one({"word": word}) == None:
             allowedWords.insert_one({"word": word})
 
     
