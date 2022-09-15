@@ -4,6 +4,7 @@ import time
 import csv
 import pymongo
 import certifi
+import time
 from pathlib import Path
 from bs4 import BeautifulSoup
 
@@ -11,7 +12,8 @@ from bs4 import BeautifulSoup
 filename = "words.csv"
 
 def main():
-    UpdateDB(GetAllowedWords())
+    UpdateDB(["test1", "test2", "test2"])
+    #UpdateDB(GetAllowedWords())
     #words = ReadWordsFromCsv()
 
     """
@@ -82,10 +84,41 @@ def UpdateDB(words):
     #Alternatives:
         # 1. Delete all words currently there and then insert all the new words
         # 2. Load all the words from the db into memory, work out which ones need to be added and deleted, then just add or delete those words
+    
+    start = time.time()
+    dbWords = [doc["word"] for doc in allowedWords.find({})]
+    dbDict = dict.fromkeys(dbWords)
+    
+    wordsNotFound = []
+    for word in words:
+        try:
+            dbDict[word] = True
+            #word exists
+        except KeyError:
+            wordsNotFound.append(word)
+
+    wordsToRemove = []
+    for word, allowedWord in dbDict.items():
+        if not allowedWord:
+            wordsToRemove.append(word)
+    
+    #TODO insert many for words not found.
+    #and delete many for words to remove.
+        #may have to add these to the lists as documents not just words.
+
+        
+    print("took:", time.time() - start, "seconds to update the db")
+
+    """ TOOK 854s ~= 14.2m
+    allowedWords.delete_many({})
+    for word in words:
+        allowedWords.insert_one({"word": word})
+    """
+    """
     for word in words:
         if allowedWords.find_one({"word": word}) == None:
             allowedWords.insert_one({"word": word})
-
+    """
     
     #TODO make this an update
         #will become a word-by word basis
