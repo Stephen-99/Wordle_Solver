@@ -10,14 +10,17 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 
 #TODO: refactor this to actually be the passed in filename, we want a different one when getting all the allwoed words
+#This will become redundant when it gets shifted to the db.
 filename = "words.csv"
 
 def main():
-    #UpdateDB(["test1", "test2", "test3"])
-    UpdateDB(GetAllowedWords())
-    #words = ReadWordsFromCsv()
+    #TODO Currently there is hidden coupling where both the allowed and actual words get updated if the csv is > 7days old
+    #This means ReadWordsFromCsv needs to happen b4 GetAllowedWords. 
+    #When the validAnswers get added to the db, the scraping should appear as a separate function that will be called b4 getting the words
+    words = ReadWordsFromCsv()
+    allowedWords = GetAllowedWords()
+    
 
-    """
     #TEST WORD UPDATE THIS TO EITHER
         #Scrape from webpage
         #randomly pick a word
@@ -27,7 +30,6 @@ def main():
     #TESTWORD = "silly"
     print("Randomly selected word is:", TESTWORD)
     
-    #print(words)
     commonalityLookup = DetermineNumberOfOccurrences(words)
     print("Took ", RunGame(words, commonalityLookup, TESTWORD), "guesses")
 
@@ -38,7 +40,7 @@ def main():
         # try input guesses into the actual site
             #otherwise just scrape for the answer and use that.
         # add option for user to play for a random word, or the offical word of the day
-    """
+
 
 #TODO add another collection in the db and use that for accessing and filtering the words
 def WriteWordsToCsv(words):
@@ -78,7 +80,6 @@ def UpdateDB(words):
     db = ConnectToDB()
     allowedWords = db["allowedWords"]
     
-    start = time.time()
     dbWords = [doc["word"] for doc in allowedWords.find({})]
     dbDict = dict.fromkeys(dbWords)
     
@@ -100,17 +101,21 @@ def UpdateDB(words):
             wordsToRemove.append(word)
     
     if len(wordsToRemove) == 0:
-        print("took:", time.time() - start, "seconds to update the db")
         return
 
     deleteQuery = {"word": {"$in": wordsToRemove}}
     allowedWords.delete_many(deleteQuery)
 
-    print("took:", time.time() - start, "seconds to update the db")
+
+def GetAllowedWords():
+    db = ConnectToDB()
+    allowedWords = db["allowedWords"]
+    
+    return [doc["word"] for doc in allowedWords.find({})]
 
 def ScrapeWebpage():
     words = WordUnscrambler()
-    UpdateDB(GetAllowedWords())
+    UpdateDB(ScrapeAllowedWords())
     WriteWordsToCsv(words)
     return words
 
@@ -124,7 +129,7 @@ def WordUnscrambler():
 
 #TODO: update this to only get called on scrape webpage
     #all other calls should access the database
-def GetAllowedWords():
+def ScrapeAllowedWords():
     url = "https://github.com/tabatkins/wordle-list/blob/main/words"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
