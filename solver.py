@@ -17,8 +17,9 @@ def main():
     #TODO Currently there is hidden coupling where both the allowed and actual words get updated if the csv is > 7days old
     #This means ReadWordsFromCsv needs to happen b4 GetAllowedWords. 
     #When the validAnswers get added to the db, the scraping should appear as a separate function that will be called b4 getting the words
-    words = ReadWordsFromCsv()
+    words = GetAnswers()
     allowedWords = GetAllowedWords()
+
     
 
     #TEST WORD UPDATE THIS TO EITHER
@@ -76,7 +77,45 @@ def ConnectToDB():
     client = pymongo.MongoClient("mongodb+srv://admin:" + password + "@wordlesolver.u6oi1ao.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=cert)
     return client.wordle
 
-def UpdateDB(words):
+def GetAnswers():
+    db = ConnectToDB()
+    answers = db["answers"]
+    
+    return [doc["word"] for doc in answers.find({})]
+
+
+def UpdateAnswers(words):
+    db = ConnectToDB()
+    answers = db["answers"]
+    
+    dbWords = [doc["word"] for doc in answers.find({})]
+    dbDict = dict.fromkeys(dbWords)
+    
+    wordsNotFound = []
+    for word in words:
+        try:
+            #check if word exists, if it does assign its value to true
+            dbDict[word]
+            dbDict[word] = True
+        except KeyError:
+            wordsNotFound.append({"word": word})
+
+    if len(wordsNotFound) != 0:
+        answers.insert_many(wordsNotFound)
+    print("Num words to add:", len(wordsNotFound))
+
+    wordsToRemove = []
+    for word, allowedWord in dbDict.items():
+        if not allowedWord:
+            wordsToRemove.append(word)
+    
+    if len(wordsToRemove) == 0:
+        return
+
+    deleteQuery = {"word": {"$in": wordsToRemove}}
+    answers.delete_many(deleteQuery)
+
+def UpdateAllowedWords(words):
     db = ConnectToDB()
     allowedWords = db["allowedWords"]
     
@@ -115,7 +154,7 @@ def GetAllowedWords():
 
 def ScrapeWebpage():
     words = WordUnscrambler()
-    UpdateDB(ScrapeAllowedWords())
+    UpdateAllowedWords(ScrapeAllowedWords())
     WriteWordsToCsv(words)
     return words
 
