@@ -69,6 +69,14 @@ def ReadWordsFromCsv():
     print("Finished reading from", filename)
     return words
 
+"""TODO: add a field to the db to keep track of when it was last updated.
+            Could do it as a separate field per collection, or just one overall field.s
+def UpdateDB():
+    if SOMEWAY TO CHECK WHEN LAST UPDATED:
+        UpdateAllowedWords(ScrapeAllowedWords())
+        UpdateAnswers(ScrapeWebpage())
+"""
+
 def ConnectToDB():
     with open("password") as passFile:
         password = passFile.readline()
@@ -152,6 +160,7 @@ def GetAllowedWords():
     
     return [doc["word"] for doc in allowedWords.find({})]
 
+#TODO refactor to stop writing to csv
 def ScrapeWebpage():
     words = WordUnscrambler()
     UpdateAllowedWords(ScrapeAllowedWords())
