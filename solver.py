@@ -96,6 +96,7 @@ def UpdateAnswers(words):
     db = ConnectToDB()
     answers = db["answers"]
     lastUpdate = answers.find({"lastUpdate"})
+    curTime = time.time()
     #TODO implement this, and duplicate it in UpdateAllowedWords
     #if (lastUpdate-curTime) < 7days: return
     #answers.insert_one({"lastUpdate": curTime})
