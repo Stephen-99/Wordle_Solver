@@ -17,8 +17,7 @@ def main():
     #TODO Currently there is hidden coupling where both the allowed and actual words get updated if the csv is > 7days old
     #This means ReadWordsFromCsv needs to happen b4 GetAllowedWords. 
     #When the validAnswers get added to the db, the scraping should appear as a separate function that will be called b4 getting the words
-    words = GetAnswers()
-    allowedWords = GetAllowedWords()
+    words, allowedWords = GetWords()
 
     
 
@@ -91,16 +90,31 @@ def GetAnswers():
     
     return [doc["word"] for doc in answers.find({})]
 
+def UpdateDB():
+    db = ConnectToDB()
+    lastUpdateCollection = db["lastUpdate"]
+    lastUpdate = lastUpdateCollection.find_one({})["lastUpdate"]
+    curTime = time.time()
+    
+    if ((lastUpdate - curTime) / 3600 / 24)  > 7:
+        lastUpdateCollection.insert_one({"lastUpdate": time.time()})
+        answers, allowedWords = ScrapeWebpage()
+        UpdateAnswers(answers)
+        UpdateAllowedWords(allowedWords)
+
+        return answers, allowedWords
+    return None, None
+
+def GetWords():
+    answers, allowedWords = UpdateDB()
+    if (not answers):
+        answers = GetAnswers()
+        allowedWords = GetAllowedWords()
+    return answers, allowedWords
 
 def UpdateAnswers(words):
     db = ConnectToDB()
     answers = db["answers"]
-    lastUpdate = answers.find({"lastUpdate"})
-    curTime = time.time()
-    #TODO implement this, and duplicate it in UpdateAllowedWords
-    #if (lastUpdate-curTime) < 7days: return
-    #answers.insert_one({"lastUpdate": curTime})
-    
     dbWords = [doc["word"] for doc in answers.find({})]
     dbDict = dict.fromkeys(dbWords)
     
@@ -165,14 +179,12 @@ def GetAllowedWords():
     
     return [doc["word"] for doc in allowedWords.find({})]
 
-#TODO refactor to stop writing to csv
 def ScrapeWebpage():
-    words = WordUnscrambler()
-    UpdateAllowedWords(ScrapeAllowedWords())
-    WriteWordsToCsv(words)
-    return words
+    words = ScrapeAnswers()
+    allowedWords = ScrapeAllowedWords()
+    return words, allowedWords
 
-def WordUnscrambler():
+def ScrapeAnswers():
     url = 'https://www.wordunscrambler.net/word-list/wordle-word-list'
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -180,8 +192,6 @@ def WordUnscrambler():
     wordsHtml = soup.findAll('li', {'class': 'invert light'})    
     return [htmlWord.text.strip() for htmlWord in wordsHtml]
 
-#TODO: update this to only get called on scrape webpage
-    #all other calls should access the database
 def ScrapeAllowedWords():
     url = "https://github.com/tabatkins/wordle-list/blob/main/words"
     response = requests.get(url)
@@ -300,7 +310,7 @@ class Testing:
         self.wordsLostTo = ['foyer', 'goner', 'homer', 'jolly', 'patch', 'pound', 'saner', 'shave', 'silly', 'swore', 'taste', 'tight', 'vaunt', 'waste', 'watch', 'wight', 'willy', 'wound']
 
     def TestWordsLostTo(self):
-        self.words = ReadWordsFromCsv()
+        self.words = GetAnswers()
         lookup = DetermineNumberOfOccurrences(self.words)
         for word in self.wordsLostTo:
             guesses = RunGame(self.words, lookup, word)
@@ -308,7 +318,7 @@ class Testing:
 
 
     def LookupUpdateImpact(self):
-        self.words = ReadWordsFromCsv()
+        self.words = GetAnswers()
         resultsWith = self._withLookupUpdate()
         resultsWithout = self._withoutLookupUpdate()
         
