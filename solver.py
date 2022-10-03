@@ -9,17 +9,11 @@ import time
 from pathlib import Path
 from bs4 import BeautifulSoup
 
-#TODO: refactor this to actually be the passed in filename, we want a different one when getting all the allwoed words
-#This will become redundant when it gets shifted to the db.
-filename = "words.csv"
-
 def main():
     #TODO Currently there is hidden coupling where both the allowed and actual words get updated if the csv is > 7days old
     #This means ReadWordsFromCsv needs to happen b4 GetAllowedWords. 
     #When the validAnswers get added to the db, the scraping should appear as a separate function that will be called b4 getting the words
     words, allowedWords = GetWords()
-
-    
 
     #TEST WORD UPDATE THIS TO EITHER
         #Scrape from webpage
@@ -43,38 +37,7 @@ def main():
 
 
 #TODO add another collection in the db and use that for accessing and filtering the words
-def WriteWordsToCsv(words):
-    with open(filename, 'w') as csvFile:
-        writer = csv.writer(csvFile)
-        writer.writerow(words)
-    print("Finished writing to csv")
 
-
-def ReadWordsFromCsv():
-    last_modified = time.time() - Path(filename).stat().st_mtime
-
-    #convert from seconds to days
-    last_modified = last_modified / 60 / 60 / 24
-
-    print("Csv file last modified:", round(last_modified, 2), "days ago.")
-    #If its more than a week old refresh the data by scraping the page again
-    if (last_modified > 7):
-        return ScrapeWebpage()
-    
-    with open(filename, 'r') as csvFile:
-        reader = csv.reader(csvFile)
-        words = list(reader)[0]
-
-    print("Finished reading from", filename)
-    return words
-
-"""TODO: add a field to the db to keep track of when it was last updated.
-            Could do it as a separate field per collection, or just one overall field.s
-def UpdateDB():
-    if SOMEWAY TO CHECK WHEN LAST UPDATED:
-        UpdateAllowedWords(ScrapeAllowedWords())
-        UpdateAnswers(ScrapeWebpage())
-"""
 
 def ConnectToDB():
     with open("password") as passFile:
@@ -317,77 +280,17 @@ class Testing:
             print("took", guesses, "guesses\n")
 
 
+    #just prints what the ressults where for future reference.
     def LookupUpdateImpact(self):
-        self.words = GetAnswers()
-        resultsWith = self._withLookupUpdate()
-        resultsWithout = self._withoutLookupUpdate()
-        
-        print("avg with lookup updates:", sum(resultsWith)/len(resultsWith))            #3.692
-        print("avg without lookup updates:", sum(resultsWithout)/len(resultsWithout))   #3.810
+        print("avg with lookup updates: 3.692")
+        print("avg without lookup updates: 3.810")
 
-        numWithBetter = 0
-        numWithoutBetter = 0
-        numEqual = 0
+        print("Number of times lookup was better:", 738)
+        print("Number of times without lookup was better:", 565)
+        print("Number of times they were equal:", 1006)
+        print("Number of times lookup lost:", 18)
+        print("Number of times without lookup lost:", 36)
 
-        withLost = []
-        withoutLost = []
-        for ii in range(len(resultsWith)):
-            if resultsWith[ii] < resultsWithout[ii]:
-                numWithBetter += 1
-            elif resultsWith[ii] > resultsWithout[ii]:
-                numWithoutBetter += 1
-            else:
-                numEqual += 1
-            if resultsWith[ii] > 6:
-                withLost.append(self.words[ii])
-            if resultsWithout[ii] > 6:
-                withoutLost.append(self.words[ii])
-
-        print("Number of times lookup was better:", numWithBetter) #738
-        print("Number of times without lookup was better:", numWithoutBetter) #565
-        print("Number of times they were equal:", numEqual) #1006
-        print("Number of times lookup lost:", len(withLost)) #18
-        print("Number of times without lookup lost:", len(withoutLost)) #36
-        print("Words lost to with lookup:", withLost)
-        print("Words lost to without lookup:", withoutLost)
-
-
-    def _withLookupUpdate(self):
-        results = []
-        lookup = DetermineNumberOfOccurrences(self.words)
-        for word in self.words:
-            results.append(self._runGame(self.words, lookup, word))
-        return results
-
-    def _withoutLookupUpdate(self):
-        results = []
-        lookup = DetermineNumberOfOccurrences(self.words)
-        for word in self.words:
-            results.append(self._runGameNotUpdatingLookup(self.words, lookup, word))
-        return results
-
-    def _runGame(self, validWords, commonalityLookup, answer):
-        guess, score = DetermineGuess(commonalityLookup, validWords)
-        correctGuess = guess.ValidateGuess(answer)
-        guesses = 1
-        while not correctGuess:
-            validWords = FilterWords(validWords, guess)
-            commonalityLookup = DetermineNumberOfOccurrences(validWords)
-            guess, score = DetermineGuess(commonalityLookup, validWords)
-            correctGuess = guess.ValidateGuess(answer)
-            guesses += 1
-        return guesses
-
-    def _runGameNotUpdatingLookup(self, validWords, commonalityLookup, answer):
-        guess, score = DetermineGuess(commonalityLookup, validWords)
-        correctGuess = guess.ValidateGuess(answer)
-        guesses = 1
-        while not correctGuess:
-            validWords = FilterWords(validWords, guess)
-            guess, score = DetermineGuess(commonalityLookup, validWords)
-            correctGuess = guess.ValidateGuess(answer)
-            guesses += 1
-        return guesses
 
 class Guess:
     def __init__(self, word):
