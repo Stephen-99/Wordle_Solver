@@ -10,9 +10,6 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 
 def main():
-    #TODO Currently there is hidden coupling where both the allowed and actual words get updated if the csv is > 7days old
-    #This means ReadWordsFromCsv needs to happen b4 GetAllowedWords. 
-    #When the validAnswers get added to the db, the scraping should appear as a separate function that will be called b4 getting the words
     words, allowedWords = GetWords()
 
     #TEST WORD UPDATE THIS TO EITHER
@@ -32,12 +29,13 @@ def main():
         # print out with colours (yellow and green)
         # add the option for the user to play, making their own guesses
         # try input guesses into the actual site
-            #otherwise just scrape for the answer and use that.
+            # otherwise just scrape for the answer and use that.
         # add option for user to play for a random word, or the offical word of the day
 
-
-#TODO add another collection in the db and use that for accessing and filtering the words
-
+#TODO: 
+    # Use the allowed words to pick a variety word
+    # Use db filtering to determine which words are still valid after a guess etc.
+        # This should involve an update to the Guess class
 
 def ConnectToDB():
     with open("password") as passFile:
