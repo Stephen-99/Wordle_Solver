@@ -206,7 +206,22 @@ def PickVarietyWord(lookup, numWords):
     letters = lookup.GetLeastCommonLetters(numWords)
     print(letters, "\n")
 
+    db = ConnectToDB()
+    allowedWords = db["allowedWords"]
+    
+    filter = "{'$and': ["
 
+    for ii in range(min(len(letters[0]), 5)-1):
+
+        filter += "{'word': {'$regex': '" + letters[0][ii] + "'}}, "
+    #TODO will fail spectacularly if len(letters) == 0, add a guard earlier
+    filter += "{'word': {'$regex': '" + letters[0][min(len(letters[0])-1, 4)] + "'}}]}"
+
+    #TODO: works! but sometimes doesn't find any matching words. Want to consider looking at 2nd least common letters or even relaxing it to less letters.
+    varietyWords = allowedWords.find_one(eval(filter))
+    print("VARIETYWORDS:\n\n", varietyWords, "\n\n")
+
+    #varietyWords = allowedWords.find_one({"$and": [{"word": {"$regex": t}}, {"word"}]})
     #Much better idea is to go through the valid words, keep track of the ones that contain the most of the letters we want.
         #exit as soon as there is one word with 5 of the letters we want
         #will need to check as we go also using the letters in letters[1] and letters[2] in case none match perfectly
