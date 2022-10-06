@@ -206,6 +206,9 @@ def PickVarietyWord(lookup, numWords):
     letters = lookup.GetLeastCommonLetters(numWords)
     print(letters, "\n")
 
+    if len(letters) == 0:
+        return "test non standard length word"
+
     db = ConnectToDB()
     allowedWords = db["allowedWords"]
     
@@ -214,14 +217,20 @@ def PickVarietyWord(lookup, numWords):
     for ii in range(min(len(letters[0]), 5)-1):
 
         filter += "{'word': {'$regex': '" + letters[0][ii] + "'}}, "
-    #TODO will fail spectacularly if len(letters) == 0, add a guard earlier
     filter += "{'word': {'$regex': '" + letters[0][min(len(letters[0])-1, 4)] + "'}}]}"
 
     #TODO: works! but sometimes doesn't find any matching words. Want to consider looking at 2nd least common letters or even relaxing it to less letters.
-    varietyWords = allowedWords.find_one(eval(filter))
-    print("VARIETYWORDS:\n\n", varietyWords, "\n\n")
+        #still need to handle double letters
+        #consider making it one long query using ORs
+            #then let it have an or for each of the 5 letter combinations
+                #only if that fails should we try an OR of 4 letters with 1 letter of 2nd least common letters (if it exists)
+    #May want a check on length of first one to see if we should try look at 2nd, 3rd, 4th or even 5th least common letters.
+    varietyWord = allowedWords.find_one(eval(filter))
+    print("VARIETYWORD:\n\n", varietyWord, "\n\n")
 
-    #varietyWords = allowedWords.find_one({"$and": [{"word": {"$regex": t}}, {"word"}]})
+    if not varietyWord:
+        return "COULDN'T GET A VARIETY WORD :C"
+    return varietyWord["word"]
     #Much better idea is to go through the valid words, keep track of the ones that contain the most of the letters we want.
         #exit as soon as there is one word with 5 of the letters we want
         #will need to check as we go also using the letters in letters[1] and letters[2] in case none match perfectly
@@ -250,7 +259,7 @@ def PickVarietyWord(lookup, numWords):
     #This is meant to crash the program since we assume 5 letters in a lot of places
     #could maybe look to change that though. At the least use a global constant.
 
-    return "test non standard length word"
+    
 
 def FilterWords(words, guess):
     return [word for word in words if guess.ConsistentWithGuess(word)]
@@ -369,6 +378,7 @@ class CharCommonality:
         ii = -1
         count = 0
         for charNVal in sortedList:
+            #Is this numWords really necassary? Maybe not since why do we care about the number of best guesses when we want to whittle down all viable guesses
             if charNVal[1] >= numWords:
                 break
             if (count >= 5) and (charNVal[1] > lastVal):
