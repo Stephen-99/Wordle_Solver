@@ -237,45 +237,17 @@ def PickVarietyWord(lookup, numWords):
     filter += "{'word': {'$regex': '" + letters[0][min(len(letters[0])-1, 4)] + "'}}]}"
 
     #TODO: works! but sometimes doesn't find any matching words. Want to consider looking at 2nd least common letters or even relaxing it to less letters.
-        #still need to handle double letters
-        #consider making it one long query using ORs
-            #then let it have an or for each of the 5 letter combinations
-                #only if that fails should we try an OR of 4 letters with 1 letter of 2nd least common letters (if it exists)
-    #May want a check on length of first one to see if we should try look at 2nd, 3rd, 4th or even 5th least common letters.
     varietyWord = allowedWords.find_one(eval(filter))
     print("VARIETYWORD:\n\n", varietyWord, "\n\n")
 
     if not varietyWord:
         return "COULDN'T GET A VARIETY WORD :C"
     return varietyWord["word"]
-    #Much better idea is to go through the valid words, keep track of the ones that contain the most of the letters we want.
+    #Different idea is to go through the valid words, keep track of the ones that contain the most of the letters we want.
         #exit as soon as there is one word with 5 of the letters we want
         #will need to check as we go also using the letters in letters[1] and letters[2] in case none match perfectly
             #maybe have some sort of score to give them, and keep track of the best word
         #Maybe I can filter the allowed words list with a regex?
-
-    #if len(letters[0] >= 5):
-        #for Each set of 5 letters in letters[0]:
-            #if its a valid word:
-                #return word
-        
-        #for each set of 4 letters 
-            #for each letter in the alphabet:
-                #for each set with the 4 letters and the letter:
-                    #if its a valid word:
-                        #return word
-
-
-    #TODO find a valid word using these letters.
-        #if its more than 5 letters, and we can't find a word with the first 5, we want to swap the last one
-        #but if the second last or third last etc. have the same val we could swap with them and get more 
-        #letter combinations that might give us a valid word with the same amount of variability
-
-        #So may need to pass in the values, but better would be a way to return the letters segregated 
-        #into their commonality. Maybe as a dictionary?
-    #This is meant to crash the program since we assume 5 letters in a lot of places
-    #could maybe look to change that though. At the least use a global constant.
-
     
 
 def FilterWords(words, guess):
