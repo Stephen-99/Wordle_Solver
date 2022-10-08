@@ -212,6 +212,15 @@ def PickVarietyWord(lookup, numWords):
     db = ConnectToDB()
     allowedWords = db["allowedWords"]
     
+    ################################################################################################################################################################
+    #NOTE IMPORTANT:
+    # Is it possible to make a filter to select words that contain a certain number of a group of letters.
+    # So we have our list of 5+ least common letters and then the word has to contain 5 of those.
+    # Then if we need to relax it it just needs to contain 4 of those and one of the 2nd grade letters.
+    # This may save me iterating all the possible combinations. Need to look out what operators MongoDB queries supports to see if this is possible.
+    # can use $in for when we just want 1 from a group of letters. But probably won't work as I think since I still need the regex for the letters...
+    ################################################################################################################################################################
+    
     if len(letters[0]) >= 5:
         #use a filter for every combination of 5 letters.
         #filer = {$or: [{5-letter comb}, {}, {}...]}
