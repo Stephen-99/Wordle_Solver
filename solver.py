@@ -195,6 +195,30 @@ def DetermineGuess(commonalityLookup, words):
 
     return Guess(bestWord[0]), bestScore
 
+def FiveLetterCombinations(letters):
+    if len(letters) == 5:
+        return [letters]
+    
+    #recursive sub-problem to get the number of 4-letter combinations, than the 3-letter etc.
+        #somewhat inefficient. Could cache these combinations though. 4-letter sub-problem needs to happen multiple times since we add a different 5th letter every time
+        #Can do the same approach iteratively though. loop of a loop of loops. --> I'm going loopy :/
+        #But when we are done with 1 letter we don't include it in future combinations. therefore need to first only iterate up till len(letters) - 5 (or 4)...
+
+    #looks bad but really there will not be that many iterations since len(letters) is rarely much greater than 5. 
+    #TODO refactor this to use a loop of loops adding their letter to the correct location in the combinations.
+        #if refactored well, should be able to modify the number of letters we want out of the list as a parameter.
+        #I thought I could use a loop of loops but it might just become recursive...
+            #Ideal algorithm touches each letter once, and adds them to all their correct locations.
+    
+    combinations = []
+    for ii in range(len(letters) - 4):
+        for jj in range(ii+1, len(letters) - 3):
+            for kk in range(jj+1, len(letters) - 2):
+                for ll in range(kk+1, len(letters) - 1):
+                    for mm in range(ll+1, len(letters)):
+                        combinations.append([letters[ii], letters[jj], letters[kk], letters[ll], letters[mm]])
+    return combinations
+        
 #TODO Query the allowed word db for words containing specific letters.
     #Example query: 
         # {$and: [{word: {$regex: 'e.*e.*e'}}, {word: {$regex: 'b'}}]}
@@ -212,19 +236,18 @@ def PickVarietyWord(lookup, numWords):
     db = ConnectToDB()
     allowedWords = db["allowedWords"]
     
-    ################################################################################################################################################################
-    #NOTE IMPORTANT:
-    # Is it possible to make a filter to select words that contain a certain number of a group of letters.
-    # So we have our list of 5+ least common letters and then the word has to contain 5 of those.
-    # Then if we need to relax it it just needs to contain 4 of those and one of the 2nd grade letters.
-    # This may save me iterating all the possible combinations. Need to look out what operators MongoDB queries supports to see if this is possible.
-    # can use $in for when we just want 1 from a group of letters. But probably won't work as I think since I still need the regex for the letters...
-    ################################################################################################################################################################
-    
+    filter = "{"
     if len(letters[0]) >= 5:
         #use a filter for every combination of 5 letters.
         #filer = {$or: [{5-letter comb}, {}, {}...]}
-        pass
+
+        #if len == 5, might not won't this. Is a singular statement inside an or valid?
+            # a singular or is valid so this is fine
+        filter += "'$or': ["
+        print(FiveLetterCombinations(letters[0]))
+        for fiveLetterComb in FiveLetterCombinations(letters[0]):
+            pass
+
     elif len(letters) > 1:
         #use all the letters in all the sections but the last one
             #supplement to 5 letters from the last section. Make an or query using all such 5-letter combinations
@@ -300,7 +323,7 @@ class Testing:
             print("took", guesses, "guesses\n")
 
 
-    #just prints what the ressults where for future reference.
+    #just prints what the results were for future reference.
     def LookupUpdateImpact(self):
         print("avg with lookup updates: 3.692")
         print("avg without lookup updates: 3.810")
