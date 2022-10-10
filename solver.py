@@ -209,6 +209,50 @@ def FiveLetterCombinations(letters):
         #if refactored well, should be able to modify the number of letters we want out of the list as a parameter.
         #I thought I could use a loop of loops but it might just become recursive...
             #Ideal algorithm touches each letter once, and adds them to all their correct locations.
+                #if we know the exact locations, we can use arrays for better performance...
+                #I tried looking for a pattern with combinatorics to determine which locations they are at, but it depends on the previus letter locations,
+                    # and it will requre an iterative calculation for each location anyway. So I don't think that approach will work. :( 
+                    #Should still be able to do it to work for any number of letters not just 5. Should just change the starting point. I guess it'll also change the number of nested for-loops
+                        #can we replcae each for loop with a function call or a lambda?
+                            #Is it not essentially recursive at this point?
+                                #recursive is kinda good tho. It will only go once for each letter in the combination, same as current approach
+                                #however it allows for chagning number of letters more easily.
+
+    #Work through the example from running the code when there's 8 letters.
+    #Let num letters = L
+    # 1st letter in 1st place only, and there for (L-1)C4 positions = 35
+    # 2nd letter in 2nd place for (L-2)C3 positions. 
+    #   After all of 1st letter, it is then in 1st position for (L-2)C4
+    # third letter in 3rd place for (L-3)C2 positions. 
+    #   After 2nd letter finished being 2nd, 3rd letter is 2nd for (L-3)C3. 
+    #   When 2nd letter is 1st, it is 2nd for (L-3)C3
+    #   When 2nd letter finished being 1st, it is 1st for (L-3)C4
+    # 4th letter in 4th place for (L-4)C1 = 4
+    #   --Break for (L-3)C3 - (L-4)C1 = 6
+    #   after 3rd letter stops being 3rd, it becomes third for (L-4)C2 = 6
+    #   --Break for (L-3)C3 - (L-4)C2 = 4
+    #   When 3rd letter is 2nd, it becomes third for (L-4)C2 = 6
+    #   --Break for (L-3)C3 - (L-4)C2 = 4
+    #   2nd for (L-4)C3 = 4
+    #   -- break for (L-3)C4 - (L-4)C3 = 1
+    #   3rd for (L-4)C2 = 6
+    #   -- break for (L-3)C3 - (L-4)C2 = 4
+    #   2nd for (L-4)C3 = 4
+    #   -- break for (L-3)C4 - (L-4)C4 = 1
+    #   2nd for (L-4)C3 = 4
+    #   -- break for (L-3)C4 - (L-4)C4 = 1
+    #   1st for (L-4)C4 = 1
+    # 5th letter in 5th place for (L-5)C0 = 1
+    #   MORE MADNESS> CAN I SEE A PATTERN YET?
+    #   AM I NOT JUST GOING TO HAVE TO ITERATE TO ALL THOSE LOCATIONS TO ADD THE LETTER ANYWAY?
+    # 6th letter in not in 5th place immediately ((L-6)C(-1) DNE) therfore wait for (L-5)C0 - 0 = 1
+    #   in 5th place for (L-6)C0 = 1
+    #   --break for (L-5)C2 - (L-6)C0 = 2
+    #   in 5th place for (L-6)C0 = 1
+    #   --break for (L-5)C2 - (L-6)C0 = 2
+    #   in 4th place for (L-6)C1 = 2
+    #   --break for 
+
     
     combinations = []
     for ii in range(len(letters) - 4):
