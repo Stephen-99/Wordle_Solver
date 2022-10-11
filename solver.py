@@ -262,7 +262,17 @@ def FiveLetterCombinations(letters):
                     for mm in range(ll+1, len(letters)):
                         combinations.append([letters[ii], letters[jj], letters[kk], letters[ll], letters[mm]])
     return combinations
-        
+
+def _LetterCombinationsRec(letters, pos, max):
+    if (max-pos-1) == 0:
+        #Base case, do something useful. Should still loop but maybe not recursively... Needs to get all the 5th, 6th, 7th etc. letters
+            #Assuming 5 letters for the example ofc.
+        pass
+    for ii in range(pos, len(letters) - (max-pos-1)):
+        _LetterCombinationsRec(letters, pos+1, max)
+    #Do appending to list appropriately and return
+
+
 #TODO Query the allowed word db for words containing specific letters.
     #Example query: 
         # {$and: [{word: {$regex: 'e.*e.*e'}}, {word: {$regex: 'b'}}]}
