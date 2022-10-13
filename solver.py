@@ -267,16 +267,23 @@ def _LetterCombinationsRec(letters, pos, max):
     if (max-pos-1) == 0:
         #Base case, do something useful. Should still loop but maybe not recursively... Needs to get all the 5th, 6th, 7th etc. letters
             #Assuming 5 letters for the example ofc.
-        pass
+        combs = []
+        for ii in range(max-1, len(letters)):
+            combs.append([letters[ii]])
+        return combs
+
     for ii in range(pos, len(letters) - (max-pos-1)):
         _LetterCombinationsRec(letters, pos+1, max)
     #Do appending to list appropriately and return
+    #Will need to get position in the array using max, pos and ii
 
 
 #TODO Query the allowed word db for words containing specific letters.
     #Example query: 
         # {$and: [{word: {$regex: 'e.*e.*e'}}, {word: {$regex: 'b'}}]}
         #can and each letter to find together. multiple instances of the same letter need special handling
+#This method does come with a performance hit due to hitting the db, but it doesn't typically happen that often so its ok
+    #The delay isn't too bad, still < 1sec. just adds up in tests when they all happen back-to-back
 def PickVarietyWord(lookup, numWords):
     #may want to just pick most variety from the best guesses, may want to pick the best variety from all letters
 
