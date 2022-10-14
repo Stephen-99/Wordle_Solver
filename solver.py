@@ -198,6 +198,7 @@ def DetermineGuess(commonalityLookup, words):
 def FiveLetterCombinations(letters):
     if len(letters) == 5:
         return [letters]
+    return _LetterCombinationsRec(letters, 0, 5)
     
     #recursive sub-problem to get the number of 4-letter combinations, than the 3-letter etc.
         #somewhat inefficient. Could cache these combinations though. 4-letter sub-problem needs to happen multiple times since we add a different 5th letter every time
@@ -263,19 +264,27 @@ def FiveLetterCombinations(letters):
                         combinations.append([letters[ii], letters[jj], letters[kk], letters[ll], letters[mm]])
     return combinations
 
-def _LetterCombinationsRec(letters, pos, max):
+def _LetterCombinationsRec(letters, pos, max, combs=[]):
+    #So its not working properly yet. Getting too many duplicate letters in a combination
     if (max-pos-1) == 0:
         #Base case, do something useful. Should still loop but maybe not recursively... Needs to get all the 5th, 6th, 7th etc. letters
             #Assuming 5 letters for the example ofc.
-        combs = []
         for ii in range(max-1, len(letters)):
             combs.append([letters[ii]])
         return combs
 
+    numFinalLetters = len(letters) - max
     for ii in range(pos, len(letters) - (max-pos-1)):
-        _LetterCombinationsRec(letters, pos+1, max)
-    #Do appending to list appropriately and return
-    #Will need to get position in the array using max, pos and ii
+        _LetterCombinationsRec(letters, pos+1, max, combs)
+        
+        try:
+            #This range is wrong since the first ii will be for the 2nd last letter, so ii will be like 4...
+            for jj in range(ii * numFinalLetters, (ii+1) * numFinalLetters):
+                combs[jj].append(letters[ii])
+        except Exception as e:
+            print("error at index ii:", ii, "And jj:", jj)
+            print("Error was:", e)
+    return combs
 
 
 #TODO Query the allowed word db for words containing specific letters.
