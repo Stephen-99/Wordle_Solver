@@ -197,7 +197,7 @@ def DetermineGuess(commonalityLookup, words):
 
 def FiveLetterCombinations(letters):
     if len(letters) == 5:
-        return [letters]
+        return letters
     return _LetterCombinationsRec(letters, 0, 5)
     
     #recursive sub-problem to get the number of 4-letter combinations, than the 3-letter etc.
@@ -269,21 +269,30 @@ def _LetterCombinationsRec(letters, pos, max, combs=[]):
     if (max-pos-1) == 0:
         #Base case, do something useful. Should still loop but maybe not recursively... Needs to get all the 5th, 6th, 7th etc. letters
             #Assuming 5 letters for the example ofc.
-        for ii in range(max-1, len(letters)):
-            combs.append([letters[ii]])
+        #for ii in range(max-1, len(letters)):
+            
+        #    combs.append([letters[ii]])
+        combs.append([])
         return combs
 
     numFinalLetters = len(letters) - max
     for ii in range(pos, len(letters) - (max-pos-1)):
-        _LetterCombinationsRec(letters, pos+1, max, combs)
+        combs = _LetterCombinationsRec(letters, pos+1, max, combs)
+
+        #Need to go thru a range to append @. The > the pos, the > the number of appends.
+        #combs[ind].append(letters[ii])
         
+        
+        """
         try:
             #This range is wrong since the first ii will be for the 2nd last letter, so ii will be like 4...
-            for jj in range(ii * numFinalLetters, (ii+1) * numFinalLetters):
+            #atm getting last letter with a lot of repetitions of the 4th letter.
+            for jj in range((max - ii-2) * numFinalLetters, (max - ii-1) * numFinalLetters):
                 combs[jj].append(letters[ii])
         except Exception as e:
             print("error at index ii:", ii, "And jj:", jj)
             print("Error was:", e)
+        """
     return combs
 
 
