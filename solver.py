@@ -279,6 +279,7 @@ def _LetterCombinationsRec(letters, pos, max, combs=[]):
     for ii in range(pos, len(letters) - (max-pos-1)):
         combs = _LetterCombinationsRec(letters, pos+1, max, combs)
 
+        #will just be its own little subsection each time.
         #Need to go thru a range to append @. The > the pos, the > the number of appends.
         #combs[ind].append(letters[ii])
         
