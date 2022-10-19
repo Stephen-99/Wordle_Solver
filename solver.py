@@ -198,7 +198,8 @@ def DetermineGuess(commonalityLookup, words):
 def FiveLetterCombinations(letters):
     if len(letters) == 5:
         return letters
-    return _LetterCombinationsRec(letters, 0, 5)
+    #return _LetterCombinationsRec(letters, 0, 5)
+    return _LCR(letters)
     
     #recursive sub-problem to get the number of 4-letter combinations, than the 3-letter etc.
         #somewhat inefficient. Could cache these combinations though. 4-letter sub-problem needs to happen multiple times since we add a different 5th letter every time
@@ -264,26 +265,59 @@ def FiveLetterCombinations(letters):
                         combinations.append([letters[ii], letters[jj], letters[kk], letters[ll], letters[mm]])
     return combinations
 
-def _LetterCombinationsRec(letters, pos, max, combs=[]):
+#TODO Verify this works. Early look says it does.
+def _LCR(letters, max=5, pos=0, curIdx=0, combs = [], curLetters = []):
+    if (max-pos) == 0:
+        combs.append(curLetters.copy())
+        return combs
+
+    for ii in range(curIdx, len(letters) - (max-pos-1)):
+        curLetters.append(letters[ii])
+        combs = _LCR(letters, max, pos+1, ii+1, combs, curLetters)
+        del curLetters[-1]
+    return combs
+
+
+def _LetterCombinationsRec(letters, pos, max, curIdx = 0, combs=[]):
     #So its not working properly yet. Getting too many duplicate letters in a combination
+    numFinalLetters = len(letters) - max
     if (max-pos-1) == 0:
         #Base case, do something useful. Should still loop but maybe not recursively... Needs to get all the 5th, 6th, 7th etc. letters
             #Assuming 5 letters for the example ofc.
         #for ii in range(max-1, len(letters)):
             
         #    combs.append([letters[ii]])
-        combs.append([])
-        return combs
+        #Was trying to do 1 letter at a time, but 
+    
+        return [[letters[ii]] for ii in range(curIdx+1, len(letters))]
 
-    numFinalLetters = len(letters) - max
+    xLetterCombs = []
     for ii in range(pos, len(letters) - (max-pos-1)):
-        combs = _LetterCombinationsRec(letters, pos+1, max, combs)
+        arr = _LetterCombinationsRec(letters, pos+1, max, ii, combs)
 
         #will just be its own little subsection each time.
-        #Need to go thru a range to append @. The > the pos, the > the number of appends.
-        #for jj in range(pos*something, pos*+- SOMETHING)
-        #combs[jj].append(letters[ii])
-        
+        #Need to go thru a range to append @. The < the pos, the > the number of appends.
+        try:
+            #Problem with this range is that it works for 1 4th number, but the 2nd, 3rd etc valid 4th number will have moved futher along.
+                #basically relate it to ii.
+                    #Still wrong because, as pos goes towards say first letter(pos = 0), the gap does not change
+                        #Maybe calculate gap, and starting point and work with that.
+                        #if 4th letter, gap = numLetters
+                        #Starting pos depends too much on previous iterations. Maybe look at how many times the size of combs is in relation to the size of the expected gap
+                        #Gap has to do with factorials.... gets messy. Is it even worth this approach? Can we do it without indices?
+                            #how about whenever we get to the final letter, it gives the full (5) letter combination
+                                #look at the previous 4 letters (excluding those other final letters.)
+            #RATHER THAN APPENDING TO THE LIST, SHOUDL RETURN A NEW LIST OF, ALL 1 LETTER COMBS, THEN 2, 3 ETC.
+                #ONLY WHEN AT MAX LETTERS (5) SHOULD IT BE APPENDED TO SOME GLOBAL LIST.
+                #Can later introduce some dynamic programming stuff, cache earlier results:
+                    #No the final letters are different and stuff.
+            for jj in range(len(arr)):
+                arr[jj].append(letters[ii])
+            xLetterCombs.extend(arr)
+        except:
+            print("uhoh")
+            print("jj is:", jj, "ii is: ", ii)
+            print(len(arr))
         
         """
         try:
@@ -295,7 +329,7 @@ def _LetterCombinationsRec(letters, pos, max, combs=[]):
             print("error at index ii:", ii, "And jj:", jj)
             print("Error was:", e)
         """
-    return combs
+    return xLetterCombs
 
 
 #TODO Query the allowed word db for words containing specific letters.
