@@ -189,7 +189,8 @@ def DetermineGuess(commonalityLookup, words):
             bestWord.append(word)
     print("bestGuesses:", bestWord)
 
-    if len(bestWord) >= 3 and len(words) < 30:
+    #TODO vary these 2 parameters and see what gives the best overall score.
+    if len(bestWord) >= 3 and len(words) < 20:
         #a commonality score for this word won't make sense, as some of the letters might be missing
         return Guess(PickVarietyWord(commonalityLookup, len(bestWord))), 0
 
@@ -266,6 +267,7 @@ def FiveLetterCombinations(letters):
     return combinations
 
 #TODO Verify this works. Early look says it does.
+    #Ok but subsequent runs seem to be waay too big. 
 def _LCR(letters, max=5, pos=0, curIdx=0, combs = [], curLetters = []):
     if (max-pos) == 0:
         combs.append(curLetters.copy())
