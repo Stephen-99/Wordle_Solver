@@ -268,6 +268,7 @@ def FiveLetterCombinations(letters):
 
 #TODO Verify this works. Early look says it does.
     #Ok but subsequent runs seem to be waay too big. 
+    #Is it nor clearing it everytime? because the letters set is the same, idk why it would be any different...
 def _LCR(letters, max=5, pos=0, curIdx=0, combs = [], curLetters = []):
     if (max-pos) == 0:
         combs.append(curLetters.copy())
