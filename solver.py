@@ -200,7 +200,7 @@ def FiveLetterCombinations(letters):
     if len(letters) == 5:
         return letters
     #return _LetterCombinationsRec(letters, 0, 5)
-    return _LCR(letters)
+    return _LCR(letters, combs=[])
     
     #recursive sub-problem to get the number of 4-letter combinations, than the 3-letter etc.
         #somewhat inefficient. Could cache these combinations though. 4-letter sub-problem needs to happen multiple times since we add a different 5th letter every time
@@ -269,6 +269,7 @@ def FiveLetterCombinations(letters):
 #TODO Verify this works. Early look says it does.
     #Ok but subsequent runs seem to be waay too big. 
     #Is it nor clearing it everytime? because the letters set is the same, idk why it would be any different...
+    #OK so on subsequent calls, combs doesn't get reset to empty. so I need to pass in an empty list each time I guess
 def _LCR(letters, max=5, pos=0, curIdx=0, combs = [], curLetters = []):
     if (max-pos) == 0:
         combs.append(curLetters.copy())
@@ -362,8 +363,9 @@ def PickVarietyWord(lookup, numWords):
         #if len == 5, might not won't this. Is a singular statement inside an or valid?
             # a singular or is valid so this is fine
         filter += "'$or': ["
-        print(FiveLetterCombinations(letters[0]))
-        for fiveLetterComb in FiveLetterCombinations(letters[0]):
+        fiveLetterCombs = FiveLetterCombinations(letters[0])
+        print(fiveLetterCombs)
+        for fiveLetterComb in fiveLetterCombs:
             pass
 
     elif len(letters) > 1:
