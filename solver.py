@@ -327,7 +327,10 @@ def PickVarietyWord(lookup, numWords):
         #should be able to make a loop for the flexibility of reducing number of letters required until we get an answer
         #as we decrease required letters the number of combinations increases a lot
             #but if we had lot of letters to start with, the likelihood that we need to relax the condition is less.
-
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    #TODO: Make this into a function, and add the resulting string to an or'd combination inside the existing loop for all the fiveLetter combinations. It should be flexible enough to 
+    # work with combinations less than 5 letters to.
+    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     filter = "{'$and': ["
 
     for ii in range(min(len(letters[0]), 5)-1):
