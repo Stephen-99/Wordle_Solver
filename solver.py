@@ -327,16 +327,17 @@ def PickVarietyWord(lookup, numWords):
         #should be able to make a loop for the flexibility of reducing number of letters required until we get an answer
         #as we decrease required letters the number of combinations increases a lot
             #but if we had lot of letters to start with, the likelihood that we need to relax the condition is less.
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    #TODO: Make this into a function, and add the resulting string to an or'd combination inside the existing loop for all the fiveLetter combinations. It should be flexible enough to 
-    # work with combinations less than 5 letters to.
-    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
+    '''
     filter = "{'$and': ["
 
     for ii in range(min(len(letters[0]), 5)-1):
 
         filter += "{'word': {'$regex': '" + letters[0][ii] + "'}}, "
     filter += "{'word': {'$regex': '" + letters[0][min(len(letters[0])-1, 4)] + "'}}]}"
+    '''
+    
+    filter = GetAllLetterFilter(letters[0])
 
     #TODO: works! but sometimes doesn't find any matching words. Want to consider looking at 2nd least common letters or even relaxing it to less letters.
     varietyWord = allowedWords.find_one(eval(filter))
@@ -351,6 +352,17 @@ def PickVarietyWord(lookup, numWords):
             #maybe have some sort of score to give them, and keep track of the best word
         #Maybe I can filter the allowed words list with a regex?
     
+#TODO verify this works. Test it with a combo that should return a word, and one that shouldn't
+def GetAllLetterFilter(letters):
+    filter = "{'$and': ["
+
+    for ii in range(min(len(letters), 5)-1):
+
+        filter += "{'word': {'$regex': '" + letters[ii] + "'}}, "
+    filter += "{'word': {'$regex': '" + letters[min(len(letters)-1, 4)] + "'}}]}"
+
+    return filter
+
 
 def FilterWords(words, guess):
     return [word for word in words if guess.ConsistentWithGuess(word)]
