@@ -24,7 +24,8 @@ def main():
     commonalityLookup = DetermineNumberOfOccurrences(words)
     print("Took ", RunGame(words, commonalityLookup, TESTWORD), "guesses")
 
-    Testing().TestWordsLostTo()
+    #Testing().TestWordsLostTo()
+    Testing().TestGetAllLettersFilter()
     #TODO:
         # print out with colours (yellow and green)
         # add the option for the user to play, making their own guesses
@@ -351,7 +352,7 @@ def PickVarietyWord(lookup, numWords):
         #will need to check as we go also using the letters in letters[1] and letters[2] in case none match perfectly
             #maybe have some sort of score to give them, and keep track of the best word
         #Maybe I can filter the allowed words list with a regex?
-    
+
 #TODO verify this works. Test it with a combo that should return a word, and one that shouldn't
 def GetAllLetterFilter(letters):
     filter = "{'$and': ["
@@ -404,6 +405,19 @@ class Testing:
             guesses = RunGame(self.words, lookup, word)
             print("took", guesses, "guesses\n")
 
+    def TestGetAllLettersFilter(self):
+        db = ConnectToDB()
+        allowedWords = db["allowedWords"]
+
+        filter = GetAllLetterFilter(['a', 'b', 'c', 'd', 'e'])
+        res = allowedWords.find_one(eval(filter))
+        print("\n\nResult is:", res, "\nShould be none.\n")
+        
+        filter = GetAllLetterFilter(['a', 'i', 'u', 'd', 'e'])
+        res = allowedWords.find_one(eval(filter))
+        print("\n\nResult is:", res, "\nShould be adieu.\n")
+
+        #TODO one list that shoudl return a result, one that shouldn't. Assert results are as expected.
 
     #just prints what the results were for future reference.
     def LookupUpdateImpact(self):
