@@ -409,15 +409,16 @@ class Testing:
         db = ConnectToDB()
         allowedWords = db["allowedWords"]
 
+        #5 letters with no vbalid words
         filter = GetAllLetterFilter(['a', 'b', 'c', 'd', 'e'])
         res = allowedWords.find_one(eval(filter))
-        print("\n\nResult is:", res, "\nShould be none.\n")
+        assert res == None
         
+        #5 letters with one valid word
         filter = GetAllLetterFilter(['a', 'i', 'u', 'd', 'e'])
         res = allowedWords.find_one(eval(filter))
-        print("\n\nResult is:", res, "\nShould be adieu.\n")
+        assert res['word'] == 'adieu'
 
-        #TODO one list that shoudl return a result, one that shouldn't. Assert results are as expected.
 
     #just prints what the results were for future reference.
     def LookupUpdateImpact(self):
