@@ -229,7 +229,7 @@ def _LCR(letters, max=5, pos=0, curIdx=0, combs = [], curLetters = []):
         del curLetters[-1]
     return combs
 
-
+#TODO: pretty sure this is working. Cleanup the code.
 def _LetterCombinationsRec(letters, pos, max, curIdx = 0, combs=[]):
     #So its not working properly yet. Getting too many duplicate letters in a combination
     numFinalLetters = len(letters) - max
@@ -409,7 +409,7 @@ class Testing:
         db = ConnectToDB()
         allowedWords = db["allowedWords"]
 
-        #5 letters with no vbalid words
+        #5 letters with no valid words
         filter = GetAllLetterFilter(['a', 'b', 'c', 'd', 'e'])
         res = allowedWords.find_one(eval(filter))
         assert res == None
