@@ -24,8 +24,8 @@ def main():
     commonalityLookup = DetermineNumberOfOccurrences(words)
     print("Took ", RunGame(words, commonalityLookup, TESTWORD), "guesses")
 
-    Testing().TestWordsLostTo()
-    #Testing().TestGetAllLettersFilter()
+    #Testing().TestWordsLostTo()
+    Testing().TestGetAllLettersFilter()
     #TODO:
         # print out with colours (yellow and green)
         # add the option for the user to play, making their own guesses
@@ -257,6 +257,8 @@ def PickVarietyWord(lookup, numWords):
         fiveLetterCombs = FiveLetterCombinations(letters[0])
         print(fiveLetterCombs)
         for fiveLetterComb in fiveLetterCombs:
+            #TODO make sure this filter gets formed up properly.
+            filter += GetAllLetterFilter(letters[0])
             pass
 
     elif len(letters) > 1:
