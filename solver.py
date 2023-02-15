@@ -9,6 +9,20 @@ import time
 from pathlib import Path
 from bs4 import BeautifulSoup
 
+#TODO restructure to put stuff in different files.
+#Especially the classes. 
+#Seperate out different types of logic, maybe like the web connection from the rest.
+
+#Then piece at a time cleanup the comments.
+
+#TODO LIST
+    # - Make the variety word work to completion
+    # - Instead of randomly generated word, interface with the wordle site
+    # - Make the solver avialable giving 1 word at a time, and getting the result from the user.
+    # - Make that work through a simple GUI
+    # - Allow the user to play it as a game by randomly selecting a word
+
+
 def main():
     words, allowedWords = GetWords()
 
