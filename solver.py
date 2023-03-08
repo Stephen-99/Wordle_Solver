@@ -55,7 +55,7 @@ def DetermineGuess(commonalityLookup, words, numKnownLetters=0):
     
     #having a hard time with some of those double letters now.
         #Getting a vairety word doesn't currently take that into account, but now it might need to.
-        
+
     try:
         if len(bestWord) >= 3 and len(words) < 8:
             #a commonality score for this word won't make sense, as some of the letters might be missing
@@ -93,6 +93,9 @@ def _LCR(letters, max=5, pos=0, curIdx=0, combs = [], curLetters = []):
             #maybe have some sort of score to give them, and keep track of the best word
 
         #NOTE: THIS^ is a better approach. Less calls to db, so faster. Also 1 pass of the data not multiple...
+
+#Update this to work with double letters. Also maybe look at maybe using 2nd most common letters etc. when can't find a 4 or 5 letter word. 
+    #becausee double/triple letters make this harder.
 def PickVarietyWord(lookup, numWords, minLetters=2):
     print("Looking for the least common letters:")
     letters = lookup.GetLeastCommonLetters(numWords)
@@ -123,11 +126,12 @@ def GetLetterCombinations(letters, maxLetters):
 
         remNumLetters = 5 - len(letters[0])
         #TODO possibly, need to combine more than just the second lot. Possibly after all the combining, theres still not enough letters..
+        #becomes tricky. cos, we want to prioritise ones in earlier lots
         remLettersCombs = LetterCombinations(letters[1])
-        #THEN DO THE SAME THING AS THE WHILE LOOP BELOW
-            #INSTEAD refactor out to a getLetterCombinations() method or something which takes a max num of letters
-            #But we still do need to know about that last else condition so ii get set approrpiately.
-        
+        #so ahhh.
+            #THIS IS AN ISSUE
+            #TODO: MAYBE LETS DO THIS FIRST
+
         #use all the letters in all the sections but the last one
             #supplement to 5 letters from the last section. Make an or query using all such 5-letter combinations
 
@@ -159,6 +163,9 @@ def GetFilterForCombinations(combinations):
 def GetAllLetterFilter(letters):
     filter = "{'$and': ["
 
+    #Edit range to go one further, and then use -ve indexes to remove the comma
+    #Then add the ending on last
+    #TODO: add the check for if it's a double or triple letter...
     for ii in range(min(len(letters), 5)-1):
 
         filter += "{'word': {'$regex': '" + letters[ii] + "'}}, "

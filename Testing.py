@@ -74,11 +74,12 @@ class Testing:
         #3 & 4: 3.698 avg losses = 19
 
         #4 & 7: 3.665 avg losses = 4
+
         #5 & 7: 3.674 avg losses = 5
         #2 & 11: 3.848 avg losses = 7
 
         #HYBRID:
-        #3 & 8,     2 & 11  avg = 3.719     losses = 4
+        #3 & 8,  2 & 11  avg = 3.719  losses = 4
 
 
 #Testing().TestWordsLostTo()

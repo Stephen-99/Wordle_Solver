@@ -20,23 +20,29 @@ class CharCommonality:
         return commonality
 
     def GetLeastCommonLetters(self, numWords):
-        #only worth looking at the single instance of letters
-        sortedList = sorted(self.dicts[0].items(), key = lambda x: x[1])
+        charsList = list(self.dicts[0].items())
+        charsList.extend([((k[0], 2), k[1]) for k in self.dicts[1].items()])
+        charsList.extend([((k[0], 3), k[1]) for k in self.dicts[2].items()])
+
+        sortedList = sorted(charsList, key = lambda x: x[1])
 
         #TODO feels like bad code. Refactor it to be better
         leastCommonLetters = []
         lastVal = 0
         ii = -1
         count = 0
+        #May need to adjust this so it doesn't stop a 5. Also may need to change alg, otherwise it may force dbl letters too early
         for charNVal in sortedList:
-            #Is this numWords really necassary? Maybe not since why do we care about the number of best guesses when we want to whittle down all viable guesses
-            #if charNVal[1] >= numWords:
-                #break
             if (count >= 5) and (charNVal[1] > lastVal):
                 break
+            if len(charNVal[0]) > 1:
+                if (self._GetCharCommonality(charNVal[0][0], charNVal[0][1]-2)) <= charNVal[1]:
+                    continue  
             if (charNVal[1] > lastVal):
+                #Only add double/triple letters if there are more single or double letters for that char
                 leastCommonLetters.append([])
                 ii += 1
+       
             leastCommonLetters[ii].append(charNVal[0])
             count += 1
             lastVal = charNVal[1]
