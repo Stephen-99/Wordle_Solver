@@ -127,10 +127,18 @@ def GetLetterCombinations(letters, maxLetters):
         remNumLetters = 5 - len(letters[0])
         #TODO possibly, need to combine more than just the second lot. Possibly after all the combining, theres still not enough letters..
         #becomes tricky. cos, we want to prioritise ones in earlier lots
-        remLettersCombs = LetterCombinations(letters[1])
-        #so ahhh.
-            #THIS IS AN ISSUE
-            #TODO: MAYBE LETS DO THIS FIRST
+        remLettersCombs = LetterCombinations(letters[1], max = 5-remNumLetters)
+
+        #so ffor each combonation, combine the first letters with the ones in the first set of letters.
+        for comb in remLettersCombs:
+            for letter in letters[0]:
+                comb.append(letter)
+        
+        return remLettersCombs
+
+        # so ahhh.
+        #     THIS IS AN ISSUE
+        #     TODO: MAYBE LETS DO THIS FIRST
 
         #use all the letters in all the sections but the last one
             #supplement to 5 letters from the last section. Make an or query using all such 5-letter combinations
