@@ -82,7 +82,17 @@ class Testing:
         #3 & 8,  2 & 11  avg = 3.719  losses = 4
 
 
+    def TestGetLetterCombinations(self):
+        result = GetLetterCombinations([['a', 'b'], ['c', 'd']], 5)
+        print(f"Result from using the letters [['a', 'b'], ['c', 'd']]: {result}")
+        result = GetLetterCombinations([['a', 'b'], ['c'], ['d']], 5)
+        print(f"Result from using the letters [['a', 'b'], ['c'], ['d']]: {result}")
+        result = GetLetterCombinations([['a', 'b'], ['c'], ['d', 'e', 'f']], 5)
+        print(f"Result from using the letters [['a', 'b'], ['c'], ['d', 'e', 'f']]: {result}")
+
+            #also if we have: [[a, b,], [c], [d], [e]]
 #Testing().TestWordsLostTo()
 #Testing().TestGetAllLettersFilter()
-Testing().TestAllWords()
+    #Testing().TestAllWords()
+Testing().TestGetLetterCombinations()
 #Testing().TestOneWord()

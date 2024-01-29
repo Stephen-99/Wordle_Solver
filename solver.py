@@ -14,6 +14,7 @@ from WebScraper import *
     # - Make that work through a simple GUI
     # - Allow the user to play it as a game by randomly selecting a word
 
+#TODO:!!  Make the solver working, without all the variety word jazz. Just the simple version that works. Then focus on allowing it to be used well. Then wrap the project up and move on.
 
 def main():
     words, allowedWords = GetWords()
@@ -120,14 +121,22 @@ def PickVarietyWord(lookup, numWords, minLetters=2):
 def GetLetterCombinations(letters, maxLetters):
     if len(letters[0]) >= maxLetters:
         return LetterCombinations(letters[0], maxLetters)
-    
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #TODO HERE:
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #Case where 2nd 3rd etc least common letters are required
     if len(letters) > 1:
-        #Ahh yeah. Now we need to do something about this one!
 
-        remNumLetters = 5 - len(letters[0])
+        #Ahh yeah. Now we nemethied to do song about this one!
+
+        remNumLetters = maxLetters - len(letters[0])
         #TODO possibly, need to combine more than just the second lot. Possibly after all the combining, theres still not enough letters..
         #becomes tricky. cos, we want to prioritise ones in earlier lots
-        remLettersCombs = LetterCombinations(letters[1], max = 5-remNumLetters)
+
+        #so this works if we have up to 5 letters, and no more than 2 sets but if we have something like: [[a, b], [c, d]] we would have an issue
+            #also if we have: [[a, b,], [c], [d], [e]]
+            #The first case works fine, the 2nd one does not.
+        remLettersCombs = LetterCombinations(letters[1], max = maxLetters-remNumLetters)
 
         #so ffor each combonation, combine the first letters with the ones in the first set of letters.
         for comb in remLettersCombs:
