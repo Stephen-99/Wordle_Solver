@@ -93,6 +93,6 @@ class Testing:
             #also if we have: [[a, b,], [c], [d], [e]]
 #Testing().TestWordsLostTo()
 #Testing().TestGetAllLettersFilter()
-    #Testing().TestAllWords()
-Testing().TestGetLetterCombinations()
+Testing().TestAllWords()
+#Testing().TestGetLetterCombinations()
 #Testing().TestOneWord()

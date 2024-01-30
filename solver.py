@@ -15,6 +15,12 @@ from WebScraper import *
     # - Allow the user to play it as a game by randomly selecting a word
 
 #TODO:!!  Make the solver working, without all the variety word jazz. Just the simple version that works. Then focus on allowing it to be used well. Then wrap the project up and move on.
+    #allow for people to enter their choices as they go.
+    #try get back to the algorithm where it only failed 4 times.
+        #18 losses, avg 3.7 without variety words
+        #13 losses, avg 3.7 with only first trigger for variety words
+        #10 losses, avg 3.7 with all the triggers for variety words
+    #testing said, 4 and 7 also produced 4 words missing. Try that again. 4 and 7 should call for less variety words.
 
 def main():
     words, allowedWords = GetWords()
@@ -45,7 +51,7 @@ def DetermineGuess(commonalityLookup, words, numKnownLetters=0):
             bestWord = [word]
         elif score == bestScore:
             bestWord.append(word)
-    print("bestGuesses:", bestWord, "\n")
+    #print("bestGuesses:", bestWord, "\n")
 
     #NOTE When we get a variety word for when there's still a lot of letters left, it only makes sense if we can get one with 4 or 5 letters otherwise we should return and use the best guess
         #same for when going down to 1 letter in variety. Should stop if can't find one with 2. --> Or even 3?
@@ -57,6 +63,7 @@ def DetermineGuess(commonalityLookup, words, numKnownLetters=0):
     #having a hard time with some of those double letters now.
         #Getting a vairety word doesn't currently take that into account, but now it might need to.
 
+    
     try:
         if len(bestWord) >= 3 and len(words) < 8:
             #a commonality score for this word won't make sense, as some of the letters might be missing
@@ -66,8 +73,9 @@ def DetermineGuess(commonalityLookup, words, numKnownLetters=0):
         if 11 < len(words) < 20:
             return Guess(PickVarietyWord(commonalityLookup, len(bestWord), minLetters=5)), 0
     except:
-        print("Tried to get a variety word and failed")
+        #print("Tried to get a variety word and failed")
         pass
+    
             
     return Guess(bestWord[0]), bestScore
 
@@ -98,9 +106,9 @@ def _LCR(letters, max=5, pos=0, curIdx=0, combs = [], curLetters = []):
 #Update this to work with double letters. Also maybe look at maybe using 2nd most common letters etc. when can't find a 4 or 5 letter word. 
     #becausee double/triple letters make this harder.
 def PickVarietyWord(lookup, numWords, minLetters=2):
-    print("Looking for the least common letters:")
+    #print("Looking for the least common letters:")
     letters = lookup.GetLeastCommonLetters(numWords)
-    print(letters)
+    #print(letters)
 
     if len(letters) == 0:
         return "test non standard length word"
@@ -203,20 +211,20 @@ def RunGame(validWords, commonalityLookup, answer):
         print(e.message)
         return
     
-    print("Best guess is:", guess.word, " With a score of:", score)
+    #print("Best guess is:", guess.word, " With a score of:", score)
     correctGuess = guess.ValidateGuess(answer)
     guesses = 1
 
     while not correctGuess:
         validWords = FilterWords(validWords, guess)
-        print("VALID WORDS:", validWords)
+        #print("VALID WORDS:", validWords)
         commonalityLookup = DetermineNumberOfOccurrences(validWords)
         try:
             guess, score = DetermineGuess(commonalityLookup, validWords)
         except InvalidWordLength as e:
             print(e.message)
             return
-        print("Best guess is:", guess.word, " With a score of:", score)
+        #print("Best guess is:", guess.word, " With a score of:", score)
         correctGuess = guess.ValidateGuess(answer)
         guesses += 1
         
