@@ -52,7 +52,7 @@ class CharCommonality:
             while type(leastCommonLetters[0][-1]) is tuple:
                 del leastCommonLetters[0][-1]
                 if len(leastCommonLetters[0]) == 0:
-                    del leastCommonLetters[0]
+                    break
 
         return leastCommonLetters
 

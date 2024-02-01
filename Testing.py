@@ -31,6 +31,7 @@ class Testing:
                 print(word, "This word failed taking", guesses, "guesses")
             count += 1
             if count % 20 == 0:
+            #if count > 1460:  #got up to 213. 214 fails..
                 print("just finished number", count)
 
         print("\n\nRESULTS:\n", scores)

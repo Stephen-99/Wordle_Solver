@@ -15,7 +15,7 @@ class WordleDB:
             password = passFile.readline()
 
         cert = certifi.where()
-        client = pymongo.MongoClient("mongodb+srv://admin:" + password + "@wordlesolver.u6oi1ao.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=cert)
+        client = pymongo.MongoClient("mongodb+srv://admin:" + password + "@wordlesolver.u6oi1ao.mongodb.net/?retryWrites=true&w=majority", tls=True, tlsCAFile=cert)
         return client.wordle
 
     def GetAnswers(self):
@@ -109,4 +109,7 @@ class WordleDB:
 
     def FindOneAllowedWord(self, filter):
         allowedWords = self.db["allowedWords"]
-        return allowedWords.find_one(eval(filter))
+        try:
+            return allowedWords.find_one(eval(filter), batch_size=10)
+        except Exception as e:
+            print("EEROR:", e)
