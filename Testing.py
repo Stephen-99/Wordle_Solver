@@ -4,27 +4,34 @@ from solver import *
 
 class Testing:
     def __init__(self):
-        self.wordsLostTo = ['foyer', 'goner', 'homer', 'jolly', 'patch', 'pound', 'saner', 'shave', 'silly', 'swore', 'taste', 'tight', 'vaunt', 'waste', 'watch', 'wight', 'willy', 'wound']
+        self.wordsLostTo = ['foyer', 'goner', 'homer', 'boxer']
+        self.db = WordleDB()   
+        #self.wordsLostTo = ['joker', 'match', 'paste', 'watch', 'safer', 'taste']
 
     def TestWordsLostTo(self):
-        self.words = GetAnswers()
+        self.words = self.db.GetAnswers()
         lookup = DetermineNumberOfOccurrences(self.words)
         scores = []
         for word in self.wordsLostTo:
-            guesses = RunGame(self.words, lookup, word)
+            guesses = RunGame(self.words, lookup, word, self.db)
             scores.append(guesses)
+            print("\n", 50 * '-', "\n")
         print("\n\nNUMBER OF GUESSES FOR EACH WORD:\n", scores)
 
     #TODO set a flag to remove printing in code...
     def TestAllWords(self):
-        self.words = GetAnswers()
+        self.words = self.db.GetAnswers()
         lookup = DetermineNumberOfOccurrences(self.words)
         scores = []
+        count = 0
         for word in self.words:
-            guesses = RunGame(self.words, lookup, word)
+            guesses = RunGame(self.words, lookup, word, self.db)
             scores.append(guesses)
             if (guesses > 6):
                 print(word, "This word failed taking", guesses, "guesses")
+            count += 1
+            if count % 20 == 0:
+                print("just finished number", count)
 
         print("\n\nRESULTS:\n", scores)
         print("\nAverage: ", sum(scores)/len(scores))
@@ -33,15 +40,14 @@ class Testing:
     def TestOneWord(self):
         ii = -336
         
-        self.words = GetAnswers()
+        self.words = self.db.GetAnswers()
         lookup = DetermineNumberOfOccurrences(self.words)
         print("word is: ", self.words[ii])
-        res = RunGame(self.words, lookup, self.words[ii])
+        res = RunGame(self.words, lookup, self.words[ii], self.db)
         print("\n\nTOOK: ", res, " GUESSES")
 
     def TestGetAllLettersFilter(self):
-        db = ConnectToDB()
-        allowedWords = db["allowedWords"]
+        allowedWords = self.db.GetAllowedWords()
 
         #5 letters with no valid words
         filter = GetAllLetterFilter(['a', 'b', 'c', 'd', 'e'])
@@ -64,6 +70,9 @@ class Testing:
         print("Number of times they were equal:", 1006)
         print("Number of times lookup lost:", 18)
         print("Number of times without lookup lost:", 36)
+
+        #UPDATED:
+            #4 & 7: L - 4, avg - 3.67
 
         #TODO: check which are the ones that lose tho
         #3 & 9: 3.692 avg Losses = 5

@@ -6,109 +6,107 @@ import pymongo
 
 from WebScraper import *
 
-def ConnectToDB():
-    with open("password") as passFile:
-        password = passFile.readline()
+class WordleDB:
+    def __init__(self):
+        self.db = self.ConnectToDB()
 
-    cert = certifi.where()
-    client = pymongo.MongoClient("mongodb+srv://admin:" + password + "@wordlesolver.u6oi1ao.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=cert)
-    return client.wordle
+    def ConnectToDB(self):
+        with open("password") as passFile:
+            password = passFile.readline()
 
-def GetAnswers():
-    db = ConnectToDB()
-    answers = db["answers"]
-    
-    return [doc["word"] for doc in answers.find({})]
+        cert = certifi.where()
+        client = pymongo.MongoClient("mongodb+srv://admin:" + password + "@wordlesolver.u6oi1ao.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=cert)
+        return client.wordle
 
-def UpdateDB():
-    db = ConnectToDB()
-    lastUpdateCollection = db["lastUpdate"]
-    lastUpdate = lastUpdateCollection.find_one({})["lastUpdate"]
-    curTime = time.time()
-    
-    if ((lastUpdate - curTime) / 3600 / 24)  > 7:
-        lastUpdateCollection.insert_one({"lastUpdate": time.time()})
-        answers, allowedWords = ScrapeWebpage()
-        UpdateAnswers(answers)
-        UpdateAllowedWords(allowedWords)
+    def GetAnswers(self):
+        answers = self.db["answers"]
+        
+        return [doc["word"] for doc in answers.find({})]
 
+    def UpdateDB(self):
+        lastUpdateCollection = self.db["lastUpdate"]
+        lastUpdate = lastUpdateCollection.find_one({})["lastUpdate"]
+        curTime = time.time()
+        
+        if ((lastUpdate - curTime) / 3600 / 24)  > 7:
+            lastUpdateCollection.insert_one({"lastUpdate": time.time()})
+            answers, allowedWords = ScrapeWebpage()
+            self.UpdateAnswers(answers)
+            self.UpdateAllowedWords(allowedWords)
+
+            return answers, allowedWords
+        return None, None
+
+    def GetWords(self):
+        answers, allowedWords = self.UpdateDB()
+        if (not answers):
+            answers = self.GetAnswers()
+            allowedWords = self.GetAllowedWords()
         return answers, allowedWords
-    return None, None
 
-def GetWords():
-    answers, allowedWords = UpdateDB()
-    if (not answers):
-        answers = GetAnswers()
-        allowedWords = GetAllowedWords()
-    return answers, allowedWords
+    def UpdateAnswers(self, words):
+        answers = self.db["answers"]
+        dbWords = [doc["word"] for doc in answers.find({})]
+        dbDict = dict.fromkeys(dbWords)
+        
+        wordsNotFound = []
+        for word in words:
+            try:
+                #check if word exists, if it does assign its value to true
+                dbDict[word]
+                dbDict[word] = True
+            except KeyError:
+                wordsNotFound.append({"word": word})
 
-def UpdateAnswers(words):
-    db = ConnectToDB()
-    answers = db["answers"]
-    dbWords = [doc["word"] for doc in answers.find({})]
-    dbDict = dict.fromkeys(dbWords)
-    
-    wordsNotFound = []
-    for word in words:
-        try:
-            #check if word exists, if it does assign its value to true
-            dbDict[word]
-            dbDict[word] = True
-        except KeyError:
-            wordsNotFound.append({"word": word})
+        if len(wordsNotFound) != 0:
+            answers.insert_many(wordsNotFound)
+        print("Num words to add:", len(wordsNotFound))
 
-    if len(wordsNotFound) != 0:
-        answers.insert_many(wordsNotFound)
-    print("Num words to add:", len(wordsNotFound))
+        wordsToRemove = []
+        for word, allowedWord in dbDict.items():
+            if not allowedWord:
+                wordsToRemove.append(word)
+        
+        if len(wordsToRemove) == 0:
+            return
 
-    wordsToRemove = []
-    for word, allowedWord in dbDict.items():
-        if not allowedWord:
-            wordsToRemove.append(word)
-    
-    if len(wordsToRemove) == 0:
-        return
+        deleteQuery = {"word": {"$in": wordsToRemove}}
+        answers.delete_many(deleteQuery)
 
-    deleteQuery = {"word": {"$in": wordsToRemove}}
-    answers.delete_many(deleteQuery)
+    def UpdateAllowedWords(self, words):
+        allowedWords = self.db["allowedWords"]
+        
+        dbWords = [doc["word"] for doc in allowedWords.find({})]
+        dbDict = dict.fromkeys(dbWords)
+        
+        wordsNotFound = []
+        for word in words:
+            try:
+                #check if word exists, if it does assign its value to true
+                dbDict[word]
+                dbDict[word] = True
+            except KeyError:
+                wordsNotFound.append({"word": word})
 
-def UpdateAllowedWords(words):
-    db = ConnectToDB()
-    allowedWords = db["allowedWords"]
-    
-    dbWords = [doc["word"] for doc in allowedWords.find({})]
-    dbDict = dict.fromkeys(dbWords)
-    
-    wordsNotFound = []
-    for word in words:
-        try:
-            #check if word exists, if it does assign its value to true
-            dbDict[word]
-            dbDict[word] = True
-        except KeyError:
-            wordsNotFound.append({"word": word})
+        if len(wordsNotFound) != 0:
+            allowedWords.insert_many(wordsNotFound)
 
-    if len(wordsNotFound) != 0:
-        allowedWords.insert_many(wordsNotFound)
+        wordsToRemove = []
+        for word, allowedWord in dbDict.items():
+            if not allowedWord:
+                wordsToRemove.append(word)
+        
+        if len(wordsToRemove) == 0:
+            return
 
-    wordsToRemove = []
-    for word, allowedWord in dbDict.items():
-        if not allowedWord:
-            wordsToRemove.append(word)
-    
-    if len(wordsToRemove) == 0:
-        return
+        deleteQuery = {"word": {"$in": wordsToRemove}}
+        allowedWords.delete_many(deleteQuery)
 
-    deleteQuery = {"word": {"$in": wordsToRemove}}
-    allowedWords.delete_many(deleteQuery)
+    def GetAllowedWords(self):
+        allowedWords = self.db["allowedWords"]
+        
+        return [doc["word"] for doc in allowedWords.find({})]
 
-def GetAllowedWords():
-    db = ConnectToDB()
-    allowedWords = db["allowedWords"]
-    
-    return [doc["word"] for doc in allowedWords.find({})]
-
-def FindOneAllowedWord(filter):
-    db = ConnectToDB()
-    allowedWords = db["allowedWords"]
-    return allowedWords.find_one(eval(filter))
+    def FindOneAllowedWord(self, filter):
+        allowedWords = self.db["allowedWords"]
+        return allowedWords.find_one(eval(filter))

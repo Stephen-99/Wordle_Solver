@@ -19,7 +19,7 @@ class CharCommonality:
                 commonality += self._GetCharCommonality(char, ii)
         return commonality
 
-    def GetLeastCommonLetters(self, numWords):
+    def GetLeastCommonLetters(self, inclDblAndTripleLetters = False):
         charsList = list(self.dicts[0].items())
         charsList.extend([((k[0], 2), k[1]) for k in self.dicts[1].items()])
         charsList.extend([((k[0], 3), k[1]) for k in self.dicts[2].items()])
@@ -46,6 +46,14 @@ class CharCommonality:
             leastCommonLetters[ii].append(charNVal[0])
             count += 1
             lastVal = charNVal[1]
+
+        if not inclDblAndTripleLetters:
+            #double/triple letters are always at the back.
+            while type(leastCommonLetters[0][-1]) is tuple:
+                del leastCommonLetters[0][-1]
+                if len(leastCommonLetters[0]) == 0:
+                    del leastCommonLetters[0]
+
         return leastCommonLetters
 
     def _GetCharCommonality(self, char, index):

@@ -16,31 +16,34 @@ from WebScraper import *
 
 #TODO:!!  Make the solver working, without all the variety word jazz. Just the simple version that works. Then focus on allowing it to be used well. Then wrap the project up and move on.
     #allow for people to enter their choices as they go.
-    #try get back to the algorithm where it only failed 4 times.
+    #try get back to the algorithm where it only failed 4 times. --> look in the github history. When was that testing added. What was the alg at that time.
         #18 losses, avg 3.7 without variety words
         #13 losses, avg 3.7 with only first trigger for variety words
         #10 losses, avg 3.7 with all the triggers for variety words
+
+        #Reverted to only isng letters[0] for variety word. 
+        #6 losses, avg 3.72 with all triggers for variety words
+        #9 losses, avg 3.69 with 1 trigger for variety words (3, 8)  
+        #6 losses, avg 3.71 with all trigger for variety words (4, 7)  
     #testing said, 4 and 7 also produced 4 words missing. Try that again. 4 and 7 should call for less variety words.
 
 def main():
-    words, allowedWords = GetWords()
+    db = WordleDB()
+    words, allowedWords = db.GetWords()
 
     TESTWORD = GetRandomWord(words)
-    #TESTWORD = "boxer"
-    #TESTWORD = "blame"
-    #TESTWORD = "corer"
-    TESTWORD = "bobby"
+    TESTWORD = "boxer"
     print("Randomly selected word is:", TESTWORD)
     
     commonalityLookup = DetermineNumberOfOccurrences(words)
-    print("Took ", RunGame(words, commonalityLookup, TESTWORD), "guesses")
+    print("Took ", RunGame(words, commonalityLookup, TESTWORD, db), "guesses")
 
 def DetermineNumberOfOccurrences(words):
     charsLookup = CharCommonality()
     charsLookup.AddCommonality(words)
     return charsLookup
 
-def DetermineGuess(commonalityLookup, words, numKnownLetters=0):
+def DetermineGuess(commonalityLookup, words, db, numKnownLetters=0):
     #TODO Won't need to return bestScore once all setup
     bestScore = 0
     bestWord = []
@@ -51,7 +54,7 @@ def DetermineGuess(commonalityLookup, words, numKnownLetters=0):
             bestWord = [word]
         elif score == bestScore:
             bestWord.append(word)
-    #print("bestGuesses:", bestWord, "\n")
+    #print("bestGuesses:", bestWord, "    Remaining number of valid words:", len(words))
 
     #NOTE When we get a variety word for when there's still a lot of letters left, it only makes sense if we can get one with 4 or 5 letters otherwise we should return and use the best guess
         #same for when going down to 1 letter in variety. Should stop if can't find one with 2. --> Or even 3?
@@ -65,15 +68,17 @@ def DetermineGuess(commonalityLookup, words, numKnownLetters=0):
 
     
     try:
-        if len(bestWord) >= 3 and len(words) < 8:
+        #Add extra condition for if len(bestWord) == len(words)
+        if len(bestWord) >= 2 and len(words) < 7:
             #a commonality score for this word won't make sense, as some of the letters might be missing
-            return Guess(PickVarietyWord(commonalityLookup, len(bestWord), minLetters=2)), 0
-        if 3 < len(words) < 11:
-            return Guess(PickVarietyWord(commonalityLookup, len(bestWord), minLetters=4)), 0
-        if 11 < len(words) < 20:
-            return Guess(PickVarietyWord(commonalityLookup, len(bestWord), minLetters=5)), 0
-    except:
+            return Guess(PickVarietyWord(commonalityLookup, db, minLetters=2)), 0
+        if len(bestWord) >= 4 and 7 < len(words) < 11:
+            return Guess(PickVarietyWord(commonalityLookup, db, minLetters=4)), 0
+        if len(bestWord) >= 4 and 11 < len(words) < 20:
+            return Guess(PickVarietyWord(commonalityLookup, db, minLetters=5)), 0
+    except InvalidWordLength as e:
         #print("Tried to get a variety word and failed")
+        #print(e)
         pass
     
             
@@ -105,9 +110,9 @@ def _LCR(letters, max=5, pos=0, curIdx=0, combs = [], curLetters = []):
 
 #Update this to work with double letters. Also maybe look at maybe using 2nd most common letters etc. when can't find a 4 or 5 letter word. 
     #becausee double/triple letters make this harder.
-def PickVarietyWord(lookup, numWords, minLetters=2):
+def PickVarietyWord(lookup, db, minLetters=2):
     #print("Looking for the least common letters:")
-    letters = lookup.GetLeastCommonLetters(numWords)
+    letters = lookup.GetLeastCommonLetters()
     #print(letters)
 
     if len(letters) == 0:
@@ -117,7 +122,7 @@ def PickVarietyWord(lookup, numWords, minLetters=2):
     ii = min(5, sum([len(k) for k in letters]))
     varietyWord = None
     while not varietyWord and ii >= minLetters:
-        varietyWord = TryGetVarietyWord(letters, ii)
+        varietyWord = TryGetVarietyWord(letters, ii, db)
         ii -= 1
 
     #Should never trigger but you know how things go
@@ -125,6 +130,7 @@ def PickVarietyWord(lookup, numWords, minLetters=2):
         return "Non-standard word length"
 
     return varietyWord["word"]
+
 
 def GetLetterCombinations(letters, maxLetters):
     if len(letters[0]) >= maxLetters:
@@ -135,6 +141,8 @@ def GetLetterCombinations(letters, maxLetters):
     #Case where 2nd 3rd etc least common letters are required
     if len(letters) > 1:
 
+        #FOR NOW, we will just ignore letters[1] and further just looking at letters[0]
+        """
         #Ahh yeah. Now we nemethied to do song about this one!
 
         remNumLetters = maxLetters - len(letters[0])
@@ -163,15 +171,16 @@ def GetLetterCombinations(letters, maxLetters):
             #The combinations will be different cos might be use these 3 letters, and all the 2 letter combs from the last one.
                 #use _LCR to get the 2* letter combs and use a list comp to combine the others with it into a list of lists of 5 letters.
         pass
+        """
 
     #This shouldn't occur since maxLetters should be set correctly
     #It would occur if there are less letters then the given maxLetters
     return LetterCombinations(letters[0], len(letters[0]))
 
-def TryGetVarietyWord(letters, maxLetters):
+def TryGetVarietyWord(letters, maxLetters, db):
     letterCombs = GetLetterCombinations(letters, maxLetters)
     filter = GetFilterForCombinations(letterCombs)
-    return FindOneAllowedWord(filter)
+    return db.FindOneAllowedWord(filter)
 
 def GetFilterForCombinations(combinations):
     if (len(combinations) == 1):
@@ -204,9 +213,9 @@ def FilterWords(words, guess):
 def GetRandomWord(words):
     return random.choice(words)
 
-def RunGame(validWords, commonalityLookup, answer):
+def RunGame(validWords, commonalityLookup, answer, db):
     try:
-        guess, score = DetermineGuess(commonalityLookup, validWords)
+        guess, score = DetermineGuess(commonalityLookup, validWords, db)
     except InvalidWordLength as e:
         print(e.message)
         return
@@ -220,7 +229,7 @@ def RunGame(validWords, commonalityLookup, answer):
         #print("VALID WORDS:", validWords)
         commonalityLookup = DetermineNumberOfOccurrences(validWords)
         try:
-            guess, score = DetermineGuess(commonalityLookup, validWords)
+            guess, score = DetermineGuess(commonalityLookup, validWords, db)
         except InvalidWordLength as e:
             print(e.message)
             return
