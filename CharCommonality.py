@@ -47,6 +47,18 @@ class CharCommonality:
             count += 1
             lastVal = charNVal[1]
 
+        #TODO change above to add tuples with least common letters coming from the same word.
+            #It currently goes char at a time, so need to change it to go through the characters present in each word.
+            #but using the current list as a lookup dictionary (may need to change it from list to dict)
+            #Then can lookup each char from a word and add it to the list as LISTS of chars from 1 word instead of tuples
+                #This will also require removing the thing where it looks at characters beyond the inital least common characters.
+            #Will need to then look at len(letters) not len(letters[0])
+                #will also need to change how getting combinations works...
+                    #e.g. list[['b', 'x'], ['h', 'm'], ['g', 'n']]
+                    #Recurrsive:
+                        #'b' with combinations from [['h', 'm'], ['g', 'n']] + 'x' with combinations from the same
+                            #might be more than 2.
+
         if not inclDblAndTripleLetters:
             #double/triple letters are always at the back.
             while type(leastCommonLetters[0][-1]) is tuple:

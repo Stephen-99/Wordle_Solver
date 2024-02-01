@@ -73,7 +73,7 @@ def DetermineGuess(commonalityLookup, words, db, numKnownLetters=0):
         if len(bestWord) >= 2 and 2 < len(words) < 7:
             #a commonality score for this word won't make sense, as some of the letters might be missing
             return Guess(PickVarietyWord(commonalityLookup, db, minLetters=2)), 0
-        if len(bestWord) >= 4 and 7 < len(words) < 11:
+        if len(bestWord) >= 4 and 3 < len(words) < 11:
             return Guess(PickVarietyWord(commonalityLookup, db, minLetters=4)), 0
         if len(bestWord) >= 4 and 11 < len(words) < 20:
             return Guess(PickVarietyWord(commonalityLookup, db, minLetters=5)), 0
@@ -114,6 +114,8 @@ def _LCR(letters, max=5, pos=0, curIdx=0, combs = [], curLetters = []):
 def PickVarietyWord(lookup, db, minLetters=2):
     print("Looking for the least common letters:")
     letters = lookup.GetLeastCommonLetters()
+        #TODO something about only 1 letter for each possible word...
+            #This is THE way to fix it, but it's hard...
     print(letters)
 
     if len(letters[0]) < 2:
@@ -231,7 +233,7 @@ def RunGame(validWords, commonalityLookup, answer, db):
 
     while not correctGuess:
         validWords = FilterWords(validWords, guess)
-        #print("VALID WORDS:", validWords)
+        print("VALID WORDS:", validWords)
         commonalityLookup = DetermineNumberOfOccurrences(validWords)
         try:
             guess, score = DetermineGuess(commonalityLookup, validWords, db)
