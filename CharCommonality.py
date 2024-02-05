@@ -19,7 +19,7 @@ class CharCommonality:
                 commonality += self._GetCharCommonality(char, ii)
         return commonality
 
-    def GetLeastCommonLetters(self, inclDblAndTripleLetters = False):
+    def GetLeastCommonLetters(self, words, inclDblAndTripleLetters = False): #TODO: pass in the words everywhere this is called.
         charsList = list(self.dicts[0].items())
         charsList.extend([((k[0], 2), k[1]) for k in self.dicts[1].items()])
         charsList.extend([((k[0], 3), k[1]) for k in self.dicts[2].items()])
@@ -47,6 +47,29 @@ class CharCommonality:
             count += 1
             lastVal = charNVal[1]
 
+        if not inclDblAndTripleLetters:
+            #double/triple letters are always at the back.
+            while type(leastCommonLetters[0][-1]) is tuple:
+                del leastCommonLetters[0][-1]
+                if len(leastCommonLetters[0]) == 0:
+                    break
+
+        #Because this is quicker to check if a letter is in there.
+        #Hardcoded to just use the first least most common letters
+        LCLettersDict = { x:x for x in leastCommonLetters[0]}
+        LCLettersByWord = []
+
+        for word in words:
+            LCLettersByWord.append([])
+            for char in word:
+                if char in LCLettersDict:
+                    LCLettersByWord[-1].append(char)
+                    #Remove it from dictionary so it doesn't appear twice!
+
+
+        #Thing is, it goes by the chars in order of least common. So make that the lookup instead?
+            #Then go word at a time and create our list of tuples.
+
         #TODO change above to add tuples with least common letters coming from the same word.
             #It currently goes char at a time, so need to change it to go through the characters present in each word.
             #but using the current list as a lookup dictionary (may need to change it from list to dict)
@@ -58,14 +81,9 @@ class CharCommonality:
                     #Recurrsive:
                         #'b' with combinations from [['h', 'm'], ['g', 'n']] + 'x' with combinations from the same
                             #might be more than 2.
+                        #If the resulting combinations are more than 5 letters, we will need all the combinations of those which is where _LCR comes in.
 
-        if not inclDblAndTripleLetters:
-            #double/triple letters are always at the back.
-            while type(leastCommonLetters[0][-1]) is tuple:
-                del leastCommonLetters[0][-1]
-                if len(leastCommonLetters[0]) == 0:
-                    break
-
+        return LCLettersByWord  #TODO: Need to update code to use this version        
         return leastCommonLetters
 
     def _GetCharCommonality(self, char, index):
