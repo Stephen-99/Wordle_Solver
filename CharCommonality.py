@@ -19,7 +19,7 @@ class CharCommonality:
                 commonality += self._GetCharCommonality(char, ii)
         return commonality
 
-    def GetLeastCommonLetters(self, words, inclDblAndTripleLetters = False): #TODO: pass in the words everywhere this is called.
+    def GetLeastCommonLetters(self, words, inclDblAndTripleLetters = False):
         charsList = list(self.dicts[0].items())
         charsList.extend([((k[0], 2), k[1]) for k in self.dicts[1].items()])
         charsList.extend([((k[0], 3), k[1]) for k in self.dicts[2].items()])

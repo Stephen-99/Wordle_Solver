@@ -72,11 +72,11 @@ def DetermineGuess(commonalityLookup, words, db, numKnownLetters=0):
         #Add extra condition for if len(bestWord) == len(words) and len(bestWords) >= 3
         if len(bestWord) >= 2 and 2 < len(words) < 7:
             #a commonality score for this word won't make sense, as some of the letters might be missing
-            return Guess(PickVarietyWord(commonalityLookup, db, minLetters=2)), 0
+            return Guess(PickVarietyWord(commonalityLookup, db, words, minLetters=2)), 0
         if len(bestWord) >= 4 and 3 < len(words) < 11:
-            return Guess(PickVarietyWord(commonalityLookup, db, minLetters=4)), 0
+            return Guess(PickVarietyWord(commonalityLookup, db, words, minLetters=4)), 0
         if len(bestWord) >= 4 and 11 < len(words) < 20:
-            return Guess(PickVarietyWord(commonalityLookup, db, minLetters=5)), 0
+            return Guess(PickVarietyWord(commonalityLookup, db, words, minLetters=5)), 0
     except InvalidWordLength as e:
         #print("Tried to get a variety word and failed")
         #print(e)
@@ -111,9 +111,9 @@ def _LCR(letters, max=5, pos=0, curIdx=0, combs = [], curLetters = []):
 
 #Update this to work with double letters. Also maybe look at maybe using 2nd most common letters etc. when can't find a 4 or 5 letter word. 
     #becausee double/triple letters make this harder.
-def PickVarietyWord(lookup, db, minLetters=2):
+def PickVarietyWord(lookup, db, words, minLetters=2):
     print("Looking for the least common letters:")
-    letters = lookup.GetLeastCommonLetters()
+    letters = lookup.GetLeastCommonLetters(words)
         #TODO something about only 1 letter for each possible word...
             #This is THE way to fix it, but it's hard...
     print(letters)
