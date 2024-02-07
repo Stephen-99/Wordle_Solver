@@ -114,19 +114,28 @@ def _LCR(letters, max=5, pos=0, curIdx=0, combs = [], curLetters = []):
 def PickVarietyWord(lookup, db, words, minLetters=2):
     print("Looking for the least common letters:")
     letters = lookup.GetLeastCommonLetters(words)
-        #TODO something about only 1 letter for each possible word...
-            #This is THE way to fix it, but it's hard...
+
     print(letters)
 
-    if len(letters[0]) < 2:
+    if len(letters) < 2:
         return "A variety word is not helpful here"
 
     if len(letters) == 0:
         return "test non standard length word"
         #Is this ever triggered?
 
+    #TODO use new version of least common letters result.
+    letterCombs = []
+    for letter in letters[0]:
+        comb = [letter]
+        for letterGroup in letters:
+            for letter2 in letterGroup:
+                comb.append(letter2)
+                #TODO TODO TODO: THIS IS INCORRECT
+                    #Needs to be recursive so that get the multiplication of letter options.
+
     #ii = min(5, sum([len(k) for k in letters]))
-    ii = min(5, len(letters[0]))  #only using letters[0] atm
+    ii = min(5, len(letters))  #only using letters[0] atm
     varietyWord = None
     while not varietyWord and ii >= minLetters:
         varietyWord = TryGetVarietyWord(letters, ii, db)
