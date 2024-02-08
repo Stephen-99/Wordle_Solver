@@ -124,18 +124,12 @@ def PickVarietyWord(lookup, db, words, minLetters=2):
         return "test non standard length word"
         #Is this ever triggered?
 
-    #TODO use new version of least common letters result.
-    letterCombs = []
-    for letter in letters[0]:
-        comb = [letter]
-        for letterGroup in letters:
-            for letter2 in letterGroup:
-                comb.append(letter2)
-                #TODO TODO TODO: THIS IS INCORRECT
-                    #Needs to be recursive so that get the multiplication of letter options.
+    letterCombs = ProcessLeastCommonLetters(letters)
+    #TODO use new letterCombs instead of letters
+
 
     #ii = min(5, sum([len(k) for k in letters]))
-    ii = min(5, len(letters))  #only using letters[0] atm
+    ii = min(5, len(letters))
     varietyWord = None
     while not varietyWord and ii >= minLetters:
         varietyWord = TryGetVarietyWord(letters, ii, db)
@@ -147,6 +141,19 @@ def PickVarietyWord(lookup, db, words, minLetters=2):
 
     return varietyWord["word"]
 
+#converts them from a per word basis to a list of letter combinations.
+#GetLetterCombinations can then take these and convert them to combinations based on the number of required letters
+#like a 5 choose 3 type situation.
+def ProcessLeastCommonLetters(LCLetters):
+
+    letterCombs = []
+    for letter in LCLetters[0]:
+        comb = [letter]
+        for letterGroup in LCLetters:
+            for letter2 in letterGroup:
+                comb.append(letter2)
+                #TODO TODO TODO: THIS IS INCORRECT
+                    #Needs to be recursive so that get the multiplication of letter options.
 
 def GetLetterCombinations(letters, maxLetters):
     if len(letters[0]) >= maxLetters:
