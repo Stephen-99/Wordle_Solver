@@ -99,10 +99,18 @@ class Testing:
         print(f"Result from using the letters [['a', 'b'], ['c'], ['d']]: {result}")
         result = GetLetterCombinations([['a', 'b'], ['c'], ['d', 'e', 'f']], 5)
         print(f"Result from using the letters [['a', 'b'], ['c'], ['d', 'e', 'f']]: {result}")
+    
+
+    def TestProcessLeastCommonLetters(LCLetters):
+        combinations = ProcessLeastCommonLetters([['a', 'b'], ['c', 'd'], ['e', 'f']])
+        print(combinations)
+        #TODO should really do asserts here
+
 
             #also if we have: [[a, b,], [c], [d], [e]]
 #Testing().TestWordsLostTo()
 #Testing().TestGetAllLettersFilter()
-Testing().TestAllWords()
+#Testing().TestAllWords()
 #Testing().TestGetLetterCombinations()
 #Testing().TestOneWord()
+Testing().TestProcessLeastCommonLetters()

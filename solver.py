@@ -144,16 +144,18 @@ def PickVarietyWord(lookup, db, words, minLetters=2):
 #converts them from a per word basis to a list of letter combinations.
 #GetLetterCombinations can then take these and convert them to combinations based on the number of required letters
 #like a 5 choose 3 type situation.
+#TODO see if an iterative or cached (dynamic porgramming) soln would be significantly faster.
 def ProcessLeastCommonLetters(LCLetters):
-
     letterCombs = []
     for letter in LCLetters[0]:
-        comb = [letter]
-        for letterGroup in LCLetters:
-            for letter2 in letterGroup:
-                comb.append(letter2)
-                #TODO TODO TODO: THIS IS INCORRECT
-                    #Needs to be recursive so that get the multiplication of letter options.
+        if len(LCLetters) > 1:
+            combs = ProcessLeastCommonLetters(LCLetters[1:])
+            for comb in combs:
+                comb.append(letter)
+                letterCombs.append(comb)
+        else:
+            letterCombs.append([letter])     
+    return letterCombs
 
 def GetLetterCombinations(letters, maxLetters):
     if len(letters[0]) >= maxLetters:
