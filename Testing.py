@@ -31,7 +31,7 @@ class Testing:
                 print(word, "This word failed taking", guesses, "guesses")
             count += 1
             if count % 20 == 0:
-            #if count > 1460:  #got up to 213. 214 fails..
+            #if count > 1460: 
                 print("just finished number", count)
 
         print("\n\nRESULTS:\n", scores)
@@ -110,7 +110,7 @@ class Testing:
             #also if we have: [[a, b,], [c], [d], [e]]
 #Testing().TestWordsLostTo()
 #Testing().TestGetAllLettersFilter()
-#Testing().TestAllWords()
+Testing().TestAllWords()
 #Testing().TestGetLetterCombinations()
 #Testing().TestOneWord()
-Testing().TestProcessLeastCommonLetters()
+#Testing().TestProcessLeastCommonLetters()
