@@ -65,7 +65,8 @@ class CharCommonality:
                 if char in LCLettersDict:
                     LCLettersByWord[-1].append(char)
                     #Remove it from dictionary so it doesn't appear twice!
-
+            if len(LCLettersByWord[-1]) == 0:
+                del LCLettersByWord[-1]
 
         #Thing is, it goes by the chars in order of least common. So make that the lookup instead?
             #Then go word at a time and create our list of tuples.
@@ -84,7 +85,6 @@ class CharCommonality:
                         #If the resulting combinations are more than 5 letters, we will need all the combinations of those which is where _LCR comes in.
 
         return LCLettersByWord  #TODO: Need to update code to use this version        
-        return leastCommonLetters
 
     def _GetCharCommonality(self, char, index):
         try:

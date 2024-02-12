@@ -4,7 +4,8 @@ from solver import *
 
 class Testing:
     def __init__(self):
-        self.wordsLostTo = ['foyer', 'goner', 'homer', 'boxer']
+        self.wordsLostTo = ['jolly', 'match', 'paste', 'silly', 'watch', 'safer', 'pound', 'taste', 'light', 'vaunt', 'wight', 'wound', 'spore', 'shave', 'willy']
+        #self.wordsLostTo = ['foyer', 'goner', 'homer', 'boxer']
         self.db = WordleDB()   
         #self.wordsLostTo = ['joker', 'match', 'paste', 'watch', 'safer', 'taste']
 
