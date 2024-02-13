@@ -104,16 +104,6 @@ def _LCR(letters, max=5, pos=0, curIdx=0, combs = [], curLetters = []):
         del curLetters[-1]
     return combs
 
-#TODO: Use this better alg for Picking a virety word:
-#Different idea is to go through the valid words, keep track of the ones that contain the most of the letters we want.
-        #exit as soon as there is one word with 5 of the letters we want
-        #will need to check as we go also using the letters in letters[1] and letters[2] in case none match perfectly
-            #maybe have some sort of score to give them, and keep track of the best word
-
-        #NOTE: THIS^ is a better approach. Less calls to db, so faster. Also 1 pass of the data not multiple...
-
-#Update this to work with double letters. Also maybe look at maybe using 2nd most common letters etc. when can't find a 4 or 5 letter word. 
-    #becausee double/triple letters make this harder.
 def PickVarietyWord(lookup, db, words, minLetters=2):
     #print("Looking for the least common letters:")
     letters = lookup.GetLeastCommonLetters(words)
@@ -166,43 +156,7 @@ def GetLetterCombinations(letters, maxLetters):
     if len(letters) >= maxLetters:
         return LetterCombinations(letters, maxLetters)
     
-    #Case where 2nd 3rd etc least common letters are required
-    if len(letters) > 1:
-
-        #FOR NOW, we will just ignore letters[1] and further just looking at letters[0]
-        """
-        #Ahh yeah. Now we nemethied to do song about this one!
-
-        remNumLetters = maxLetters - len(letters[0])
-        #TODO possibly, need to combine more than just the second lot. Possibly after all the combining, theres still not enough letters..
-        #becomes tricky. cos, we want to prioritise ones in earlier lots
-
-        #so this works if we have up to 5 letters, and no more than 2 sets but if we have something like: [[a, b], [c, d]] we would have an issue
-            #also if we have: [[a, b,], [c], [d], [e]]
-            #The first case works fine, the 2nd one does not.
-        remLettersCombs = LetterCombinations(letters[1], max = maxLetters-remNumLetters)
-
-        #so ffor each combonation, combine the first letters with the ones in the first set of letters.
-        for comb in remLettersCombs:
-            for letter in letters[0]:
-                comb.append(letter)
-        
-        return remLettersCombs
-
-        # so ahhh.
-        #     THIS IS AN ISSUE
-        #     TODO: MAYBE LETS DO THIS FIRST
-
-        #use all the letters in all the sections but the last one
-            #supplement to 5 letters from the last section. Make an or query using all such 5-letter combinations
-
-            #The combinations will be different cos might be use these 3 letters, and all the 2 letter combs from the last one.
-                #use _LCR to get the 2* letter combs and use a list comp to combine the others with it into a list of lists of 5 letters.
-        pass
-        """
-
-    #This shouldn't occur since maxLetters should be set correctly
-    #It would occur if there are less letters then the given maxLetters
+    #This will occur if there are less letters then the given maxLetters
     return LetterCombinations(letters, len(letters))
 
 def TryGetVarietyWord(lettersByWord, maxLetters, db):
