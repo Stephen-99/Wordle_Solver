@@ -1,5 +1,7 @@
 # Wordle_Solver
 ### A program to solve the daily wordle
+The algorithm can correctly solve each possible word within the required 6 guesses!!
+
 It looks at the most common letters to determine a good guess. In some cases this method fails us. When there are multiple options availible with the same commonality score, and there is a small number of valid guesses, the algorithm will pick a incorrect word that uses the least common letters to help eliminate options from these best guesses.
 
 For example, the valid words remaining are [fight', 'light', 'might', 'night', 'wight']. Picking any of these words only removes 1 option, but if we can guess a word using 4 or 5 of the unique letters in this list of words, we can know for certain which word is the correct answer.
