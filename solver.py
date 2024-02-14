@@ -5,28 +5,12 @@ from CharCommonality import *
 from Database import *
 from WebScraper import *
 
-#TODO test against the whole dataset if my 2 word starting combo performs better.
-
 #TODO LIST
     # - Make the variety word work to completion
     # - Instead of randomly generated word, interface with the wordle site
     # - Make the solver avialable giving 1 word at a time, and getting the result from the user.
     # - Make that work through a simple GUI
     # - Allow the user to play it as a game by randomly selecting a word
-
-#TODO:!!  Make the solver working, without all the variety word jazz. Just the simple version that works. Then focus on allowing it to be used well. Then wrap the project up and move on.
-    #allow for people to enter their choices as they go.
-    #try get back to the algorithm where it only failed 4 times. --> look in the github history. When was that testing added. What was the alg at that time.
-        #18 losses, avg 3.7 without variety words
-        #13 losses, avg 3.7 with only first trigger for variety words
-        #10 losses, avg 3.7 with all the triggers for variety words
-
-        #Reverted to only isng letters[0] for variety word. 
-        #6 losses, avg 3.72 with all triggers for variety words
-        #9 losses, avg 3.69 with 1 trigger for variety words (3, 8)  
-        #6 losses, avg 3.71 with all trigger for variety words (4, 7)
-        #1 loss, avg 3.72
-    #testing said, 4 and 7 also produced 4 words missing. Try that again. 4 and 7 should call for less variety words.
 
 
 #TODO: add type hinting on method signatures
