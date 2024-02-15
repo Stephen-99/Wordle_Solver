@@ -43,20 +43,8 @@ def DetermineGuess(commonalityLookup, words, db, numKnownLetters=0):
             bestWord.append(word)
     #print("bestGuesses:", bestWord, "    Remaining number of valid words:", len(words))
 
-    #NOTE When we get a variety word for when there's still a lot of letters left, it only makes sense if we can get one with 4 or 5 letters otherwise we should return and use the best guess
-        #same for when going down to 1 letter in variety. Should stop if can't find one with 2. --> Or even 3?
-
-    #What if instead we look at num of different letters?
-        #Compare that to the num known letters from last guess
-    #print("NUMBER OF DIFFERENT LETTERS:", len(commonalityLookup.dicts[0]))
-    
-    #having a hard time with some of those double letters now.
-        #Getting a vairety word doesn't currently take that into account, but now it might need to.
-
-    
-
+   
     try:
-        #Add extra condition for if len(bestWord) == len(words) and len(bestWords) >= 3
         if len(bestWord) >= 2 and 2 < len(words) < 7:
             #a commonality score for this word won't make sense, as some of the letters might be missing
             return Guess(PickVarietyWord(commonalityLookup, db, words, minLetters=2)), 0
@@ -65,11 +53,8 @@ def DetermineGuess(commonalityLookup, words, db, numKnownLetters=0):
         if len(bestWord) >= 4 and 11 < len(words) < 20:
             return Guess(PickVarietyWord(commonalityLookup, db, words, minLetters=5)), 0
     except InvalidWordLength as e:
-        #print("Tried to get a variety word and failed")
-        #print(e)
         pass
-    
-            
+                
     return Guess(bestWord[0]), bestScore
 
 def LetterCombinations(letters, max=5):
@@ -97,15 +82,8 @@ def PickVarietyWord(lookup, db, words, minLetters=2):
     if len(letters) < 2:
         return "A variety word is not helpful here"
 
-    if len(letters) == 0:
-        return "test non standard length word"
-        #Is this ever triggered?
-
     letterCombs = ProcessLeastCommonLetters(letters)
-    #TODO use new letterCombs instead of letters
 
-
-    #ii = min(5, sum([len(k) for k in letters]))
     ii = min(5, len(letterCombs[0]))
     varietyWord = None
     while not varietyWord and ii >= minLetters:
@@ -121,11 +99,8 @@ def PickVarietyWord(lookup, db, words, minLetters=2):
 #converts them from a per word basis to a list of letter combinations.
 #GetLetterCombinations can then take these and convert them to combinations based on the number of required letters
 #like a 5 choose 3 type situation.
-#TODO see if an iterative or cached (dynamic porgramming) soln would be significantly faster.
-    #It doesn't appear to be slow for the 2000+ word test where all the words get solved.
 def ProcessLeastCommonLetters(LCLetters):
     letterCombs = []
-    #TODO, breaks on empty lists for a word. So need a recursive wrapper to remove these empty lists.
     for letter in LCLetters[0]:
         if len(LCLetters) > 1:
             combs = ProcessLeastCommonLetters(LCLetters[1:])
@@ -166,9 +141,6 @@ def GetFilterForCombinations(combinations):
 def GetAllLetterFilter(letters):
     filter = "{'$and': ["
 
-    #Edit range to go one further, and then use -ve indexes to remove the comma
-    #Then add the ending on last
-    #TODO: add the check for if it's a double or triple letter...
     for ii in range(min(len(letters), 5)-1):
 
         filter += "{'word': {'$regex': '" + letters[ii] + "'}}, "
