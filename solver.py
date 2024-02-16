@@ -25,7 +25,7 @@ def main():
     commonalityLookup = DetermineNumberOfOccurrences(words)
     print("Took ", RunGame(words, commonalityLookup, TESTWORD, db), "guesses")
 
-def DetermineNumberOfOccurrences(words):
+def DetermineNumberOfOccurrences(words: list[str]) -> CharCommonality:
     charsLookup = CharCommonality()
     charsLookup.AddCommonality(words)
     return charsLookup

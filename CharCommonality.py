@@ -58,33 +58,16 @@ class CharCommonality:
         #Hardcoded to just use the first least most common letters
         LCLettersDict = { x:x for x in leastCommonLetters[0]}
         LCLettersByWord = []
-
+        
         for word in words:
             LCLettersByWord.append([])
             for char in word:
                 if char in LCLettersDict:
                     LCLettersByWord[-1].append(char)
-                    #Remove it from dictionary so it doesn't appear twice!
             if len(LCLettersByWord[-1]) == 0:
                 del LCLettersByWord[-1]
 
-        #Thing is, it goes by the chars in order of least common. So make that the lookup instead?
-            #Then go word at a time and create our list of tuples.
-
-        #TODO change above to add tuples with least common letters coming from the same word.
-            #It currently goes char at a time, so need to change it to go through the characters present in each word.
-            #but using the current list as a lookup dictionary (may need to change it from list to dict)
-            #Then can lookup each char from a word and add it to the list as LISTS of chars from 1 word instead of tuples
-                #This will also require removing the thing where it looks at characters beyond the inital least common characters.
-            #Will need to then look at len(letters) not len(letters[0])
-                #will also need to change how getting combinations works...
-                    #e.g. list[['b', 'x'], ['h', 'm'], ['g', 'n']]
-                    #Recurrsive:
-                        #'b' with combinations from [['h', 'm'], ['g', 'n']] + 'x' with combinations from the same
-                            #might be more than 2.
-                        #If the resulting combinations are more than 5 letters, we will need all the combinations of those which is where _LCR comes in.
-
-        return LCLettersByWord  #TODO: Need to update code to use this version        
+        return LCLettersByWord      
 
     def _GetCharCommonality(self, char, index):
         try:
