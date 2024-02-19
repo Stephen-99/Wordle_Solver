@@ -30,7 +30,7 @@ def DetermineNumberOfOccurrences(words: list[str]) -> CharCommonality:
     charsLookup.AddCommonality(words)
     return charsLookup
 
-def DetermineGuess(commonalityLookup, words, db, numKnownLetters=0):
+def DetermineGuess(commonalityLookup: CharCommonality, words: list[str], db: WordleDB, numKnownLetters: int = 0) -> tuple[Guess, int]:
     #TODO Won't need to return bestScore once all setup
     bestScore = 0
     bestWord = []
@@ -43,7 +43,6 @@ def DetermineGuess(commonalityLookup, words, db, numKnownLetters=0):
             bestWord.append(word)
     #print("bestGuesses:", bestWord, "    Remaining number of valid words:", len(words))
 
-   
     try:
         if len(bestWord) >= 2 and 2 < len(words) < 7:
             #a commonality score for this word won't make sense, as some of the letters might be missing
