@@ -4,12 +4,12 @@ from bs4 import BeautifulSoup
 import requests
 
 
-def ScrapeWebpage():
+def ScrapeWebpage() -> tuple[list[str], list[str]]:
     words = ScrapeAnswers()
     allowedWords = ScrapeAllowedWords()
     return words, allowedWords
 
-def ScrapeAnswers():
+def ScrapeAnswers() -> list[str]:
     url = 'https://www.wordunscrambler.net/word-list/wordle-word-list'
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -17,7 +17,7 @@ def ScrapeAnswers():
     wordsHtml = soup.findAll('li', {'class': 'invert light'})    
     return [htmlWord.text.strip() for htmlWord in wordsHtml]
 
-def ScrapeAllowedWords():
+def ScrapeAllowedWords() -> list[str]:
     url = "https://github.com/tabatkins/wordle-list/blob/main/words"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')

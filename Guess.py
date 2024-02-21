@@ -1,5 +1,5 @@
 class Guess:
-    def __init__(self, word):
+    def __init__(self, word: str):
         #TODO seems like a bad idea to have an exception in the constructor maybe make a GuessFactory to perform injection
         if (len(word) != 5):
             raise InvalidWordLength()
@@ -8,7 +8,7 @@ class Guess:
         self.misplaced = [False, False, False, False, False]
         self.incorrect = [False, False, False, False, False]
 
-    def ValidateGuess(self, correctWord):
+    def ValidateGuess(self, correctWord: str) -> bool:
         for ii in range(len(self.word)):
             if self.word[ii] == correctWord[ii]:
                 self.correct[ii] = True
@@ -21,7 +21,7 @@ class Guess:
             return True
         return False
     
-    def ConsistentWithGuess(self, word):
+    def ConsistentWithGuess(self, word: str) -> bool:
         for ii in range(len(word)):
             if self.correct[ii] and (self.word[ii] != word[ii]):
                 return False
@@ -33,6 +33,6 @@ class Guess:
     
 
 class InvalidWordLength(Exception):
-    def __init__(self, length = 5, message = "Word length must be "):
+    def __init__(self, length: int = 5, message: str = "Word length must be "):
         self.message = message + str(length)
         super().__init__(self.message)
