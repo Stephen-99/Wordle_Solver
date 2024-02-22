@@ -3,14 +3,14 @@ class CharCommonality:
         #First one is number of words with that char, 2nd number of words with it twice etc.
         self.dicts = [{}, {}, {}]
     
-    def AddCommonality(self, words):
+    def AddCommonality(self, words: list[str]):
         for word in words:
             charCount = CharCommonality.CharOccurrencesInWord(word)
             for char, count in charCount.items():
                 for ii in range(count):
                     self._AddCharCommonality(char, ii)
 
-    def RetriveCommonality(self, word):
+    def RetriveCommonality(self, word: str) -> int:
         charCount = CharCommonality.CharOccurrencesInWord(word)
 
         commonality = 0
@@ -19,7 +19,7 @@ class CharCommonality:
                 commonality += self._GetCharCommonality(char, ii)
         return commonality
 
-    def GetLeastCommonLetters(self, words, inclDblAndTripleLetters = False):
+    def GetLeastCommonLetters(self, words: list[str], inclDblAndTripleLetters: bool = False) -> list[list[str]]:
         charsList = list(self.dicts[0].items())
         charsList.extend([((k[0], 2), k[1]) for k in self.dicts[1].items()])
         charsList.extend([((k[0], 3), k[1]) for k in self.dicts[2].items()])
@@ -69,14 +69,14 @@ class CharCommonality:
 
         return LCLettersByWord      
 
-    def _GetCharCommonality(self, char, index):
+    def _GetCharCommonality(self, char: str, index: int) -> int:
         try:
             return self.dicts[index][char]
         except (IndexError, KeyError):
             #Not in dictionary
             return 0
 
-    def _AddCharCommonality(self, char, index):
+    def _AddCharCommonality(self, char: str, index: int):
         try:
             if char in self.dicts[index]:
                 self.dicts[index][char] += 1
@@ -85,7 +85,7 @@ class CharCommonality:
         except IndexError:
             print("\n\nERROR:\tCouldn't add commonality for a word with the same letter", index+1, "times\n\n")
 
-    def CharOccurrencesInWord(word):
+    def CharOccurrencesInWord(word: str) -> dict[str, int]:
         charCount = {}
         for char in word:
             if char in charCount:
