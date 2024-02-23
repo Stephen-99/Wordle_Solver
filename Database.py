@@ -8,9 +8,10 @@ from WebScraper import *
 
 class WordleDB:
     def __init__(self):
+        temp = self.ConnectToDB()
         self.db = self.ConnectToDB()
 
-    def ConnectToDB(self):
+    def ConnectToDB(self) -> pymongo.database.Database:
         with open("password") as passFile:
             password = passFile.readline()
 
@@ -18,12 +19,12 @@ class WordleDB:
         client = pymongo.MongoClient("mongodb+srv://admin:" + password + "@wordlesolver.u6oi1ao.mongodb.net/?retryWrites=true&w=majority", tls=True, tlsCAFile=cert)
         return client.wordle
 
-    def GetAnswers(self):
+    def GetAnswers(self) -> list[str]:
         answers = self.db["answers"]
         
         return [doc["word"] for doc in answers.find({})]
 
-    def UpdateDB(self):
+    def UpdateDB(self) -> tuple[list[str], list[str]]:
         lastUpdateCollection = self.db["lastUpdate"]
         lastUpdate = lastUpdateCollection.find_one({})["lastUpdate"]
         curTime = time.time()
@@ -37,14 +38,14 @@ class WordleDB:
             return answers, allowedWords
         return None, None
 
-    def GetWords(self):
+    def GetWords(self) -> tuple[list[str], list[str]]:
         answers, allowedWords = self.UpdateDB()
         if (not answers):
             answers = self.GetAnswers()
             allowedWords = self.GetAllowedWords()
         return answers, allowedWords
 
-    def UpdateAnswers(self, words):
+    def UpdateAnswers(self, words: list[str]):
         answers = self.db["answers"]
         dbWords = [doc["word"] for doc in answers.find({})]
         dbDict = dict.fromkeys(dbWords)
@@ -73,7 +74,7 @@ class WordleDB:
         deleteQuery = {"word": {"$in": wordsToRemove}}
         answers.delete_many(deleteQuery)
 
-    def UpdateAllowedWords(self, words):
+    def UpdateAllowedWords(self, words: list[str]):
         allowedWords = self.db["allowedWords"]
         
         dbWords = [doc["word"] for doc in allowedWords.find({})]
@@ -102,14 +103,14 @@ class WordleDB:
         deleteQuery = {"word": {"$in": wordsToRemove}}
         allowedWords.delete_many(deleteQuery)
 
-    def GetAllowedWords(self):
+    def GetAllowedWords(self) -> list[str]:
         allowedWords = self.db["allowedWords"]
         
         return [doc["word"] for doc in allowedWords.find({})]
 
-    def FindOneAllowedWord(self, filter):
+    def FindOneAllowedWord(self, filter: str) -> str:
         allowedWords = self.db["allowedWords"]
         try:
             return allowedWords.find_one(eval(filter), batch_size=10)
         except Exception as e:
-            print("EEROR:", e)
+            print("ERROR:", e)

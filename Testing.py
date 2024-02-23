@@ -19,7 +19,6 @@ class Testing:
             print("\n", 50 * '-', "\n")
         print("\n\nNUMBER OF GUESSES FOR EACH WORD:\n", scores)
 
-    #TODO set a flag to remove printing in code...
     def TestAllWords(self):
         self.words = self.db.GetAnswers()
         lookup = DetermineNumberOfOccurrences(self.words)
@@ -73,25 +72,6 @@ class Testing:
         print("Number of times lookup lost:", 18)
         print("Number of times without lookup lost:", 36)
 
-        #UPDATED:
-            #4 & 7: L - 4, avg - 3.67
-
-        #TODO: check which are the ones that lose tho
-        #3 & 9: 3.692 avg Losses = 5
-        #3 & 8: 3.686 avg Losses = 4
-        #3 & 7: 3.682 avg Losses = 4
-        #3 & 6: 3.683 avg Losses = 4
-        #3 & 5: 3.689 avg losses = 4
-        #3 & 4: 3.698 avg losses = 19
-
-        #4 & 7: 3.665 avg losses = 4
-
-        #5 & 7: 3.674 avg losses = 5
-        #2 & 11: 3.848 avg losses = 7
-
-        #HYBRID:
-        #3 & 8,  2 & 11  avg = 3.719  losses = 4
-
 
     def TestGetLetterCombinations(self):
         result = GetLetterCombinations([['a', 'b'], ['c', 'd']], 5)
@@ -107,8 +87,6 @@ class Testing:
         print(combinations)
         #TODO should really do asserts here
 
-
-            #also if we have: [[a, b,], [c], [d], [e]]
 #Testing().TestWordsLostTo()
 #Testing().TestGetAllLettersFilter()
 Testing().TestAllWords()
