@@ -6,14 +6,11 @@ from Database import *
 from WebScraper import *
 
 #TODO LIST
-    # - Make the variety word work to completion
-    # - Instead of randomly generated word, interface with the wordle site
+    # - Instead of randomly generated word, interface with the wordle site (de-prioritised)
     # - Make the solver avialable giving 1 word at a time, and getting the result from the user.
     # - Make that work through a simple GUI
     # - Allow the user to play it as a game by randomly selecting a word
 
-
-#TODO: add type hinting on method signatures
 def main():
     db = WordleDB()
     words, allowedWords = db.GetWords()
@@ -25,12 +22,32 @@ def main():
     commonalityLookup = DetermineNumberOfOccurrences(words)
     print("Took ", RunGame(words, commonalityLookup, TESTWORD, db), "guesses")
 
+def SolveFromUser():
+    db = WordleDB()
+    words, allowedWords = db.GetWords()
+    commonalityLookup = DetermineNumberOfOccurrences(words)
+
+    try:
+        guess, score = DetermineGuess(commonalityLookup, words, db)
+    except InvalidWordLength as e:
+        print(e.message)
+        return
+    
+    print("Best guess is:", guess.word, " With a score of:", score)
+    #TODO: replace this with some logic inside guess to validate it from the user. Preffereably using a simple GUI with a selection
+        #click once to make it yellow, twice to make it green and again to go back to grey.
+        #Later build in the option for them to say hey, I used a different word instead, and here's what I learnt.
+    #correctGuess = guess.ValidateGuess(answer)
+
+    guesses = 1
+
+
 def DetermineNumberOfOccurrences(words: list[str]) -> CharCommonality:
     charsLookup = CharCommonality()
     charsLookup.AddCommonality(words)
     return charsLookup
 
-def DetermineGuess(commonalityLookup: CharCommonality, words: list[str], db: WordleDB, numKnownLetters: int = 0) -> tuple[Guess, int]:
+def DetermineGuess(commonalityLookup: CharCommonality, words: list[str], db: WordleDB) -> tuple[Guess, int]:
     #TODO Won't need to return bestScore once all setup
     bestScore = 0
     bestWord = []
