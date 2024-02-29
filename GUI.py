@@ -1,17 +1,22 @@
 import PySimpleGUI as sg
 
+yellow = '#a39529'
+gray = '#424242'
+green = '#459824'
 
 #This code is written by AI. It is kind of average. Instead of persisting state via a list, I would like to have the squares backed by soem data object I can reference.
 def main(word: str):
+    word = word.upper()
     layout = [
-        [sg.Button(word[i], size=(5, 2), key=f'square{i}', font=('Helvetica', 32, 'normal'), button_color=('black', 'gray')) for i in range(5)],
+        #TODO: make it look more like the wordle theme colours.
+        [sg.Button(word[i], size=(5, 2), key=f'square{i}', font=('Helvetica', 32, 'bold'), button_color=('white', gray)) for i in range(5)],
         [sg.Button('Exit')]
     ]
 
     window = sg.Window('Colorful Squares', layout)
 
-    color_sequence = ['gray', 'yellow', 'green']
-    square_colors = ['gray'] * 5  # Initialize all squares to gray
+    color_sequence = [gray, yellow, green]
+    square_colors = [gray] * 5  # Initialize all squares to gray
 
     while True:
         event, values = window.read()
