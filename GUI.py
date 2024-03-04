@@ -8,6 +8,9 @@ green = "#459824"
 
 
 # This code is written by AI. It is kind of average. Instead of persisting state via a list, I would like to have the squares backed by soem data object I can reference.
+# TODO:
+# - Split this up into multiple functions
+# - Create some data object for storing the information about the colour. It should also handle state changes and make it easy for Guess to interact with.
 def obtainGuessResults(guess: str):
     word = guess.upper()
     # display a square button for each letter, with the letter inside that button
@@ -44,6 +47,7 @@ def obtainGuessResults(guess: str):
             window[event].update(button_color=(square_colors[square_index]))
     window.close()
 
+    return square_colors
 
 if __name__ == "__main__":
     obtainGuessResults("joker")

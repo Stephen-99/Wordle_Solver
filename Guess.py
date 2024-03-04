@@ -21,6 +21,10 @@ class Guess:
             return True
         return False
 
+    def ValidateGuess(self, GUIReults: list[str]) -> bool:
+        
+        print("TODO:")
+
     def ConsistentWithGuess(self, word: str) -> bool:
         for ii in range(len(word)):
             if self.correct[ii] and (self.word[ii] != word[ii]):
