@@ -1,10 +1,11 @@
-#For any access to the DB.
-#Should maybe be a class
+# For any access to the DB.
+# Should maybe be a class
 import time
 import certifi
 import pymongo
 
 from WebScraper import *
+
 
 class WordleDB:
     def __init__(self):
@@ -16,20 +17,26 @@ class WordleDB:
             password = passFile.readline()
 
         cert = certifi.where()
-        client = pymongo.MongoClient("mongodb+srv://admin:" + password + "@wordlesolver.u6oi1ao.mongodb.net/?retryWrites=true&w=majority", tls=True, tlsCAFile=cert)
+        client = pymongo.MongoClient(
+            "mongodb+srv://admin:"
+            + password
+            + "@wordlesolver.u6oi1ao.mongodb.net/?retryWrites=true&w=majority",
+            tls=True,
+            tlsCAFile=cert,
+        )
         return client.wordle
 
     def GetAnswers(self) -> list[str]:
         answers = self.db["answers"]
-        
+
         return [doc["word"] for doc in answers.find({})]
 
     def UpdateDB(self) -> tuple[list[str], list[str]]:
         lastUpdateCollection = self.db["lastUpdate"]
         lastUpdate = lastUpdateCollection.find_one({})["lastUpdate"]
         curTime = time.time()
-        
-        if ((lastUpdate - curTime) / 3600 / 24)  > 7:
+
+        if ((lastUpdate - curTime) / 3600 / 24) > 7:
             lastUpdateCollection.insert_one({"lastUpdate": time.time()})
             answers, allowedWords = ScrapeWebpage()
             self.UpdateAnswers(answers)
@@ -40,7 +47,7 @@ class WordleDB:
 
     def GetWords(self) -> tuple[list[str], list[str]]:
         answers, allowedWords = self.UpdateDB()
-        if (not answers):
+        if not answers:
             answers = self.GetAnswers()
             allowedWords = self.GetAllowedWords()
         return answers, allowedWords
@@ -49,11 +56,11 @@ class WordleDB:
         answers = self.db["answers"]
         dbWords = [doc["word"] for doc in answers.find({})]
         dbDict = dict.fromkeys(dbWords)
-        
+
         wordsNotFound = []
         for word in words:
             try:
-                #check if word exists, if it does assign its value to true
+                # check if word exists, if it does assign its value to true
                 dbDict[word]
                 dbDict[word] = True
             except KeyError:
@@ -67,7 +74,7 @@ class WordleDB:
         for word, allowedWord in dbDict.items():
             if not allowedWord:
                 wordsToRemove.append(word)
-        
+
         if len(wordsToRemove) == 0:
             return
 
@@ -76,14 +83,14 @@ class WordleDB:
 
     def UpdateAllowedWords(self, words: list[str]):
         allowedWords = self.db["allowedWords"]
-        
+
         dbWords = [doc["word"] for doc in allowedWords.find({})]
         dbDict = dict.fromkeys(dbWords)
-        
+
         wordsNotFound = []
         for word in words:
             try:
-                #check if word exists, if it does assign its value to true
+                # check if word exists, if it does assign its value to true
                 dbDict[word]
                 dbDict[word] = True
             except KeyError:
@@ -96,7 +103,7 @@ class WordleDB:
         for word, allowedWord in dbDict.items():
             if not allowedWord:
                 wordsToRemove.append(word)
-        
+
         if len(wordsToRemove) == 0:
             return
 
@@ -105,7 +112,7 @@ class WordleDB:
 
     def GetAllowedWords(self) -> list[str]:
         allowedWords = self.db["allowedWords"]
-        
+
         return [doc["word"] for doc in allowedWords.find({})]
 
     def FindOneAllowedWord(self, filter: str) -> str:

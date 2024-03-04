@@ -5,11 +5,12 @@ from CharCommonality import *
 from Database import *
 from WebScraper import *
 
-#TODO LIST
-    # - Instead of randomly generated word, interface with the wordle site (de-prioritised)
-    # - Make the solver avialable giving 1 word at a time, and getting the result from the user.
-    # - Make that work through a simple GUI
-    # - Allow the user to play it as a game by randomly selecting a word
+# TODO LIST
+# - Instead of randomly generated word, interface with the wordle site (de-prioritised)
+# - Make the solver avialable giving 1 word at a time, and getting the result from the user.
+# - Make that work through a simple GUI
+# - Allow the user to play it as a game by randomly selecting a word
+
 
 def main():
     db = WordleDB()
@@ -18,9 +19,10 @@ def main():
     TESTWORD = GetRandomWord(words)
     TESTWORD = "boxer"
     print("Randomly selected word is:", TESTWORD)
-    
+
     commonalityLookup = DetermineNumberOfOccurrences(words)
     print("Took ", RunGame(words, commonalityLookup, TESTWORD, db), "guesses")
+
 
 def SolveFromUser():
     db = WordleDB()
@@ -32,12 +34,12 @@ def SolveFromUser():
     except InvalidWordLength as e:
         print(e.message)
         return
-    
+
     print("Best guess is:", guess.word, " With a score of:", score)
-    #TODO: replace this with some logic inside guess to validate it from the user. Preffereably using a simple GUI with a selection
-        #click once to make it yellow, twice to make it green and again to go back to grey.
-        #Later build in the option for them to say hey, I used a different word instead, and here's what I learnt.
-    #correctGuess = guess.ValidateGuess(answer)
+    # TODO: replace this with some logic inside guess to validate it from the user. Preffereably using a simple GUI with a selection
+    # click once to make it yellow, twice to make it green and again to go back to grey.
+    # Later build in the option for them to say hey, I used a different word instead, and here's what I learnt.
+    # correctGuess = guess.ValidateGuess(answer)
 
     guesses = 1
 
@@ -47,8 +49,11 @@ def DetermineNumberOfOccurrences(words: list[str]) -> CharCommonality:
     charsLookup.AddCommonality(words)
     return charsLookup
 
-def DetermineGuess(commonalityLookup: CharCommonality, words: list[str], db: WordleDB) -> tuple[Guess, int]:
-    #TODO Won't need to return bestScore once all setup
+
+def DetermineGuess(
+    commonalityLookup: CharCommonality, words: list[str], db: WordleDB
+) -> tuple[Guess, int]:
+    # TODO Won't need to return bestScore once all setup
     bestScore = 0
     bestWord = []
     for word in words:
@@ -58,11 +63,11 @@ def DetermineGuess(commonalityLookup: CharCommonality, words: list[str], db: Wor
             bestWord = [word]
         elif score == bestScore:
             bestWord.append(word)
-    #print("bestGuesses:", bestWord, "    Remaining number of valid words:", len(words))
+    # print("bestGuesses:", bestWord, "    Remaining number of valid words:", len(words))
 
     try:
         if len(bestWord) >= 2 and 2 < len(words) < 7:
-            #a commonality score for this word won't make sense, as some of the letters might be missing
+            # a commonality score for this word won't make sense, as some of the letters might be missing
             return Guess(PickVarietyWord(commonalityLookup, db, words, minLetters=2)), 0
         if len(bestWord) >= 4 and 3 < len(words) < 11:
             return Guess(PickVarietyWord(commonalityLookup, db, words, minLetters=4)), 0
@@ -70,30 +75,42 @@ def DetermineGuess(commonalityLookup: CharCommonality, words: list[str], db: Wor
             return Guess(PickVarietyWord(commonalityLookup, db, words, minLetters=5)), 0
     except InvalidWordLength as e:
         pass
-                
+
     return Guess(bestWord[0]), bestScore
+
 
 def LetterCombinations(letters: list[str], max: int = 5) -> list[list[str]]:
     if len(letters) == max:
         return [letters]
     return _LCR(letters, max, combs=[])
 
-def _LCR(letters: list[str], max: int = 5, pos: int = 0, curIdx: int = 0, combs: list[list[str]] = [], curLetters: list[str] = []) -> list[list[str]]:
-    if (max-pos) == 0:
+
+def _LCR(
+    letters: list[str],
+    max: int = 5,
+    pos: int = 0,
+    curIdx: int = 0,
+    combs: list[list[str]] = [],
+    curLetters: list[str] = [],
+) -> list[list[str]]:
+    if (max - pos) == 0:
         combs.append(curLetters.copy())
         return combs
 
-    for ii in range(curIdx, len(letters) - (max-pos-1)):
+    for ii in range(curIdx, len(letters) - (max - pos - 1)):
         curLetters.append(letters[ii])
-        combs = _LCR(letters, max, pos+1, ii+1, combs, curLetters)
+        combs = _LCR(letters, max, pos + 1, ii + 1, combs, curLetters)
         del curLetters[-1]
     return combs
 
-def PickVarietyWord(lookup: CharCommonality, db: WordleDB, words: list[str], minLetters: int = 2) -> str:
-    #print("Looking for the least common letters:")
+
+def PickVarietyWord(
+    lookup: CharCommonality, db: WordleDB, words: list[str], minLetters: int = 2
+) -> str:
+    # print("Looking for the least common letters:")
     letters = lookup.GetLeastCommonLetters(words)
 
-    #print(letters)
+    # print(letters)
 
     if len(letters) < 2:
         return "A variety word is not helpful here"
@@ -106,15 +123,16 @@ def PickVarietyWord(lookup: CharCommonality, db: WordleDB, words: list[str], min
         varietyWord = TryGetVarietyWord(letterCombs, ii, db)
         ii -= 1
 
-    #Should never trigger but you know how things go
+    # Should never trigger but you know how things go
     if not varietyWord:
         return "Non-standard word length"
 
     return varietyWord["word"]
 
-#converts them from a per word basis to a list of letter combinations.
-#GetLetterCombinations can then take these and convert them to combinations based on the number of required letters
-#like a 5 choose 3 type situation.
+
+# converts them from a per word basis to a list of letter combinations.
+# GetLetterCombinations can then take these and convert them to combinations based on the number of required letters
+# like a 5 choose 3 type situation.
 def ProcessLeastCommonLetters(LCLetters: list[list[str]]) -> list[list[str]]:
     letterCombs = []
     for letter in LCLetters[0]:
@@ -124,26 +142,31 @@ def ProcessLeastCommonLetters(LCLetters: list[list[str]]) -> list[list[str]]:
                 comb.append(letter)
                 letterCombs.append(comb)
         else:
-            letterCombs.append([letter])     
+            letterCombs.append([letter])
     return letterCombs
+
 
 def GetLetterCombinations(letters: list[str], maxLetters: int) -> list[list[str]]:
     if len(letters) >= maxLetters:
         return LetterCombinations(letters, maxLetters)
-    
-    #This will occur if there are less letters then the given maxLetters
+
+    # This will occur if there are less letters then the given maxLetters
     return LetterCombinations(letters, len(letters))
 
-def TryGetVarietyWord(lettersOptionsByWord: list[list[str]], maxLetters: int, db: WordleDB) -> str:
+
+def TryGetVarietyWord(
+    lettersOptionsByWord: list[list[str]], maxLetters: int, db: WordleDB
+) -> str:
     letterCombs = []
     for letters in lettersOptionsByWord:
         letterCombs.extend(GetLetterCombinations(letters, maxLetters))
-    
+
     filter = GetFilterForCombinations(letterCombs)
     return db.FindOneAllowedWord(filter)
 
+
 def GetFilterForCombinations(combinations: list[list[str]]) -> str:
-    if (len(combinations) == 1):
+    if len(combinations) == 1:
         return GetAllLetterFilter(combinations[0])
 
     filter = "{"
@@ -154,49 +177,55 @@ def GetFilterForCombinations(combinations: list[list[str]]) -> str:
     filter = filter[:-2] + "]}"
     return filter
 
+
 def GetAllLetterFilter(letters: list[str]) -> str:
     filter = "{'$and': ["
 
-    for ii in range(min(len(letters), 5)-1):
+    for ii in range(min(len(letters), 5) - 1):
 
         filter += "{'word': {'$regex': '" + letters[ii] + "'}}, "
-    filter += "{'word': {'$regex': '" + letters[min(len(letters)-1, 4)] + "'}}]}"
+    filter += "{'word': {'$regex': '" + letters[min(len(letters) - 1, 4)] + "'}}]}"
 
     return filter
 
+
 def FilterWords(words: list[str], guess: Guess) -> list[str]:
     return [word for word in words if guess.ConsistentWithGuess(word)]
+
 
 def GetRandomWord(words: list[str]) -> str:
     return random.choice(words)
 
 
-#TODO: this will change when allowing input for the results of a guess instead of using guess.ValidateGuess.
-def RunGame(validWords: list[str], commonalityLookup: CharCommonality, answer: str, db: WordleDB) -> int:
+# TODO: this will change when allowing input for the results of a guess instead of using guess.ValidateGuess.
+def RunGame(
+    validWords: list[str], commonalityLookup: CharCommonality, answer: str, db: WordleDB
+) -> int:
     try:
         guess, score = DetermineGuess(commonalityLookup, validWords, db)
     except InvalidWordLength as e:
         print(e.message)
         return
-    
-#    print("Best guess is:", guess.word, " With a score of:", score)
+
+    #    print("Best guess is:", guess.word, " With a score of:", score)
     correctGuess = guess.ValidateGuess(answer)
     guesses = 1
 
     while not correctGuess:
         validWords = FilterWords(validWords, guess)
-        #print("VALID WORDS:", validWords)
+        # print("VALID WORDS:", validWords)
         commonalityLookup = DetermineNumberOfOccurrences(validWords)
         try:
             guess, score = DetermineGuess(commonalityLookup, validWords, db)
         except InvalidWordLength as e:
             print(e.message)
             return
-#        print("Best guess is:", guess.word, " With a score of:", score)
+        #        print("Best guess is:", guess.word, " With a score of:", score)
         correctGuess = guess.ValidateGuess(answer)
         guesses += 1
-        
+
     return guesses
+
 
 if __name__ == "__main__":
     main()
