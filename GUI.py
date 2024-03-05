@@ -1,5 +1,12 @@
 import PySimpleGUI as sg
+from enum import Enum
 
+class WordleStates(Enum):
+    INCORRECT = 1
+    MISPLACED = 2
+    CORRECT = 3
+
+#TODO these will be able to be removed once LetterColour is fully implemented
 yellow = "#a39529"
 gray = "#424242"
 green = "#459824"
@@ -11,6 +18,17 @@ green = "#459824"
 # TODO:
 # - Split this up into multiple functions
 # - Create some data object for storing the information about the colour. It should also handle state changes and make it easy for Guess to interact with.
+
+class LetterColour:
+    yellow = "#a39529"
+    gray = "#424242"
+    green = "#459824"
+
+    def __init__(self):
+        self.colour = gray
+        self.state = WordleStates.INCORRECT
+
+
 def obtainGuessResults(guess: str):
     word = guess.upper()
     # display a square button for each letter, with the letter inside that button
