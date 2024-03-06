@@ -28,6 +28,18 @@ class LetterColour:
         self.colour = gray
         self.state = WordleStates.INCORRECT
 
+    def changeState(self):
+        match self.state:
+            case WordleStates.INCORRECT:
+                self.state = WordleStates.MISPLACED
+                self.colour = yellow
+            case WordleStates.MISPLACED:
+                self.state = WordleStates.CORRECT
+                self.colour = green
+            case WordleStates.CORRECT:
+                self.state = WordleStates.INCORRECT
+                self.colour = gray
+
 
 def obtainGuessResults(guess: str):
     word = guess.upper()
