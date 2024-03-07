@@ -1,12 +1,14 @@
 import PySimpleGUI as sg
 from enum import Enum
 
+
 class WordleStates(Enum):
     INCORRECT = 1
     MISPLACED = 2
     CORRECT = 3
 
-#TODO these will be able to be removed once LetterColour is fully implemented
+
+# TODO these will be able to be removed once LetterColour is fully implemented
 yellow = "#a39529"
 gray = "#424242"
 green = "#459824"
@@ -18,6 +20,8 @@ green = "#459824"
 # TODO:
 # - Split this up into multiple functions
 # - Create some data object for storing the information about the colour. It should also handle state changes and make it easy for Guess to interact with.
+# - Length of word = 5 is hard coded in a bunch of places. Use a constant somewhere. Throughout the app even.
+
 
 class LetterColour:
     yellow = "#a39529"
@@ -60,9 +64,9 @@ def obtainGuessResults(guess: str):
 
     window = sg.Window("Colorful Squares", layout)
 
-    # on click will change from gray -> yellow -> green -> gray...
-    color_sequence = [gray, yellow, green]
-    square_colors = [gray] * 5  # Initialize all squares to gray
+    square_colours = []
+    for _ in range(5):
+        square_colours.append(LetterColour())
 
     while True:
         event, values = window.read()
@@ -71,13 +75,12 @@ def obtainGuessResults(guess: str):
             break
         elif event.startswith("square"):
             square_index = int(event[len("square") :])
-            current_color_index = color_sequence.index(square_colors[square_index])
-            new_color_index = (current_color_index + 1) % len(color_sequence)
-            square_colors[square_index] = color_sequence[new_color_index]
-            window[event].update(button_color=(square_colors[square_index]))
+            square_colours[square_index].changeState()
+            window[event].update(button_color=(square_colours[square_index].colour))
     window.close()
 
-    return square_colors
+    return square_colours
+
 
 if __name__ == "__main__":
     obtainGuessResults("joker")

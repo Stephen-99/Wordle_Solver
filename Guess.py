@@ -22,7 +22,7 @@ class Guess:
         return False
 
     def ValidateGuess(self, GUIReults: list[str]) -> bool:
-        
+
         print("TODO:")
 
     def ConsistentWithGuess(self, word: str) -> bool:
