@@ -1,3 +1,6 @@
+from GUI import LetterColour, WordleStates
+
+
 class Guess:
     def __init__(self, word: str):
         # TODO seems like a bad idea to have an exception in the constructor maybe make a GuessFactory to perform injection
@@ -21,10 +24,16 @@ class Guess:
             return True
         return False
 
-    def ValidateGuess(self, GUIReults: list[str]) -> bool:
-
-        print("TODO:")
-
+    def ValidateGuess(self, GUIReults: list[LetterColour]) -> bool:
+        for result, ii in enumerate(GUIReults):
+            match result.state:
+                case WordleStates.INCORRECT:
+                    self.incorrect[ii] = True
+                case WordleStates.MISPLACED:
+                    self.misplaced[ii] = True
+                case WordleStates.CORRECT:
+                    self.correct[ii] = True
+                    
     def ConsistentWithGuess(self, word: str) -> bool:
         for ii in range(len(word)):
             if self.correct[ii] and (self.word[ii] != word[ii]):
