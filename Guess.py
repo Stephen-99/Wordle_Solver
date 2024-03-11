@@ -33,7 +33,7 @@ class Guess:
                     self.misplaced[ii] = True
                 case WordleStates.CORRECT:
                     self.correct[ii] = True
-                    
+
     def ConsistentWithGuess(self, word: str) -> bool:
         for ii in range(len(word)):
             if self.correct[ii] and (self.word[ii] != word[ii]):

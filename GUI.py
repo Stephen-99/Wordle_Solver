@@ -8,18 +8,12 @@ class WordleStates(Enum):
     CORRECT = 3
 
 
-# TODO these will be able to be removed once LetterColour is fully implemented
-yellow = "#a39529"
-gray = "#424242"
-green = "#459824"
-
 # TODO return the results somehow and interact with Guess.py
 
 
 # This code is written by AI. It is kind of average. Instead of persisting state via a list, I would like to have the squares backed by soem data object I can reference.
 # TODO:
 # - Split this up into multiple functions
-# - Create some data object for storing the information about the colour. It should also handle state changes and make it easy for Guess to interact with.
 # - Length of word = 5 is hard coded in a bunch of places. Use a constant somewhere. Throughout the app even.
 
 
@@ -29,20 +23,20 @@ class LetterColour:
     green = "#459824"
 
     def __init__(self):
-        self.colour = gray
+        self.colour = self.gray
         self.state = WordleStates.INCORRECT
 
     def changeState(self):
         match self.state:
             case WordleStates.INCORRECT:
                 self.state = WordleStates.MISPLACED
-                self.colour = yellow
+                self.colour = self.yellow
             case WordleStates.MISPLACED:
                 self.state = WordleStates.CORRECT
-                self.colour = green
+                self.colour = self.green
             case WordleStates.CORRECT:
                 self.state = WordleStates.INCORRECT
-                self.colour = gray
+                self.colour = self.gray
 
 
 def obtainGuessResults(guess: str):
@@ -55,7 +49,7 @@ def obtainGuessResults(guess: str):
                 size=(5, 2),
                 key=f"square{i}",
                 font=("Helvetica", 32, "bold"),
-                button_color=("white", gray),
+                button_color=("white", LetterColour.gray),
             )
             for i in range(5)
         ],
