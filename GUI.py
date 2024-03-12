@@ -39,23 +39,8 @@ class LetterColour:
                 self.colour = self.gray
 
 
-def obtainGuessResults(guess: str):
-    word = guess.upper()
-    # display a square button for each letter, with the letter inside that button
-    layout = [
-        [
-            sg.Button(
-                word[i],
-                size=(5, 2),
-                key=f"square{i}",
-                font=("Helvetica", 32, "bold"),
-                button_color=("white", LetterColour.gray),
-            )
-            for i in range(5)
-        ],
-        [sg.Button("Submit")],
-    ]
-
+def obtainGuessResults(guess: str) -> list[LetterColour]:
+    layout = createButtonsLayout(5, guess.upper())
     window = sg.Window("Colorful Squares", layout)
 
     square_colours = []
@@ -74,6 +59,23 @@ def obtainGuessResults(guess: str):
     window.close()
 
     return square_colours
+
+
+def createButtonsLayout(numSquares: int, word: str) -> list[list[sg.Button]]:
+    # display a square button for each letter, with the letter inside that button
+    return [
+        [
+            sg.Button(
+                word[i],
+                size=(5, 2),
+                key=f"square{i}",
+                font=("Helvetica", 32, "bold"),
+                button_color=("white", LetterColour.gray),
+            )
+            for i in range(numSquares)
+        ],
+        [sg.Button("Submit")],
+    ]
 
 
 if __name__ == "__main__":
