@@ -34,6 +34,10 @@ class Guess:
                 case WordleStates.CORRECT:
                     self.correct[ii] = True
 
+        if False not in self.correct:
+            return True
+        return False
+
     def ConsistentWithGuess(self, word: str) -> bool:
         for ii in range(len(word)):
             if self.correct[ii] and (self.word[ii] != word[ii]):

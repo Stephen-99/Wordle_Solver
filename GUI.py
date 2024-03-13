@@ -11,12 +11,6 @@ class WordleStates(Enum):
 # TODO return the results somehow and interact with Guess.py
 
 
-# This code is written by AI. It is kind of average. Instead of persisting state via a list, I would like to have the squares backed by soem data object I can reference.
-# TODO:
-# - Split this up into multiple functions
-# - Length of word = 5 is hard coded in a bunch of places. Use a constant somewhere. Throughout the app even.
-
-
 class LetterColour:
     yellow = "#a39529"
     gray = "#424242"
@@ -39,8 +33,9 @@ class LetterColour:
                 self.colour = self.gray
 
 
-def obtainGuessResults(guess: str) -> list[LetterColour]:
-    layout = createButtonsLayout(5, guess.upper())
+# TODO: Add a title, saying to enter the guess and please pass back the results.
+def ObtainGuessResults(guess: str) -> list[LetterColour]:
+    layout = CreateButtonsLayout(5, guess.upper())
     window = sg.Window("Colorful Squares", layout)
 
     square_colours = []
@@ -61,7 +56,7 @@ def obtainGuessResults(guess: str) -> list[LetterColour]:
     return square_colours
 
 
-def createButtonsLayout(numSquares: int, word: str) -> list[list[sg.Button]]:
+def CreateButtonsLayout(numSquares: int, word: str) -> list[list[sg.Button]]:
     # display a square button for each letter, with the letter inside that button
     return [
         [
@@ -79,4 +74,4 @@ def createButtonsLayout(numSquares: int, word: str) -> list[list[sg.Button]]:
 
 
 if __name__ == "__main__":
-    obtainGuessResults("joker")
+    ObtainGuessResults("joker")

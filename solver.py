@@ -1,4 +1,5 @@
 import random
+from GUI import ObtainGuessResults
 
 from Guess import *
 from CharCommonality import *
@@ -12,6 +13,7 @@ from WebScraper import *
 # - Allow the user to play it as a game by randomly selecting a word
 
 
+# TODO: make 2 mains. 1 for wrapping runGame and 1 for wrapping SolveFromUser
 def main():
     db = WordleDB()
     words, allowedWords = db.GetWords()
@@ -24,18 +26,36 @@ def main():
     print("Took ", RunGame(words, commonalityLookup, TESTWORD, db), "guesses")
 
 
-def SolveFromUser():
-    db = WordleDB()
-    words, allowedWords = db.GetWords()
-    commonalityLookup = DetermineNumberOfOccurrences(words)
-
+def SolveFromUser(
+    validWords: list[str], commonalityLookup: CharCommonality, db: WordleDB
+) -> int:
     try:
-        guess, score = DetermineGuess(commonalityLookup, words, db)
+        guess, score = DetermineGuess(commonalityLookup, validWords, db)
     except InvalidWordLength as e:
         print(e.message)
         return
 
-    print("Best guess is:", guess.word, " With a score of:", score)
+    #    print("Best guess is:", guess.word, " With a score of:", score)
+    correctGuess = guess.ValidateGuess(ObtainGuessResults(guess))
+    guesses = 1
+
+    while not correctGuess:
+        validWords = FilterWords(validWords, guess)
+        # print("VALID WORDS:", validWords)
+        commonalityLookup = DetermineNumberOfOccurrences(validWords)
+        try:
+            guess, score = DetermineGuess(commonalityLookup, validWords, db)
+        except InvalidWordLength as e:
+            print(e.message)
+            return
+        #        print("Best guess is:", guess.word, " With a score of:", score)
+        correctGuess = guess.ValidateGuess(
+            correctGuess=guess.ValidateGuess(ObtainGuessResults(guess))
+        )
+        guesses += 1
+
+    return guesses
+
     # TODO: replace this with some logic inside guess to validate it from the user. Preffereably using a simple GUI with a selection
     # click once to make it yellow, twice to make it green and again to go back to grey.
     # Later build in the option for them to say hey, I used a different word instead, and here's what I learnt.
@@ -197,7 +217,6 @@ def GetRandomWord(words: list[str]) -> str:
     return random.choice(words)
 
 
-# TODO: this will change when allowing input for the results of a guess instead of using guess.ValidateGuess.
 def RunGame(
     validWords: list[str], commonalityLookup: CharCommonality, answer: str, db: WordleDB
 ) -> int:
