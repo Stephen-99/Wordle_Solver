@@ -24,8 +24,8 @@ class Guess:
             return True
         return False
 
-    def ValidateGuess(self, GUIReults: list[LetterColour]) -> bool:
-        for result, ii in enumerate(GUIReults):
+    def UserValidateGuess(self, GUIReults: list[LetterColour]) -> bool:
+        for ii, result in enumerate(GUIReults):
             match result.state:
                 case WordleStates.INCORRECT:
                     self.incorrect[ii] = True

@@ -8,9 +8,6 @@ class WordleStates(Enum):
     CORRECT = 3
 
 
-# TODO return the results somehow and interact with Guess.py
-
-
 class LetterColour:
     yellow = "#a39529"
     gray = "#424242"
@@ -34,6 +31,8 @@ class LetterColour:
 
 
 # TODO: Add a title, saying to enter the guess and please pass back the results.
+# TODO: handle them giving us window closed instead of submit.
+# TODO: handle user giving bad input that's inconsistent with what they previously gave us.
 def ObtainGuessResults(guess: str) -> list[LetterColour]:
     layout = CreateButtonsLayout(5, guess.upper())
     window = sg.Window("Colorful Squares", layout)
@@ -56,6 +55,7 @@ def ObtainGuessResults(guess: str) -> list[LetterColour]:
     return square_colours
 
 
+# TODO: add an option to say it's the correct word rather than all green
 def CreateButtonsLayout(numSquares: int, word: str) -> list[list[sg.Button]]:
     # display a square button for each letter, with the letter inside that button
     return [

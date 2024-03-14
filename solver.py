@@ -15,6 +15,11 @@ from WebScraper import *
 
 # TODO: make 2 mains. 1 for wrapping runGame and 1 for wrapping SolveFromUser
 def main():
+    # RunWithoutGUI()
+    RunWithUserInput()
+
+
+def RunWithoutGUI():
     db = WordleDB()
     words, allowedWords = db.GetWords()
 
@@ -24,6 +29,13 @@ def main():
 
     commonalityLookup = DetermineNumberOfOccurrences(words)
     print("Took ", RunGame(words, commonalityLookup, TESTWORD, db), "guesses")
+
+
+def RunWithUserInput():
+    db = WordleDB()
+    words, allowedWords = db.GetWords()
+    commonalityLookup = DetermineNumberOfOccurrences(words)
+    SolveFromUser(words, commonalityLookup, db)
 
 
 def SolveFromUser(
@@ -36,7 +48,7 @@ def SolveFromUser(
         return
 
     #    print("Best guess is:", guess.word, " With a score of:", score)
-    correctGuess = guess.ValidateGuess(ObtainGuessResults(guess))
+    correctGuess = guess.UserValidateGuess(ObtainGuessResults(guess.word))
     guesses = 1
 
     while not correctGuess:
@@ -49,19 +61,11 @@ def SolveFromUser(
             print(e.message)
             return
         #        print("Best guess is:", guess.word, " With a score of:", score)
-        correctGuess = guess.ValidateGuess(
-            correctGuess=guess.ValidateGuess(ObtainGuessResults(guess))
-        )
+        correctGuess = guess.UserValidateGuess(ObtainGuessResults(guess.word))
+
         guesses += 1
 
     return guesses
-
-    # TODO: replace this with some logic inside guess to validate it from the user. Preffereably using a simple GUI with a selection
-    # click once to make it yellow, twice to make it green and again to go back to grey.
-    # Later build in the option for them to say hey, I used a different word instead, and here's what I learnt.
-    # correctGuess = guess.ValidateGuess(answer)
-
-    guesses = 1
 
 
 def DetermineNumberOfOccurrences(words: list[str]) -> CharCommonality:
