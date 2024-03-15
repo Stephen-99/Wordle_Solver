@@ -8,12 +8,10 @@ from WebScraper import *
 
 # TODO LIST
 # - Instead of randomly generated word, interface with the wordle site (de-prioritised)
-# - Make the solver avialable giving 1 word at a time, and getting the result from the user.
-# - Make that work through a simple GUI
 # - Allow the user to play it as a game by randomly selecting a word
+# - Make an exe for easy windows deployment
 
 
-# TODO: make 2 mains. 1 for wrapping runGame and 1 for wrapping SolveFromUser
 def main():
     # RunWithoutGUI()
     RunWithUserInput()
@@ -87,7 +85,7 @@ def DetermineGuess(
             bestWord = [word]
         elif score == bestScore:
             bestWord.append(word)
-    # print("bestGuesses:", bestWord, "    Remaining number of valid words:", len(words))
+    print("bestGuesses:", bestWord, "    Remaining number of valid words:", len(words))
 
     try:
         if len(bestWord) >= 2 and 2 < len(words) < 7:

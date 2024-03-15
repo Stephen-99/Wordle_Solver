@@ -42,7 +42,10 @@ class Guess:
         for ii in range(len(word)):
             if self.correct[ii] and (self.word[ii] != word[ii]):
                 return False
-            if self.incorrect[ii] and (self.word[ii] in word):
+            if self.incorrect[ii] and (
+                self.word[ii] in word
+            ):  # TODO: THIS IS WRONG: If a double letter is marked incorrect, valid words will get filtered out
+                # It was previously fine because double letters were alwasy marked as misplaced. -> Example: when word is erupt. Guesses are Irate -> erect with 2nd E marked incorrect.
                 return False
             if self.misplaced[ii] and (
                 (self.word[ii] == word[ii]) or (self.word[ii] not in word)

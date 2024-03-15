@@ -1,6 +1,14 @@
 import PySimpleGUI as sg
 from enum import Enum
 
+# TODO: make the entire experience a GUI
+# - Start screen: Hello, and choice of play, or use solver
+# - On exit, or correct guess (or out of guesses) display some ending text then return back to the start screen
+# - Have a fixed size screen and don't close it in-between, just clear it and show the new data.
+#   probably will use a gui thread, similar to what I did for my thesis
+#   commenting out the window.close() just causes a new window to be created each time. Will need a way to keep track of the window
+#   so create a clas for the gui perhaps. May not need a new thread
+
 
 class WordleStates(Enum):
     INCORRECT = 1
