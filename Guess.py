@@ -39,6 +39,7 @@ class Guess:
         return False
 
     def ConsistentWithGuess(self, word: str) -> bool:
+        self.CheckForDoubleLetters(word)
         for ii in range(len(word)):
             if self.correct[ii] and (self.word[ii] != word[ii]):
                 return False
@@ -52,6 +53,11 @@ class Guess:
             ):
                 return False
         return True
+
+    def CheckForDoubleLetters(self, word: str):
+        #TODO: check for double letters. Only situation we care about is when 1 letter is incorrect and 1 is correct
+        #in this case, just labelling the incorrect letter as misplaced will resolve the issue most simply
+        pass
 
 
 class InvalidWordLength(Exception):
