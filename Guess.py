@@ -34,19 +34,16 @@ class Guess:
                 case WordleStates.CORRECT:
                     self.correct[ii] = True
 
+        self.CheckForDoubleLetters()
         if False not in self.correct:
             return True
         return False
 
     def ConsistentWithGuess(self, word: str) -> bool:
-        self.CheckForDoubleLetters(word)
         for ii in range(len(word)):
             if self.correct[ii] and (self.word[ii] != word[ii]):
                 return False
-            if self.incorrect[ii] and (
-                self.word[ii] in word
-            ):  # TODO: THIS IS WRONG: If a double letter is marked incorrect, valid words will get filtered out
-                # It was previously fine because double letters were alwasy marked as misplaced. -> Example: when word is erupt. Guesses are Irate -> erect with 2nd E marked incorrect.
+            if self.incorrect[ii] and (self.word[ii] in word):
                 return False
             if self.misplaced[ii] and (
                 (self.word[ii] == word[ii]) or (self.word[ii] not in word)
@@ -54,10 +51,18 @@ class Guess:
                 return False
         return True
 
-    def CheckForDoubleLetters(self, word: str):
-        #TODO: check for double letters. Only situation we care about is when 1 letter is incorrect and 1 is correct
-        #in this case, just labelling the incorrect letter as misplaced will resolve the issue most simply
-        pass
+    # Finds if there is a double letter in the word where 1 is correct and one is incorrect.
+    # It replaces the incorrect letter with misplaced as this will cause the rest of the algorithm to correctly function.
+    def CheckForDoubleLetters(self):
+        for ii, char in enumerate(self.word):
+            if self.correct[ii]:
+                for jj, char2 in enumerate(self.word):
+                    if ii != jj and char == char2:
+                        if self.incorrect[jj]:
+                            self.incorrect[jj] = False
+                            self.misplaced[jj] = (
+                                True  # somehow A got marked as misplaced
+                            )
 
 
 class InvalidWordLength(Exception):
