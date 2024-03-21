@@ -60,9 +60,8 @@ class Guess:
                     if ii != jj and char == char2:
                         if self.incorrect[jj]:
                             self.incorrect[jj] = False
-                            self.misplaced[jj] = (
-                                True  # somehow A got marked as misplaced
-                            )
+                            self.misplaced[jj] = True
+                            
 
 
 class InvalidWordLength(Exception):
