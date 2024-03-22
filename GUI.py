@@ -40,9 +40,9 @@ class LetterColour:
 
 # TODO: Add a title, saying to enter the guess and please pass back the results.
 # TODO: handle them giving us window closed instead of submit.
-                #On window closed, stop running the program
-                #On correct, also stop.
-                #only continue on submit. If no correct words left, we have to go back to what we had somehow.
+# On window closed, stop running the program
+# On correct, also stop.
+# only continue on submit. If no correct words left, we have to go back to what we had somehow.
 # TODO: handle user giving bad input that's inconsistent with what they previously gave us.
 def ObtainGuessResults(guess: str) -> list[LetterColour]:
     layout = CreateButtonsLayout(5, guess.upper())
@@ -55,7 +55,9 @@ def ObtainGuessResults(guess: str) -> list[LetterColour]:
     while True:
         event, values = window.read()
 
-        if event == sg.WINDOW_CLOSED or event == "Submit" or event == "Correct Guess!":
+        if event == sg.WINDOW_CLOSED or event == "Correct Guess!":
+            return None
+        if event == event == "Submit":
             break
         elif event.startswith("square"):
             square_index = int(event[len("square") :])
@@ -66,7 +68,6 @@ def ObtainGuessResults(guess: str) -> list[LetterColour]:
     return square_colours
 
 
-# TODO: add an option to say it's the correct word rather than all green
 def CreateButtonsLayout(numSquares: int, word: str) -> list[list[sg.Button]]:
     # display a square button for each letter, with the letter inside that button
     return [
@@ -81,7 +82,6 @@ def CreateButtonsLayout(numSquares: int, word: str) -> list[list[sg.Button]]:
             for i in range(numSquares)
         ],
         [sg.Button("Submit"), sg.Button("Correct Guess!")],
-        
     ]
 
 

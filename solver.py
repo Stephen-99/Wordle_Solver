@@ -46,7 +46,10 @@ def SolveFromUser(
         return
 
     #    print("Best guess is:", guess.word, " With a score of:", score)
-    correctGuess = guess.UserValidateGuess(ObtainGuessResults(guess.word))
+    guiGuessResults = ObtainGuessResults(guess.word)
+    if not guiGuessResults:
+        return
+    correctGuess = guess.UserValidateGuess(guiGuessResults)
     guesses = 1
 
     while not correctGuess:
@@ -59,7 +62,10 @@ def SolveFromUser(
             print(e.message)
             return
         #        print("Best guess is:", guess.word, " With a score of:", score)
-        correctGuess = guess.UserValidateGuess(ObtainGuessResults(guess.word))
+        guiGuessResults = ObtainGuessResults(guess.word)
+        if not guiGuessResults:
+            return
+        correctGuess = guess.UserValidateGuess(guiGuessResults)
 
         guesses += 1
 

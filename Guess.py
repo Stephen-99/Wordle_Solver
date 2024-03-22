@@ -61,7 +61,6 @@ class Guess:
                         if self.incorrect[jj]:
                             self.incorrect[jj] = False
                             self.misplaced[jj] = True
-                            
 
 
 class InvalidWordLength(Exception):
