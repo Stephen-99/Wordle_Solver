@@ -10,6 +10,7 @@ from WebScraper import *
 # - Instead of randomly generated word, interface with the wordle site (de-prioritised)
 # - Allow the user to play it as a game by randomly selecting a word
 # - Make an exe for easy windows deployment
+# - Create a GUI pop up for erros instead of print statements
 
 
 def main():
@@ -44,12 +45,17 @@ def SolveFromUser(
     except InvalidWordLength as e:
         print(e.message)
         return
+    except IndexError as err:
+        print("Invalid selection. There are no valid words left.")
+        return
 
     #    print("Best guess is:", guess.word, " With a score of:", score)
     guiGuessResults = ObtainGuessResults(guess.word)
     if not guiGuessResults:
         return
+
     correctGuess = guess.UserValidateGuess(guiGuessResults)
+
     guesses = 1
 
     while not correctGuess:
@@ -61,10 +67,14 @@ def SolveFromUser(
         except InvalidWordLength as e:
             print(e.message)
             return
+        except IndexError as err:
+            print("Invalid selection. There are no valid words left.")
+            return
         #        print("Best guess is:", guess.word, " With a score of:", score)
         guiGuessResults = ObtainGuessResults(guess.word)
         if not guiGuessResults:
             return
+
         correctGuess = guess.UserValidateGuess(guiGuessResults)
 
         guesses += 1
