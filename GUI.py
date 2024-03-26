@@ -37,16 +37,18 @@ class LetterColour:
                 self.state = WordleStates.INCORRECT
                 self.colour = self.gray
 
-
-# TODO: Add a title, saying to enter the guess and please pass back the results.
-# TODO: handle them giving us window closed instead of submit.
-# On window closed, stop running the program
-# On correct, also stop.
-# only continue on submit. If no correct words left, we have to go back to what we had somehow.
-# TODO: handle user giving bad input that's inconsistent with what they previously gave us.
 def ObtainGuessResults(guess: str) -> list[LetterColour]:
     layout = CreateButtonsLayout(5, guess.upper())
-    window = sg.Window("Colorful Squares", layout)
+    layout.insert(
+        0,
+        [
+            sg.Text(
+                "Please enter guess and click buttons to match result",
+                font=("Helvetica", 18),
+            )
+        ],
+    )
+    window = sg.Window("Wordle Solver", layout)
 
     square_colours = []
     for _ in range(5):
