@@ -37,6 +37,26 @@ class LetterColour:
                 self.state = WordleStates.INCORRECT
                 self.colour = self.gray
 
+
+def DisplayStartScreen():
+    layout = [
+        [
+            sg.Text(
+                "Hello! Welcome to Wordle Solver!\nPlease choose to either play a game of Wordle, use the solver to solve a wordle puzzle, or exit.",
+                font=("Helvetica", 18),
+            )
+        ],
+        [sg.Button("Play Wordle"), sg.Button("Use the solver"), sg.Button("Exit")],
+    ]
+    window = sg.Window("Wordle Solver", layout)
+
+    while True:
+        event, values = window.read()
+        if event == "Play Wordle":
+            break
+    window.close()
+
+
 def ObtainGuessResults(guess: str) -> list[LetterColour]:
     layout = CreateButtonsLayout(5, guess.upper())
     layout.insert(
@@ -59,7 +79,7 @@ def ObtainGuessResults(guess: str) -> list[LetterColour]:
 
         if event == sg.WINDOW_CLOSED or event == "Correct Guess!":
             return None
-        if event == event == "Submit":
+        if event == "Submit":
             break
         elif event.startswith("square"):
             square_index = int(event[len("square") :])

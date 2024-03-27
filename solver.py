@@ -1,5 +1,5 @@
 import random
-from GUI import ObtainGuessResults
+from GUI import DisplayStartScreen, ObtainGuessResults
 
 from Guess import *
 from CharCommonality import *
@@ -15,7 +15,8 @@ from WebScraper import *
 
 def main():
     # RunWithoutGUI()
-    RunWithUserInput()
+    # RunWithUserInput()
+    DisplayStartScreen()
 
 
 def RunWithoutGUI():
