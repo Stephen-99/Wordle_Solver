@@ -1,5 +1,5 @@
 import random
-from GUI import DisplayStartScreen, ObtainGuessResults
+import GUI
 
 from Guess import *
 from CharCommonality import *
@@ -16,7 +16,11 @@ from WebScraper import *
 def main():
     # RunWithoutGUI()
     # RunWithUserInput()
-    DisplayStartScreen()
+    GUI.DisplayStartScreen()
+
+
+def PlayWordle():
+    print("Not yet implemented")
 
 
 def RunWithoutGUI():
@@ -51,7 +55,7 @@ def SolveFromUser(
         return
 
     #    print("Best guess is:", guess.word, " With a score of:", score)
-    guiGuessResults = ObtainGuessResults(guess.word)
+    guiGuessResults = GUI.ObtainGuessResults(guess.word)
     if not guiGuessResults:
         return
 
@@ -72,7 +76,7 @@ def SolveFromUser(
             print("Invalid selection. There are no valid words left.")
             return
         #        print("Best guess is:", guess.word, " With a score of:", score)
-        guiGuessResults = ObtainGuessResults(guess.word)
+        guiGuessResults = GUI.ObtainGuessResults(guess.word)
         if not guiGuessResults:
             return
 

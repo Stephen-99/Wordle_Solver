@@ -1,5 +1,7 @@
 import PySimpleGUI as sg
-from enum import Enum
+from LetterColour import LetterColour
+
+from solver import PlayWordle, RunWithUserInput
 
 # TODO: make the entire experience a GUI
 # - Start screen: Hello, and choice of play, or use solver
@@ -10,35 +12,23 @@ from enum import Enum
 #   so create a clas for the gui perhaps. May not need a new thread
 
 
-class WordleStates(Enum):
-    INCORRECT = 1
-    MISPLACED = 2
-    CORRECT = 3
-
-
-class LetterColour:
-    yellow = "#a39529"
-    gray = "#424242"
-    green = "#459824"
-
-    def __init__(self):
-        self.colour = self.gray
-        self.state = WordleStates.INCORRECT
-
-    def changeState(self):
-        match self.state:
-            case WordleStates.INCORRECT:
-                self.state = WordleStates.MISPLACED
-                self.colour = self.yellow
-            case WordleStates.MISPLACED:
-                self.state = WordleStates.CORRECT
-                self.colour = self.green
-            case WordleStates.CORRECT:
-                self.state = WordleStates.INCORRECT
-                self.colour = self.gray
-
-
 def DisplayStartScreen():
+
+    while True:
+        window = CreateDisplayWindow()
+        event, values = window.read()
+        if event == "Play Wordle":
+            window.close()
+            PlayWordle()
+        elif event == "Use the solver":
+            window.close()
+            RunWithUserInput()
+        elif event == "Exit" or event == sg.WINDOW_CLOSED:
+            break
+    window.close()
+
+
+def CreateDisplayWindow():
     layout = [
         [
             sg.Text(
@@ -48,13 +38,7 @@ def DisplayStartScreen():
         ],
         [sg.Button("Play Wordle"), sg.Button("Use the solver"), sg.Button("Exit")],
     ]
-    window = sg.Window("Wordle Solver", layout)
-
-    while True:
-        event, values = window.read()
-        if event == "Play Wordle":
-            break
-    window.close()
+    return sg.Window("Wordle Solver", layout)
 
 
 def ObtainGuessResults(guess: str) -> list[LetterColour]:
@@ -78,6 +62,7 @@ def ObtainGuessResults(guess: str) -> list[LetterColour]:
         event, values = window.read()
 
         if event == sg.WINDOW_CLOSED or event == "Correct Guess!":
+            window.close()
             return None
         if event == "Submit":
             break

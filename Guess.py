@@ -1,4 +1,4 @@
-from GUI import LetterColour, WordleStates
+from LetterColour import WordleStates, LetterColour
 
 
 class Guess:
