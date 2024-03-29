@@ -11,16 +11,42 @@ from WebScraper import *
 # - Allow the user to play it as a game by randomly selecting a word
 # - Make an exe for easy windows deployment
 # - Create a GUI pop up for erros instead of print statements
+# - Make a mobile deployment (flutter?)
 
 
 def main():
-    # RunWithoutGUI()
-    # RunWithUserInput()
     GUI.DisplayStartScreen()
 
 
 def PlayWordle():
-    print("Not yet implemented")
+    db = WordleDB()
+    words, allowedWords = db.GetWords()
+    answer = GetRandomWord(words)
+
+    try:
+        guess = Guess(GUI.GetGuessFromUser())
+    except InvalidWordLength as e:
+        GUI.DisplayErrorMessage(e.message)
+        return
+    correctGuess = guess.ValidateGuess(answer)
+    guesses = 1
+    GUI.DisplayGuessResult(guess)
+
+    while not correctGuess and guesses < 6:
+        GUI.DisplayGuessResult(guess)
+        try:
+            guess = Guess(GUI.GetGuessFromUser())
+        except InvalidWordLength as e:
+            GUI.DisplayErrorMessage(e.message)
+            return
+        correctGuess = guess.ValidateGuess(answer)
+        guesses += 1
+        GUI.DisplayGuessResult(guess)
+
+    if guesses < 6:
+        GUI.DisplayWonScreen()
+    else:
+        GUI.DisplayLostScreen()
 
 
 def RunWithoutGUI():

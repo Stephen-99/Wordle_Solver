@@ -1,10 +1,10 @@
 import PySimpleGUI as sg
-from LetterColour import LetterColour
 
+from LetterColour import LetterColour
 from solver import PlayWordle, RunWithUserInput
+from Guess import Guess
 
 # TODO: make the entire experience a GUI
-# - Start screen: Hello, and choice of play, or use solver
 # - On exit, or correct guess (or out of guesses) display some ending text then return back to the start screen
 # - Have a fixed size screen and don't close it in-between, just clear it and show the new data.
 #   probably will use a gui thread, similar to what I did for my thesis
@@ -39,6 +39,26 @@ def CreateDisplayWindow():
         [sg.Button("Play Wordle"), sg.Button("Use the solver"), sg.Button("Exit")],
     ]
     return sg.Window("Wordle Solver", layout)
+
+
+def GetGuessFromUser():
+    raise NotImplementedError()
+
+
+def DisplayErrorMessage():
+    raise NotImplementedError()
+
+
+def DisplayGuessResult(guess: Guess):
+    raise NotImplementedError()
+
+
+def DisplayWonScreen():
+    raise NotImplementedError()
+
+
+def DisplayLostScreen():
+    raise NotImplementedError()
 
 
 def ObtainGuessResults(guess: str) -> list[LetterColour]:
