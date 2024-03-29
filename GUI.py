@@ -5,6 +5,8 @@ from solver import PlayWordle, RunWithUserInput
 from Guess import Guess
 
 # TODO: make the entire experience a GUI
+# - Don't invest too heavily in this GUI. Convert to BeeWare so can migrate to mobile.
+#
 # - On exit, or correct guess (or out of guesses) display some ending text then return back to the start screen
 # - Have a fixed size screen and don't close it in-between, just clear it and show the new data.
 #   probably will use a gui thread, similar to what I did for my thesis

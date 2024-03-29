@@ -11,7 +11,8 @@ from WebScraper import *
 # - Allow the user to play it as a game by randomly selecting a word
 # - Make an exe for easy windows deployment
 # - Create a GUI pop up for erros instead of print statements
-# - Make a mobile deployment (flutter?)
+# - Make a mobile deployment (BeeWare)
+# - Make database accessible from any device (only for reading though)
 
 
 def main():
