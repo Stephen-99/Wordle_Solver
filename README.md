@@ -8,3 +8,7 @@ For example, the valid words remaining are [fight', 'light', 'might', 'night', '
 
 #### Project is currently a work in progress.
 The goal is to have both a playable game where it will randomly generate a word for you to guess, and a mode where it will solve the wordle of the day
+
+### Project structure
+The WordleLibrary folder contains the core algorithms and coding logic. The WordleSolver folder contains the beeware frontend for the app. 
+Currently working to integrate the beeware frontend with the existing code
