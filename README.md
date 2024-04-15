@@ -12,3 +12,4 @@ The goal is to have both a playable game where it will randomly generate a word 
 ### Project structure
 The WordleLibrary folder contains the core algorithms and coding logic. The WordleSolver folder contains the beeware frontend for the app. 
 Currently working to integrate the beeware frontend with the existing code
+Currently set Beeware integration as my default branch so it shows up in my github activity. Once ready to pull it across to main will switch default branches again.
