@@ -5,6 +5,8 @@ import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
+from WordleLibrary.solver import PlayWordle, RunWithUserInput
+
 
 class WordleSolver(toga.App):
     def startup(self):
@@ -20,25 +22,27 @@ class WordleSolver(toga.App):
                                       style=Pack(padding=(2,5), font_size=16, text_align='center'))
         
         buttonsBox = toga.Box()
-        #Todo bind button calls to methods in wordleLibrary
-        playButton = toga.Button("Play Wordle", on_press=None, style=Pack(padding=5, font_size=12))
-        solveButton = toga.Button("Use the solver", on_press=None, style=Pack(padding=5, font_size=12))
-        exitButton = toga.Button("Exit", on_press=None, style=Pack(padding=5, font_size=12))
+        playButton = toga.Button("Play Wordle", on_press=self.PlayWordleHandler, style=Pack(padding=5, font_size=12))
+        solveButton = toga.Button("Use the solver", on_press=self.RunSolverHandler, style=Pack(padding=5, font_size=12))
+        exitButton = toga.Button("Exit", on_press=self.ExitAppHandler, style=Pack(padding=5, font_size=12))
         buttonsBox.add(playButton, solveButton, exitButton)
 
         mainBox.add(welcomeTextLabel, buttonsBox)
 
 
-        #Welcom text
-        #Button x 3
-
-
-        
 
         self.main_window = toga.MainWindow(title=self.formal_name)
         self.main_window.content = mainBox
         self.main_window.show()
 
+    def ExitAppHandler(self, widget) -> None:
+        self.app.exit()
+
+    def PlayWordleHandler(self, widget) -> None:
+        PlayWordle()
+
+    def RunSolverHandler(self, widget) -> None:
+        RunWithUserInput()
 
 def main():
     return WordleSolver()
