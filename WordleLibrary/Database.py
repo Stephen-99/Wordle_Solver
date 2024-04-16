@@ -3,6 +3,7 @@
 import time
 import certifi
 import pymongo
+import os
 
 from WebScraper import *
 
@@ -13,7 +14,7 @@ class WordleDB:
         self.db = self.ConnectToDB()
 
     def ConnectToDB(self) -> pymongo.database.Database:
-        with open("password") as passFile:
+        with open("C:/Dev/Wordle_Solver/WordleLibrary/password") as passFile:
             password = passFile.readline()
 
         cert = certifi.where()
