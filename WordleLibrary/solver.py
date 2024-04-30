@@ -14,6 +14,7 @@ from WebScraper import *
 # - Make a mobile deployment (BeeWare)
 # - Make database accessible from any device (only for reading though)
 
+#TODO: either make this into a class or pass the new WordleSolverGui areound everywhere
 
 def main():
     GUI.DisplayStartScreen()
