@@ -1,16 +1,10 @@
-import sys
-print("\n\n\nPATH:", sys.path, "\n\n\n\n\n\n")
-#sys.path.append(".")
-print("\n\n\nPATH:", sys.path, "\n\n\n\n\n\n")
-#sys.path.append("../WordleLibrary")
-
 import random
-#import GUI #Its not just this import, it can't find any of them!
 
-from Guess import *
-from CharCommonality import *
-from Database import *
-from WebScraper import *
+import WordleLibrary.GUI as GUI 
+from WordleLibrary.Guess import *
+from WordleLibrary.CharCommonality import *
+from WordleLibrary.Database import *
+from WordleLibrary.WebScraper import *
 
 # TODO LIST
 # - Instead of randomly generated word, interface with the wordle site (de-prioritised)
