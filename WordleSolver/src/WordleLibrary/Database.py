@@ -14,7 +14,7 @@ class WordleDB:
         self.db = self.ConnectToDB()
 
     def ConnectToDB(self) -> pymongo.database.Database:
-        with open("C:/Dev/Wordle_Solver/WordleLibrary/password") as passFile:
+        with open("C:/Dev/Wordle_Solver/WordleSolver/src/WordleLibrary/password") as passFile:
             password = passFile.readline()
 
         cert = certifi.where()
