@@ -29,8 +29,8 @@ class WordleSolver(toga.App):
         solverBox = toga.Box(style=Pack(direction=COLUMN))
         letterButtonsBox = toga.Box(style=Pack(direction=ROW))
         letterButtons  = [self.CreateLetterButton(letter) for letter in word]
-        for button in letterButtons:
-            letterButtonsBox.add(button) #TODO: surely a way to one line this.
+        [letterButtonsBox.add(button) for button in letterButtons]
+             #TODO: surely a way to one line this.
 
         solverBox.add(letterButtonsBox)
         return solverBox
