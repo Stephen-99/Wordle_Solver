@@ -7,11 +7,15 @@ from toga.style.pack import COLUMN, ROW
 
 from WordleLibrary.solver import PlayWordle, RunWithUserInput
 
+yellow = "#a39529"
+gray = "#424242"
+green = "#459824"
 
 class WordleSolver(toga.App):
     def startup(self):
         self.main_window = toga.MainWindow(title=self.formal_name)
-        self.main_window.content = self.CreateMainScreen()
+        #self.main_window.content = self.CreateMainScreen()
+        self.main_window.content = self.CreateSolverScreen("irate")
         self.main_window.show()
 
     def ExitAppHandler(self, widget) -> None:
@@ -26,19 +30,22 @@ class WordleSolver(toga.App):
         RunWithUserInput()
 
     def CreateSolverScreen(self, word):
-        solverBox = toga.Box(style=Pack(direction=COLUMN))
+        solverBox = toga.Box(style=Pack(direction=ROW, alignment="center"))
+        innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
         letterButtonsBox = toga.Box(style=Pack(direction=ROW))
-        letterButtons  = [self.CreateLetterButton(letter) for letter in word]
+        letterButtons  = [self.CreateLetterButton(letter) for letter in word.upper()]
         [letterButtonsBox.add(button) for button in letterButtons]
-             #TODO: surely a way to one line this.
 
-        solverBox.add(letterButtonsBox)
+        innerBox.add(letterButtonsBox)
+        solverBox.add(innerBox)
         return solverBox
 
 
     def CreateLetterButton(self, letter):
-        button = toga.Button(letter, style=Pack(padding=5, font_weight="bold", font_size=20))
-        button.width = button.height = 50  # Set button size as a square
+        size = 100
+        button = toga.Button(letter, style=Pack(padding=5, font_weight="bold", font_size=32, width=size, height=size, color="#ffffff", background_color=gray))
+        #Can't seem to get button border to change color... :(
+        #button.style.background_color = green          --> --> --> THIS IS HOW TO CHANGE IT's color for later <-- <-- <--
         return button
 
     def CreateMainScreen(self):
