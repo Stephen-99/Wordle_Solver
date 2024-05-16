@@ -16,14 +16,37 @@ class WordleSolver(toga.App):
         self.main_window.content = self.CreateSolverScreen("irate")
         self.main_window.show()
 
+    def CreateMainScreen(self):
+        mainBox = toga.Box(style=Pack(direction=COLUMN, alignment='center'))
+        welcomeTextLabel = toga.Label("Hello! Welcome to Wordle Solver!\nPlease choose to either play a game of Wordle, use the solver to solve a wordle puzzle, or exit.",
+                                      style=Pack(padding=(2,5), font_size=16, text_align='center'))
+        
+        buttonsBox = toga.Box()
+        playButton = toga.Button("Play Wordle", on_press=self.PlayWordleHandler, style=Pack(padding=5, font_size=12))
+        solveButton = toga.Button("Use the solver", on_press=self.RunSolverHandler, style=Pack(padding=5, font_size=12))
+        exitButton = toga.Button("Exit", on_press=self.ExitAppHandler, style=Pack(padding=5, font_size=12))
+        buttonsBox.add(playButton, solveButton, exitButton)
+
+        mainBox.add(welcomeTextLabel, buttonsBox)
+    
+        return mainBox
+
     def CreateSolverScreen(self, word):
         solverBox = toga.Box(style=Pack(direction=ROW, alignment="center"))
         innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
+
+        titleLabel = toga.Label("Please enter the following word as your guess\nClick the buttons to match the result :D", style=Pack(padding=(2,5), font_size=16, text_align='center'))
         letterButtonsBox = toga.Box(style=Pack(direction=ROW))
+        submitButtonsBox = toga.Box(style=Pack(direction=ROW))
+
         letterButtons  = [self.CreateLetterButton(letter) for letter in word.upper()]
         [letterButtonsBox.add(button) for button in letterButtons]
 
-        innerBox.add(letterButtonsBox)
+        submitButton = toga.Button("Submit", style=Pack(padding=5, font_size=12))
+        correctButton = toga.Button("Correct Guess!", style=Pack(padding=5, font_size=12))
+        submitButtonsBox.add(submitButton, correctButton)
+
+        innerBox.add(titleLabel, letterButtonsBox, submitButtonsBox)
         solverBox.add(innerBox)
         return solverBox
 
@@ -35,22 +58,7 @@ class WordleSolver(toga.App):
         #Can't seem to get button border to change color... :(
         return button
 
-    def CreateMainScreen(self):
-        mainBox = toga.Box(style=Pack(direction=COLUMN, alignment='center'))
-        welcomeTextLabel = toga.Label("Hello! Welcome to Wordle Solver!\nPlease choose to either play a game of Wordle, use the solver to solve a wordle puzzle, or exit.",
-                                      style=Pack(padding=(2,5), font_size=16, text_align='center'))
-        
-        buttonsBox = toga.Box()
-        playButton = toga.Button("Play Wordle", on_press=self.PlayWordleHandler, args='hi', style=Pack(padding=5, font_size=12))
-        solveButton = toga.Button("Use the solver", on_press=self.RunSolverHandler, style=Pack(padding=5, font_size=12))
-        exitButton = toga.Button("Exit", on_press=self.ExitAppHandler, style=Pack(padding=5, font_size=12))
-        buttonsBox.add(playButton, solveButton, exitButton)
-
-        mainBox.add(welcomeTextLabel, buttonsBox)
     
-        return mainBox
-    
-
     def ExitAppHandler(self, widget) -> None:
         self.app.exit()
 
