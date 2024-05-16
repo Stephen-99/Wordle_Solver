@@ -15,9 +15,67 @@ from WordleLibrary.WebScraper import *
 # - Make database accessible from any device (only for reading though)
 
 #TODO: either make this into a class or pass the new WordleSolverGui areound everywhere
+    #It should be a class.
 
-def main():
-    GUI.DisplayStartScreen()
+class WordleSolver:
+    def __init__(self, gui):
+        self.db = WordleDB()
+        self.lookup = CharCommonality()
+        self.words, self.allowedWords = self.db.GetWords()
+        self.gui = gui
+
+    #To migrate from this:
+        #DetermineGuess
+        #GUI.ObtainGuessResult
+        #FilterWords
+        #DetermineNumberOfOccurrences
+        #
+    def SolveFromUser(self, validWords: list[str]) -> int:
+        try:
+            guess, score = DetermineGuess(self.lookup, validWords, self.db)
+        except InvalidWordLength as e:
+            print(e.message)
+            return
+        except IndexError as err:
+            print("Invalid selection. There are no valid words left.")
+            return
+
+        #    print("Best guess is:", guess.word, " With a score of:", score)
+
+        self.gui.SetSolverScreen(guess.word)
+
+        #TODO: Have to set it up to wait here for GUI results...
+            #Need state. May need multiple classes so solver aspect is separate
+                #look after things like number of guesses etc.
+                #Then we can easily pass a callback function to get called with results when thingo
+        guiGuessResults = GUI.ObtainGuessResults(guess.word)
+        if not guiGuessResults:
+            return
+
+        correctGuess = guess.UserValidateGuess(guiGuessResults)
+        guesses = 1
+
+        while not correctGuess:
+            validWords = FilterWords(validWords, guess)
+            # print("VALID WORDS:", validWords)
+            commonalityLookup = DetermineNumberOfOccurrences(validWords)
+            try:
+                guess, score = DetermineGuess(commonalityLookup, validWords, self.db)
+            except InvalidWordLength as e:
+                print(e.message)
+                return
+            except IndexError as err:
+                print("Invalid selection. There are no valid words left.")
+                return
+            #        print("Best guess is:", guess.word, " With a score of:", score)
+            guiGuessResults = GUI.ObtainGuessResults(guess.word)
+            if not guiGuessResults:
+                return
+
+            correctGuess = guess.UserValidateGuess(guiGuessResults)
+            guesses += 1
+
+        return guesses
 
 
 def PlayWordle():
@@ -296,6 +354,10 @@ def RunGame(
 
     return guesses
 
+
+#OLD WORLD
+def main():
+    GUI.DisplayStartScreen()
 
 if __name__ == "__main__":
     main()

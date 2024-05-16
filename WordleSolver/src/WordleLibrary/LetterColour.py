@@ -1,4 +1,7 @@
 from enum import Enum
+from typing import Any
+
+import toga
 
 
 class WordleStates(Enum):
@@ -15,6 +18,10 @@ class LetterColour:
     def __init__(self):
         self.colour = self.gray
         self.state = WordleStates.INCORRECT
+
+    def  __call__(self, widget: toga.Button, *args: Any, **kwds: Any) -> Any:
+        self.changeState()
+        widget.style.background_color = self.colour
 
     def changeState(self):
         match self.state:

@@ -7,9 +7,11 @@ from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
 from WordleLibrary.solver import PlayWordle, RunWithUserInput
+from WordleLibrary.LetterColour import LetterColour
 
 
 class WordleSolver(toga.App):
+    #Have an init. Setup thimgs like a solver gui class. Looks after the buttons and their colours.
     def startup(self):
         self.main_window = toga.MainWindow(title=self.formal_name)
         #self.main_window.content = self.CreateMainScreen()
@@ -42,6 +44,7 @@ class WordleSolver(toga.App):
         letterButtons  = [self.CreateLetterButton(letter) for letter in word.upper()]
         [letterButtonsBox.add(button) for button in letterButtons]
 
+        #TODO add integration with the wordle library here so that it can actually use the solver.
         submitButton = toga.Button("Submit", style=Pack(padding=5, font_size=12))
         correctButton = toga.Button("Correct Guess!", style=Pack(padding=5, font_size=12))
         submitButtonsBox.add(submitButton, correctButton)
@@ -50,6 +53,9 @@ class WordleSolver(toga.App):
         solverBox.add(innerBox)
         return solverBox
 
+    def SetSolverScreen(self, word):
+        self.main_window.content = self.CreateSolverScreen(word)
+        self.main_window.show()
 
     def CreateLetterButton(self, letter):
         colourData = LetterColour()
@@ -66,30 +72,9 @@ class WordleSolver(toga.App):
         PlayWordle()
 
     def RunSolverHandler(self, widget) -> None:
-        self.main_window.content = self.CreateSolverScreen("irate")
-        self.main_window.show()
+        self.SetSolverScreen("irate")
         RunWithUserInput()
 
-class LetterColour:    
-    yellow = "#a39529"
-    gray = "#424242"
-    green = "#459824"
-    
-    def __init__(self):
-        self.colour = self.gray
-
-    def  __call__(self, widget: toga.Button, *args: Any, **kwds: Any) -> Any:
-        self.UpdateColour()
-        widget.style.background_color = self.colour
-    
-    def UpdateColour(self):
-        if self.colour == self.gray:
-            self.colour = self.yellow
-        elif self.colour == self.yellow:
-            self.colour = self.green
-        else:
-            self.colour = self.gray
 
 def main():
-
     return WordleSolver()
