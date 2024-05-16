@@ -10,7 +10,6 @@ from WordleLibrary.WebScraper import *
 
 class WordleDB:
     def __init__(self):
-        temp = self.ConnectToDB()
         self.db = self.ConnectToDB()
 
     def ConnectToDB(self) -> pymongo.database.Database:
