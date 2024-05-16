@@ -23,6 +23,7 @@ class WordleSolver:
         self.lookup = CharCommonality()
         self.words, self.allowedWords = self.db.GetWords()
         self.gui = gui
+        self.curGuess = None
 
     #To migrate from this:
         #DetermineGuess
@@ -32,7 +33,7 @@ class WordleSolver:
         #
     def SolveFromUser(self, validWords: list[str]) -> int:
         try:
-            guess, score = DetermineGuess(self.lookup, validWords, self.db)
+            self.curGuess, score = DetermineGuess(self.lookup, validWords, self.db)
         except InvalidWordLength as e:
             print(e.message)
             return
@@ -42,12 +43,27 @@ class WordleSolver:
 
         #    print("Best guess is:", guess.word, " With a score of:", score)
 
-        self.gui.SetSolverScreen(guess.word)
+        self.gui.SetSolverScreen(self.curGuess.word)
 
         #TODO: Have to set it up to wait here for GUI results...
             #Need state. May need multiple classes so solver aspect is separate
                 #look after things like number of guesses etc.
                 #Then we can easily pass a callback function to get called with results when thingo
+        '''
+        GetNextGuess():
+            determine guess
+
+        OnGuessSubmit(res)
+            if res == None:
+                all done, set gui to main screen
+            
+            update guesses += 1
+            validate guess
+            Filter words
+            update lookup
+            GetNextGuess()
+        '''
+                
         guiGuessResults = GUI.ObtainGuessResults(guess.word)
         if not guiGuessResults:
             return
