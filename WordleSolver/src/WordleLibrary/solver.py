@@ -14,9 +14,9 @@ from WordleLibrary.WebScraper import *
 # - Make a mobile deployment (BeeWare)
 # - Make database accessible from any device (only for reading though)
 
-#TODO: either make this into a class or pass the new WordleSolverGui areound everywhere
-    #It should be a class.
 
+#should be created upon creating colverScreen
+#Or could have a setup solver, and setup playGame funtion. Then I only need 1 class.
 class WordleSolver:
     def __init__(self, gui):
         self.db = WordleDB()
@@ -24,6 +24,7 @@ class WordleSolver:
         self.words, self.allowedWords = self.db.GetWords()
         self.gui = gui
         self.curGuess = None
+        self.guesses = 0
 
     #To migrate from this:
         #DetermineGuess
