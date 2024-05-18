@@ -21,20 +21,19 @@ class WordleSolver:
     def __init__(self, gui):
         self.db = WordleDB()
         self.lookup = CharCommonality()
-        self.words, self.allowedWords = self.db.GetWords()
+        self.validWords, self.allowedWords = self.db.GetWords()
         self.gui = gui
         self.curGuess = None
         self.guesses = 0
 
     #To migrate from this:
         #DetermineGuess
-        #GUI.ObtainGuessResult
+        #GUI.ObtainGuessResult (in GUI)
         #FilterWords
         #DetermineNumberOfOccurrences
-        #
-    def SolveFromUser(self, validWords: list[str]) -> int:
+    def GetNextGuess(self):
         try:
-            self.curGuess, score = DetermineGuess(self.lookup, validWords, self.db)
+            self.curGuess, score = DetermineGuess(self.lookup, self.validWords, self.db)
         except InvalidWordLength as e:
             print(e.message)
             return
@@ -46,53 +45,21 @@ class WordleSolver:
 
         self.gui.SetSolverScreen(self.curGuess.word)
 
-        #TODO: Have to set it up to wait here for GUI results...
-            #Need state. May need multiple classes so solver aspect is separate
-                #look after things like number of guesses etc.
-                #Then we can easily pass a callback function to get called with results when thingo
-        '''
-        GetNextGuess():
-            determine guess
+    def ProcessGuessResults(self, res):
+        if res == None:
+            #TODO reset state?
+            self.gui.SetMainScreen()
 
-        OnGuessSubmit(res)
-            if res == None:
-                all done, set gui to main screen
-            
-            update guesses += 1
-            validate guess
-            Filter words
-            update lookup
-            GetNextGuess()
-        '''
-                
-        guiGuessResults = GUI.ObtainGuessResults(guess.word)
-        if not guiGuessResults:
-            return
+        self.guesses += 1
+        correctGuess = self.curGuess.UserValidateGuess(res)
+        if correctGuess:
+            #This should never happen. They should press the correct guess button!
+            #TODO reset state?
+            self.gui.SetMainScreen()
 
-        correctGuess = guess.UserValidateGuess(guiGuessResults)
-        guesses = 1
-
-        while not correctGuess:
-            validWords = FilterWords(validWords, guess)
-            # print("VALID WORDS:", validWords)
-            commonalityLookup = DetermineNumberOfOccurrences(validWords)
-            try:
-                guess, score = DetermineGuess(commonalityLookup, validWords, self.db)
-            except InvalidWordLength as e:
-                print(e.message)
-                return
-            except IndexError as err:
-                print("Invalid selection. There are no valid words left.")
-                return
-            #        print("Best guess is:", guess.word, " With a score of:", score)
-            guiGuessResults = GUI.ObtainGuessResults(guess.word)
-            if not guiGuessResults:
-                return
-
-            correctGuess = guess.UserValidateGuess(guiGuessResults)
-            guesses += 1
-
-        return guesses
+        self.validWords = FilterWords(self.validWords, self.curGuess)
+        self.lookup = DetermineNumberOfOccurrences(self.validWords)
+        self.GetNextGuess()
 
 
 def PlayWordle():
