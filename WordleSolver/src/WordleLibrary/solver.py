@@ -27,13 +27,13 @@ class WordleSolver:
         self.guesses = 0
 
     #To migrate from this:
-        #DetermineGuess
+        #TryGetVarietyWord
         #GUI.ObtainGuessResult (in GUI)
         #FilterWords
         #DetermineNumberOfOccurrences
     def GetNextGuess(self):
         try:
-            self.curGuess, score = DetermineGuess(self.lookup, self.validWords, self.db)
+            self.curGuess, score = self.DetermineGuess()
         except InvalidWordLength as e:
             print(e.message)
             return
@@ -60,6 +60,56 @@ class WordleSolver:
         self.validWords = FilterWords(self.validWords, self.curGuess)
         self.lookup = DetermineNumberOfOccurrences(self.validWords)
         self.GetNextGuess()
+
+    def DetermineGuess(self) -> tuple[Guess, int]:
+        # TODO Won't need to return bestScore once all setup
+        bestScore = 0
+        bestWord = []
+        for word in self.validWords:
+            score = self.lookup.RetriveCommonality(word)
+            if score > bestScore:
+                bestScore = score
+                bestWord = [word]
+            elif score == bestScore:
+                bestWord.append(word)
+        print("bestGuesses:", bestWord, "    Remaining number of valid words:", len(self.validWords))
+
+        try:
+            if len(bestWord) >= 2 and 2 < len(self.validWords) < 7:
+                # a commonality score for this word won't make sense, as some of the letters might be missing
+                return Guess(PickVarietyWord(self.lookup, self.db, self.validWords, minLetters=2)), 0
+            if len(bestWord) >= 4 and 3 < len(self.validWords) < 11:
+                return Guess(PickVarietyWord(self.lookup, self.db, self.validWords, minLetters=4)), 0
+            if len(bestWord) >= 4 and 11 < len(self.validWords) < 20:
+                return Guess(PickVarietyWord(self.lookup, self.db, self.validWords, minLetters=5)), 0
+        except InvalidWordLength as e:
+            pass
+
+        return Guess(bestWord[0]), bestScore
+    
+    def PickVarietyWord(self, minLetters: int = 2) -> str:
+        # print("Looking for the least common letters:")
+        letters = self.lookup.GetLeastCommonLetters(self.validWords)
+
+        # print(letters)
+
+        if len(letters) < 2:
+            return "A variety word is not helpful here"
+
+        letterCombs = ProcessLeastCommonLetters(letters)
+
+        ii = min(5, len(letterCombs[0]))
+        varietyWord = None
+        while not varietyWord and ii >= minLetters:
+            varietyWord = TryGetVarietyWord(letterCombs, ii, self.db)
+            ii -= 1
+
+        # Should never trigger but you know how things go
+        if not varietyWord:
+            return "Non-standard word length"
+
+        return varietyWord["word"]
+
 
 
 def PlayWordle():
