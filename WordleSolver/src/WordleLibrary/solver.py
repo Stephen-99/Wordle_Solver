@@ -15,6 +15,8 @@ from WordleLibrary.WebScraper import *
 # - Make database accessible from any device (only for reading though)
 
 
+#TODO it's getting messy. Get it to work using the class, then can remove the rest.
+
 #should be created upon creating colverScreen
 #Or could have a setup solver, and setup playGame funtion. Then I only need 1 class.
 class WordleSolver:
@@ -27,10 +29,7 @@ class WordleSolver:
         self.guesses = 0
 
     #To migrate from this:
-        #TryGetVarietyWord
         #GUI.ObtainGuessResult (in GUI)
-        #FilterWords
-        #DetermineNumberOfOccurrences
     def GetNextGuess(self):
         try:
             self.curGuess, score = self.DetermineGuess()
@@ -57,8 +56,8 @@ class WordleSolver:
             #TODO reset state?
             self.gui.SetMainScreen()
 
-        self.validWords = FilterWords(self.validWords, self.curGuess)
-        self.lookup = DetermineNumberOfOccurrences(self.validWords)
+        self.FilterWords()
+        self.lookup = self.DetermineNumberOfOccurrences()
         self.GetNextGuess()
 
     def DetermineGuess(self) -> tuple[Guess, int]:
@@ -77,11 +76,11 @@ class WordleSolver:
         try:
             if len(bestWord) >= 2 and 2 < len(self.validWords) < 7:
                 # a commonality score for this word won't make sense, as some of the letters might be missing
-                return Guess(PickVarietyWord(self.lookup, self.db, self.validWords, minLetters=2)), 0
+                return Guess(self.PickVarietyWord(minLetters=2)), 0
             if len(bestWord) >= 4 and 3 < len(self.validWords) < 11:
-                return Guess(PickVarietyWord(self.lookup, self.db, self.validWords, minLetters=4)), 0
+                return Guess(self.PickVarietyWord(minLetters=4)), 0
             if len(bestWord) >= 4 and 11 < len(self.validWords) < 20:
-                return Guess(PickVarietyWord(self.lookup, self.db, self.validWords, minLetters=5)), 0
+                return Guess(self.PickVarietyWord(minLetters=5)), 0
         except InvalidWordLength as e:
             pass
 
@@ -101,7 +100,7 @@ class WordleSolver:
         ii = min(5, len(letterCombs[0]))
         varietyWord = None
         while not varietyWord and ii >= minLetters:
-            varietyWord = TryGetVarietyWord(letterCombs, ii, self.db)
+            varietyWord = self.TryGetVarietyWord(letterCombs, ii)
             ii -= 1
 
         # Should never trigger but you know how things go
@@ -109,7 +108,21 @@ class WordleSolver:
             return "Non-standard word length"
 
         return varietyWord["word"]
+    
+    def TryGetVarietyWord(self, lettersOptionsByWord: list[list[str]], maxLetters: int) -> str:
+        letterCombs = []
+        for letters in lettersOptionsByWord:
+            letterCombs.extend(GetLetterCombinations(letters, maxLetters))
 
+        filter = GetFilterForCombinations(letterCombs)
+        return self.db.FindOneAllowedWord(filter)
+    
+    def FilterWords(self) -> list[str]:
+        self.validWords = [word for word in self.validWords if self.curGuess.ConsistentWithGuess(word)]
+
+    def DetermineNumberOfOccurrences(self) -> CharCommonality:
+        self.lookup = CharCommonality()
+        self.lookup.AddCommonality(self.validWords)
 
 
 def PlayWordle():
