@@ -175,6 +175,7 @@ def RunWithUserInput():
     SolveFromUser(words, commonalityLookup, db)
 
 
+#--> --> --> DEPRECEATED <-- <-- <--
 def SolveFromUser(
     validWords: list[str], commonalityLookup: CharCommonality, db: WordleDB
 ) -> int:
@@ -219,13 +220,13 @@ def SolveFromUser(
 
     return guesses
 
-
+#--> --> --> DEPRECEATED <-- <-- <--
 def DetermineNumberOfOccurrences(words: list[str]) -> CharCommonality:
     charsLookup = CharCommonality()
     charsLookup.AddCommonality(words)
     return charsLookup
 
-
+#--> --> --> DEPRECEATED <-- <-- <--
 def DetermineGuess(
     commonalityLookup: CharCommonality, words: list[str], db: WordleDB
 ) -> tuple[Guess, int]:
@@ -279,7 +280,7 @@ def _LCR(
         del curLetters[-1]
     return combs
 
-
+#--> --> --> DEPRECEATED <-- <-- <--
 def PickVarietyWord(
     lookup: CharCommonality, db: WordleDB, words: list[str], minLetters: int = 2
 ) -> str:
@@ -329,7 +330,7 @@ def GetLetterCombinations(letters: list[str], maxLetters: int) -> list[list[str]
     # This will occur if there are less letters then the given maxLetters
     return LetterCombinations(letters, len(letters))
 
-
+#--> --> --> DEPRECEATED <-- <-- <--
 def TryGetVarietyWord(
     lettersOptionsByWord: list[list[str]], maxLetters: int, db: WordleDB
 ) -> str:
@@ -364,7 +365,7 @@ def GetAllLetterFilter(letters: list[str]) -> str:
 
     return filter
 
-
+#--> --> --> DEPRECEATED <-- <-- <--
 def FilterWords(words: list[str], guess: Guess) -> list[str]:
     return [word for word in words if guess.ConsistentWithGuess(word)]
 
