@@ -7,15 +7,17 @@ from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
 from WordleLibrary.solver import PlayWordle, RunWithUserInput
+from WordleLibrary.solver import WordleSolver as Solver
 from WordleLibrary.LetterColour import LetterColour
 
 #REMEMBER I can use other classes in other files :D
 class WordleSolver(toga.App):
     #Have an init. Setup thimgs like a solver gui class. Looks after the buttons and their colours.
     def startup(self):
+        self.solver = Solver(self)
         self.main_window = toga.MainWindow(title=self.formal_name)
         #self.SetMainScreen()
-        self.SetSolverScreen("irate")
+        self.SetSolverScreen(self.solver.GetNextGuess())
 
     def CreateMainScreen(self):
         mainBox = toga.Box(style=Pack(direction=COLUMN, alignment='center'))

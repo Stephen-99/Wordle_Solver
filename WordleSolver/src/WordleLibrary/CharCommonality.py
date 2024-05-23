@@ -1,7 +1,8 @@
 class CharCommonality:
-    def __init__(self):
+    def __init__(self, words:list[str]):
         # First one is number of words with that char, 2nd number of words with it twice etc.
         self.dicts = [{}, {}, {}]
+        self.AddCommonality(words)
 
     def AddCommonality(self, words: list[str]):
         for word in words:

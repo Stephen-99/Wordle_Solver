@@ -22,8 +22,8 @@ from WordleLibrary.WebScraper import *
 class WordleSolver:
     def __init__(self, gui):
         self.db = WordleDB()
-        self.lookup = CharCommonality()
         self.validWords, self.allowedWords = self.db.GetWords()
+        self.lookup = CharCommonality(self.validWords)
         self.gui = gui
         self.curGuess = None
         self.guesses = 0
@@ -42,7 +42,8 @@ class WordleSolver:
 
         #    print("Best guess is:", guess.word, " With a score of:", score)
 
-        self.gui.SetSolverScreen(self.curGuess.word)
+        return self.curGuess.word
+        #self.gui.SetSolverScreen(self.curGuess.word)
 
     def ProcessGuessResults(self, res):
         if res == None:
@@ -71,7 +72,8 @@ class WordleSolver:
                 bestWord = [word]
             elif score == bestScore:
                 bestWord.append(word)
-        print("bestGuesses:", bestWord, "    Remaining number of valid words:", len(self.validWords))
+        #print("bestGuesses:", bestWord, "    Remaining number of valid words:", len(self.validWords))
+        print("LEN OF BEST GUESSES:", len(bestWord), bestScore)
 
         try:
             if len(bestWord) >= 2 and 2 < len(self.validWords) < 7:
