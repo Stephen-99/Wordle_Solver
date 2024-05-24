@@ -11,13 +11,16 @@ from WordleLibrary.solver import WordleSolver as Solver
 from WordleLibrary.LetterColour import LetterColour
 
 #REMEMBER I can use other classes in other files :D
+#Ayum. Should use toga's event system... (ig I am with buttons...)
+#More importantly, have a separate class for each view. The Wordle Library acts kind fo like the model, and this kind of like the controller/presenter.
 class WordleSolver(toga.App):
     #Have an init. Setup thimgs like a solver gui class. Looks after the buttons and their colours.
     def startup(self):
+        self.letters = [] #TODO this should move into a different class.
         self.solver = Solver(self)
         self.main_window = toga.MainWindow(title=self.formal_name)
-        #self.SetMainScreen()
-        self.SetSolverScreen(self.solver.GetNextGuess())
+        self.SetMainScreen()
+        #self.SetSolverScreen(self.solver.GetNextGuess())
 
     def CreateMainScreen(self):
         mainBox = toga.Box(style=Pack(direction=COLUMN, alignment='center'))
@@ -35,6 +38,7 @@ class WordleSolver(toga.App):
         return mainBox
 
     def CreateSolverScreen(self, word):
+        self.letters = []
         solverBox = toga.Box(style=Pack(direction=ROW, alignment="center"))
         innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
 
@@ -46,7 +50,7 @@ class WordleSolver(toga.App):
         [letterButtonsBox.add(button) for button in letterButtons]
 
         #TODO add integration with the wordle library here so that it can actually use the solver.
-        submitButton = toga.Button("Submit", style=Pack(padding=5, font_size=12))
+        submitButton = toga.Button("Submit", on_press=self.SolverSubmitHandler, style=Pack(padding=5, font_size=12))
         correctButton = toga.Button("Correct Guess!", style=Pack(padding=5, font_size=12))
         submitButtonsBox.add(submitButton, correctButton)
 
@@ -64,6 +68,7 @@ class WordleSolver(toga.App):
 
     def CreateLetterButton(self, letter):
         colourData = LetterColour()
+        self.letters.append(colourData)
         size = 100
         button = toga.Button(letter, on_press=colourData, style=Pack(padding=5, font_weight="bold", font_size=32, width=size, height=size, color="#ffffff", background_color=colourData.colour))
         #Can't seem to get button border to change color... :(
@@ -77,8 +82,14 @@ class WordleSolver(toga.App):
         PlayWordle()
 
     def RunSolverHandler(self, widget) -> None:
-        self.SetSolverScreen("irate")
-        RunWithUserInput()
+        self.SetSolverScreen(self.solver.GetNextGuess())
+
+    def SolverSubmitHandler(self, widget) -> None:
+        #Somehow need the state of the letter buttons to pass on. Will need to re-think how this class is structured.
+        #TODO: rethink about how the whole app is structured. This file particularly. Should there be separate classes fro solver and main screens?
+            #Each screen should have it's own class with it's own set of variables and functions.
+            #May need some Inheritance hierachy So can use all the screens interchangeably.
+        self.SetSolverScreen(self.solver.ProcessGuessResults(self.letters))
 
 
 def main():

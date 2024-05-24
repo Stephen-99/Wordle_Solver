@@ -45,10 +45,11 @@ class WordleSolver:
         return self.curGuess.word
         #self.gui.SetSolverScreen(self.curGuess.word)
 
-    def ProcessGuessResults(self, res):
+    def ProcessGuessResults(self, res: list[LetterColour]):
         if res == None:
             #TODO reset state?
             self.gui.SetMainScreen()
+            return
 
         self.guesses += 1
         correctGuess = self.curGuess.UserValidateGuess(res)
@@ -56,10 +57,11 @@ class WordleSolver:
             #This should never happen. They should press the correct guess button!
             #TODO reset state?
             self.gui.SetMainScreen()
+            return
 
         self.FilterWords()
-        self.lookup = self.DetermineNumberOfOccurrences()
-        self.GetNextGuess()
+        self.DetermineNumberOfOccurrences()
+        return self.GetNextGuess()
 
     def DetermineGuess(self) -> tuple[Guess, int]:
         # TODO Won't need to return bestScore once all setup
@@ -73,7 +75,6 @@ class WordleSolver:
             elif score == bestScore:
                 bestWord.append(word)
         #print("bestGuesses:", bestWord, "    Remaining number of valid words:", len(self.validWords))
-        print("LEN OF BEST GUESSES:", len(bestWord), bestScore)
 
         try:
             if len(bestWord) >= 2 and 2 < len(self.validWords) < 7:
@@ -122,9 +123,8 @@ class WordleSolver:
     def FilterWords(self) -> list[str]:
         self.validWords = [word for word in self.validWords if self.curGuess.ConsistentWithGuess(word)]
 
-    def DetermineNumberOfOccurrences(self) -> CharCommonality:
-        self.lookup = CharCommonality()
-        self.lookup.AddCommonality(self.validWords)
+    def DetermineNumberOfOccurrences(self):
+        self.lookup = CharCommonality(self.validWords)
 
 
 def PlayWordle():
