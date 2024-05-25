@@ -42,6 +42,7 @@ class SolverScreen(Screen):
         #TODO: rethink about how the whole app is structured. This file particularly. Should there be separate classes fro solver and main screens?
             #Each screen should have it's own class with it's own set of variables and functions.
             #May need some Inheritance hierachy So can use all the screens interchangeably.
+        #if it returns none, don't set solver screen, go to main.
         self.SetSolverScreen(self.solver.ProcessGuessResults(self.letters))
         #HMM, will need some sort of cool logic pattern to be able to pass on back to the main screen when it's time to change screens
             #Some kind of observer type pattern mayhaps.
