@@ -17,7 +17,7 @@ class SolverScreen(Screen):
         letterButtonsBox = toga.Box(style=Pack(direction=ROW))
         submitButtonsBox = toga.Box(style=Pack(direction=ROW))
 
-        letterButtons  = [self.CreateLetterButton(letter) for letter in word.upper()]
+        letterButtons  = [self.CreateLetterButton(letter, colourData) for letter, colourData in zip(word.upper(), self.letters)]
         [letterButtonsBox.add(button) for button in letterButtons]
 
         #TODO add integration with the wordle library here so that it can actually use the solver.
@@ -29,9 +29,8 @@ class SolverScreen(Screen):
         solverBox.add(innerBox)
         return solverBox
 
-    def CreateLetterButton(self, letter):
-        colourData = LetterColour()
-        self.letters.append(colourData)
+    def CreateLetterButton(letter, colourData: LetterColour):
+        colourData.ResetState()
         size = 100
         button = toga.Button(letter, on_press=colourData, style=Pack(padding=5, font_weight="bold", font_size=32, width=size, height=size, color="#ffffff", background_color=colourData.colour))
         #Can't seem to get button border to change color... :(

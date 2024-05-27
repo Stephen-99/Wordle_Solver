@@ -20,10 +20,10 @@ class LetterColour:
         self.state = WordleStates.INCORRECT
 
     def  __call__(self, widget: toga.Button, *args: Any, **kwds: Any) -> Any:
-        self.changeState()
+        self.ChangeState()
         widget.style.background_color = self.colour
 
-    def changeState(self):
+    def ChangeState(self):
         match self.state:
             case WordleStates.INCORRECT:
                 self.state = WordleStates.MISPLACED
@@ -34,3 +34,6 @@ class LetterColour:
             case WordleStates.CORRECT:
                 self.state = WordleStates.INCORRECT
                 self.colour = self.gray
+                
+    def ResetState(self):
+        self.colour = self.gray
