@@ -6,10 +6,17 @@ from WordleLibrary.LetterColour import LetterColour
 import Screen
 
 class SolverScreen(Screen):
-    def __init__(self):
+    def __init__(self, word):
+        #TODO: these almost belong in a model class behind this gui class. (MVP model.)
         self.letters = [LetterColour() for _ in range(5)]
-    
-    def CreateScreen(self, word: list[str]) -> toga.Box:
+        self.word = word
+
+    def UpdateScreen(self):
+        pass
+        #TODO keep track of all the components and only update the ones when needed, don't re-create the whole screen every time
+
+
+    def CreateScreen(self) -> toga.Box:
         solverBox = toga.Box(style=Pack(direction=ROW, alignment="center"))
         innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
 
@@ -17,7 +24,7 @@ class SolverScreen(Screen):
         letterButtonsBox = toga.Box(style=Pack(direction=ROW))
         submitButtonsBox = toga.Box(style=Pack(direction=ROW))
 
-        letterButtons  = [self.CreateLetterButton(letter, colourData) for letter, colourData in zip(word.upper(), self.letters)]
+        letterButtons  = [self.CreateLetterButton(letter, colourData) for letter, colourData in zip(self.word.upper(), self.letters)]
         [letterButtonsBox.add(button) for button in letterButtons]
 
         #TODO add integration with the wordle library here so that it can actually use the solver.
