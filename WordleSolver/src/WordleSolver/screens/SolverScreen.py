@@ -7,34 +7,44 @@ import Screen
 
 class SolverScreen(Screen):
     def __init__(self, word):
-        #TODO: these almost belong in a model class behind this gui class. (MVP model.)
         self.letters = [LetterColour() for _ in range(5)]
         self.word = word
 
+        self.solverBox = toga.Box(style=Pack(direction=ROW, alignment="center"))
+        self.innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
+
+        self.titleLabel = toga.Label("Please enter the following word as your guess\nClick the buttons to match the result :D", style=Pack(padding=(2,5), font_size=16, text_align='center'))
+        self.letterButtonsBox = toga.Box(style=Pack(direction=ROW))
+        self.submitButtonsBox = toga.Box(style=Pack(direction=ROW))
+
+        #TODO add integration with the wordle library here so that it can actually use the solver.
+        self.submitButton = toga.Button("Submit", on_press=self.SolverSubmitHandler, style=Pack(padding=5, font_size=12))
+        self.correctButton = toga.Button("Correct Guess!", style=Pack(padding=5, font_size=12))
+
+
+
     def UpdateScreen(self):
-        pass
-        #TODO keep track of all the components and only update the ones when needed, don't re-create the whole screen every time
+        letterButtons  = [self.CreateLetterButton(letter, colourData) for letter, colourData in zip(self.word.upper(), self.letters)]
+        self.letterButtonsBox.clear()
+        [self.letterButtonsBox.add(button) for button in letterButtons]
+        
+        #TODO: test if these will be needed or not.
+        #self.innerBox.refresh()
+        #self.solverBox.refresh()
+
+        return self.solverBox
 
 
     def CreateScreen(self) -> toga.Box:
-        solverBox = toga.Box(style=Pack(direction=ROW, alignment="center"))
-        innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
-
-        titleLabel = toga.Label("Please enter the following word as your guess\nClick the buttons to match the result :D", style=Pack(padding=(2,5), font_size=16, text_align='center'))
-        letterButtonsBox = toga.Box(style=Pack(direction=ROW))
-        submitButtonsBox = toga.Box(style=Pack(direction=ROW))
-
         letterButtons  = [self.CreateLetterButton(letter, colourData) for letter, colourData in zip(self.word.upper(), self.letters)]
-        [letterButtonsBox.add(button) for button in letterButtons]
+        [self.letterButtonsBox.add(button) for button in letterButtons]
 
-        #TODO add integration with the wordle library here so that it can actually use the solver.
-        submitButton = toga.Button("Submit", on_press=self.SolverSubmitHandler, style=Pack(padding=5, font_size=12))
-        correctButton = toga.Button("Correct Guess!", style=Pack(padding=5, font_size=12))
-        submitButtonsBox.add(submitButton, correctButton)
+        self.submitButtonsBox.add(self.submitButton, self.correctButton)
 
-        innerBox.add(titleLabel, letterButtonsBox, submitButtonsBox)
-        solverBox.add(innerBox)
-        return solverBox
+        self.innerBox.add(self.titleLabel, self.letterButtonsBox, self.submitButtonsBox)
+        self.solverBox.add(self.innerBox)
+
+        return self.solverBox
 
     def CreateLetterButton(letter, colourData: LetterColour):
         colourData.ResetState()
