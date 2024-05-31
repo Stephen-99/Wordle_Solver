@@ -3,12 +3,12 @@ from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
 from WordleLibrary.LetterColour import LetterColour
-import Screen
+from WordleSolver.screens.Screen import Screen
 
 class SolverScreen(Screen):
     def __init__(self, word):
         self.letters = [LetterColour() for _ in range(5)]
-        self.word = word
+        self.UpdateWord(word)
 
         self.solverBox = toga.Box(style=Pack(direction=ROW, alignment="center"))
         self.innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
@@ -22,6 +22,10 @@ class SolverScreen(Screen):
         self.correctButton = toga.Button("Correct Guess!", style=Pack(padding=5, font_size=12))
 
 
+    def UpdateWord(self, word):
+        if len(word) != 5:
+            raise AttributeError("Word must be 5 letters long")
+        self.word = word
 
     def UpdateScreen(self):
         letterButtons  = [self.CreateLetterButton(letter, colourData) for letter, colourData in zip(self.word.upper(), self.letters)]
@@ -46,7 +50,7 @@ class SolverScreen(Screen):
 
         return self.solverBox
 
-    def CreateLetterButton(letter, colourData: LetterColour):
+    def CreateLetterButton(self, letter, colourData: LetterColour):
         colourData.ResetState()
         size = 100
         button = toga.Button(letter, on_press=colourData, style=Pack(padding=5, font_weight="bold", font_size=32, width=size, height=size, color="#ffffff", background_color=colourData.colour))

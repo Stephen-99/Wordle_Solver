@@ -2,7 +2,7 @@ import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
-import Screen
+from WordleSolver.screens.Screen import Screen
 
 
 class MainMenuScreen(Screen):

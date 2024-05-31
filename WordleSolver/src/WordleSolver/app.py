@@ -9,6 +9,8 @@ from toga.style.pack import COLUMN, ROW
 from WordleLibrary.solver import PlayWordle, RunWithUserInput
 from WordleLibrary.solver import WordleSolver as Solver
 from WordleLibrary.LetterColour import LetterColour
+from WordleSolver.screens.MainMenuScreen import MainMenuScreen
+from WordleSolver.screens.SolverScreen import SolverScreen
 
 #REMEMBER I can use other classes in other files :D
 #Ayum. Should use toga's event system... (ig I am with buttons...)
@@ -18,61 +20,23 @@ class WordleSolver(toga.App):
     def startup(self):
         self.letters = [] #TODO this should move into a different class.
         self.solver = Solver(self)
-        self.main_window = toga.MainWindow(title=self.formal_name)
-        self.SetMainScreen()
-        #self.SetSolverScreen(self.solver.GetNextGuess())
-
-    def CreateMainScreen(self):
-        mainBox = toga.Box(style=Pack(direction=COLUMN, alignment='center'))
-        welcomeTextLabel = toga.Label("Hello! Welcome to Wordle Solver!\nPlease choose to either play a game of Wordle, use the solver to solve a wordle puzzle, or exit.",
-                                      style=Pack(padding=(2,5), font_size=16, text_align='center'))
-        
-        buttonsBox = toga.Box()
-        playButton = toga.Button("Play Wordle", on_press=self.PlayWordleHandler, style=Pack(padding=5, font_size=12))
-        solveButton = toga.Button("Use the solver", on_press=self.RunSolverHandler, style=Pack(padding=5, font_size=12))
-        exitButton = toga.Button("Exit", on_press=self.ExitAppHandler, style=Pack(padding=5, font_size=12))
-        buttonsBox.add(playButton, solveButton, exitButton)
-
-        mainBox.add(welcomeTextLabel, buttonsBox)
+        self.solverScreen = SolverScreen("words")
+        #self.mainScreen = MainMenuScreen()
+        self.solverScreen.CreateScreen()
+        #self.mainScreen.CreateScreen()
     
-        return mainBox
+        self.main_window = toga.MainWindow(title=self.formal_name)
 
-    def CreateSolverScreen(self, word):
-        self.letters = []
-        solverBox = toga.Box(style=Pack(direction=ROW, alignment="center"))
-        innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
-
-        titleLabel = toga.Label("Please enter the following word as your guess\nClick the buttons to match the result :D", style=Pack(padding=(2,5), font_size=16, text_align='center'))
-        letterButtonsBox = toga.Box(style=Pack(direction=ROW))
-        submitButtonsBox = toga.Box(style=Pack(direction=ROW))
-
-        letterButtons  = [self.CreateLetterButton(letter) for letter in word.upper()]
-        [letterButtonsBox.add(button) for button in letterButtons]
-
-        #TODO add integration with the wordle library here so that it can actually use the solver.
-        submitButton = toga.Button("Submit", on_press=self.SolverSubmitHandler, style=Pack(padding=5, font_size=12))
-        correctButton = toga.Button("Correct Guess!", style=Pack(padding=5, font_size=12))
-        submitButtonsBox.add(submitButton, correctButton)
-
-        innerBox.add(titleLabel, letterButtonsBox, submitButtonsBox)
-        solverBox.add(innerBox)
-        return solverBox
+        #self.SetMainScreen()
+        self.SetSolverScreen(self.solver.GetNextGuess())
 
     def SetSolverScreen(self, word):
-        self.main_window.content = self.CreateSolverScreen(word)
+        self.main_window.content = self.solverScreen.UpdateScreen()
         self.main_window.show()
 
     def SetMainScreen(self):
-        self.main_window.content = self.CreateMainScreen()
+        self.main_window.content = self.mainScreen.UpdateScreen()
         self.main_window.show()
-
-    def CreateLetterButton(self, letter):
-        colourData = LetterColour()
-        self.letters.append(colourData)
-        size = 100
-        button = toga.Button(letter, on_press=colourData, style=Pack(padding=5, font_weight="bold", font_size=32, width=size, height=size, color="#ffffff", background_color=colourData.colour))
-        #Can't seem to get button border to change color... :(
-        return button
 
     
     def ExitAppHandler(self, widget) -> None:
