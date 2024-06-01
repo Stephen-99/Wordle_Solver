@@ -4,6 +4,8 @@ from toga.style.pack import COLUMN, ROW
 
 from WordleLibrary.LetterColour import LetterColour
 from .Screen import Screen
+from WordleSolver.Events import EventSystem
+from WordleSolver.Events.SubmitGuessResultsEvent import SubmitGuessResultsEvent
 
 class SolverScreen(Screen):
     def __init__(self, word):
@@ -63,8 +65,9 @@ class SolverScreen(Screen):
             #Each screen should have it's own class with it's own set of variables and functions.
             #May need some Inheritance hierachy So can use all the screens interchangeably.
         #if it returns none, don't set solver screen, go to main.
-        self.SetSolverScreen(self.solver.ProcessGuessResults(self.letters))
-        #HMM, will need some sort of cool logic pattern to be able to pass on back to the main screen when it's time to change screens
-            #Some kind of observer type pattern mayhaps.
-            #don't want to too tightly couple the screens. This screen should call app to let it know it's finished. App can decide to show main screen.
+        
+        #self.SetSolverScreen(self.solver.ProcessGuessResults(self.letters))
+        event = SubmitGuessResultsEvent(self.letters)
+        EventSystem.EventOccured(event)
+        
 

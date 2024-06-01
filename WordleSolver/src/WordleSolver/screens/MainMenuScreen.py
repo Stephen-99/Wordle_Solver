@@ -27,3 +27,12 @@ class MainMenuScreen(Screen):
         mainBox.add(welcomeTextLabel, buttonsBox)
     
         return mainBox
+    
+    def ExitAppHandler(self, widget) -> None:
+        self.app.exit()
+
+    def PlayWordleHandler(self, widget) -> None:
+        PlayWordle()
+
+    def RunSolverHandler(self, widget) -> None:
+        self.SetSolverScreen(self.solver.GetNextGuess())

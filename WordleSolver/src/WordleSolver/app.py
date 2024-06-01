@@ -9,6 +9,7 @@ from toga.style.pack import COLUMN, ROW
 from WordleLibrary.solver import PlayWordle, RunWithUserInput
 from WordleLibrary.solver import WordleSolver as Solver
 from WordleLibrary.LetterColour import LetterColour
+from .EventListeners.SolverListener import SolverListener
 from .screens.MainMenuScreen import MainMenuScreen
 from .screens.SolverScreen import SolverScreen
 
@@ -20,6 +21,8 @@ class WordleSolver(toga.App):
     def startup(self):
         self.letters = [] #TODO this should move into a different class.
         self.solver = Solver(self)
+        self.solverListner = SolverListener(self.solver)
+
         self.solverScreen = SolverScreen("words")
         #self.mainScreen = MainMenuScreen()
         self.solverScreen.CreateScreen()
@@ -28,7 +31,7 @@ class WordleSolver(toga.App):
         self.main_window = toga.MainWindow(title=self.formal_name)
 
         #self.SetMainScreen()
-        self.SetSolverScreen(self.solver.GetNextGuess())
+        self.SetSolverScreen(self.solver.GetNextGuess()) #TODO use events and things for all this.
 
     def SetSolverScreen(self, word):
         self.main_window.content = self.solverScreen.UpdateScreen()
@@ -36,25 +39,8 @@ class WordleSolver(toga.App):
 
     def SetMainScreen(self):
         self.main_window.content = self.mainScreen.UpdateScreen()
-        self.main_window.show()
+        self.main_window.show()    
 
-    
-    def ExitAppHandler(self, widget) -> None:
-        self.app.exit()
-
-    def PlayWordleHandler(self, widget) -> None:
-        PlayWordle()
-
-    def RunSolverHandler(self, widget) -> None:
-        self.SetSolverScreen(self.solver.GetNextGuess())
-
-    def SolverSubmitHandler(self, widget) -> None:
-        #Somehow need the state of the letter buttons to pass on. Will need to re-think how this class is structured.
-        #TODO: rethink about how the whole app is structured. This file particularly. Should there be separate classes fro solver and main screens?
-            #Each screen should have it's own class with it's own set of variables and functions.
-            #May need some Inheritance hierachy So can use all the screens interchangeably.
-        #if it returns none, don't set solver screen, go to main.
-        self.SetSolverScreen(self.solver.ProcessGuessResults(self.letters))
 
 
 def main():

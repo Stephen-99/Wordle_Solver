@@ -24,7 +24,7 @@ class WordleSolver:
         self.db = WordleDB()
         self.validWords, self.allowedWords = self.db.GetWords()
         self.lookup = CharCommonality(self.validWords)
-        self.gui = gui
+        self.gui = gui #TODO stop depending on gui, use event system.
         self.curGuess = None
         self.guesses = 0
 
