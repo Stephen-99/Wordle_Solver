@@ -1,10 +1,10 @@
 import random
 
 import WordleLibrary.GUI as GUI 
-from WordleLibrary.Guess import *
-from WordleLibrary.CharCommonality import *
-from WordleLibrary.Database import *
-from WordleLibrary.WebScraper import *
+from .Guess import *
+from .CharCommonality import *
+from .Database import *
+from .WebScraper import *
 
 # TODO LIST
 # - Instead of randomly generated word, interface with the wordle site (de-prioritised)

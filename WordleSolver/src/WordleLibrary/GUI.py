@@ -1,8 +1,8 @@
 import PySimpleGUI as sg
 
-from WordleLibrary.LetterColour import LetterColour
-from WordleLibrary.solver import PlayWordle, RunWithUserInput
-from WordleLibrary.Guess import Guess
+from .LetterColour import LetterColour
+from .solver import PlayWordle, RunWithUserInput
+from .Guess import Guess
 
 # TODO: make the entire experience a GUI
 # - Don't invest too heavily in this GUI. Convert to BeeWare so can migrate to mobile.

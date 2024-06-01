@@ -5,7 +5,7 @@ import certifi
 import pymongo
 import os
 
-from WordleLibrary.WebScraper import *
+from .WebScraper import *
 
 
 class WordleDB:

@@ -1,4 +1,4 @@
-from WordleLibrary.LetterColour import WordleStates, LetterColour
+from .LetterColour import WordleStates, LetterColour
 
 
 class Guess:

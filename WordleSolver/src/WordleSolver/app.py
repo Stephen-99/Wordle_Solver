@@ -9,8 +9,8 @@ from toga.style.pack import COLUMN, ROW
 from WordleLibrary.solver import PlayWordle, RunWithUserInput
 from WordleLibrary.solver import WordleSolver as Solver
 from WordleLibrary.LetterColour import LetterColour
-from WordleSolver.screens.MainMenuScreen import MainMenuScreen
-from WordleSolver.screens.SolverScreen import SolverScreen
+from .screens.MainMenuScreen import MainMenuScreen
+from .screens.SolverScreen import SolverScreen
 
 #REMEMBER I can use other classes in other files :D
 #Ayum. Should use toga's event system... (ig I am with buttons...)

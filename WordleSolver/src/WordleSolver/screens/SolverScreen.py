@@ -3,7 +3,7 @@ from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
 from WordleLibrary.LetterColour import LetterColour
-from WordleSolver.screens.Screen import Screen
+from .Screen import Screen
 
 class SolverScreen(Screen):
     def __init__(self, word):
