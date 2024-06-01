@@ -28,8 +28,6 @@ class WordleSolver:
         self.curGuess = None
         self.guesses = 0
 
-    #To migrate from this:
-        #GUI.ObtainGuessResult (in GUI)
     def GetNextGuess(self):
         try:
             self.curGuess, score = self.DetermineGuess()
@@ -43,7 +41,6 @@ class WordleSolver:
         #    print("Best guess is:", guess.word, " With a score of:", score)
 
         return self.curGuess.word
-        #self.gui.SetSolverScreen(self.curGuess.word)
 
     def ProcessGuessResults(self, res: list[LetterColour]):
         if res == None:

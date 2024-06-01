@@ -17,4 +17,5 @@ class SolverListener:
         PlayWordle()
 
     def SubmitGuessHandler(self, event: SubmitGuessResultsEvent):
-        self.solver.ProcessGuessResults(event.letters)
+        newWord = self.solver.ProcessGuessResults(event.letters)
+        #TODO raise a newWord event.
