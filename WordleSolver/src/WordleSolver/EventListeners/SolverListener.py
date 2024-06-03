@@ -1,7 +1,10 @@
 from WordleSolver.Events import EventSystem
 from WordleSolver.Events.PlayWordleEvent import PlayWordleEvent
 from WordleSolver.Events.SubmitGuessResultsEvent import SubmitGuessResultsEvent
+from WordleSolver.Events.NewWordEvent import NewWordEvent
+
 from WordleLibrary.solver import WordleSolver, PlayWordle
+
 
 class SolverListener:
     def __init__(self, solver: WordleSolver):
@@ -18,4 +21,5 @@ class SolverListener:
 
     def SubmitGuessHandler(self, event: SubmitGuessResultsEvent):
         newWord = self.solver.ProcessGuessResults(event.letters)
+        EventSystem.EventOccured(NewWordEvent(newWord))
         #TODO raise a newWord event.
