@@ -22,4 +22,7 @@ class SolverListener:
     def SubmitGuessHandler(self, event: SubmitGuessResultsEvent):
         newWord = self.solver.ProcessGuessResults(event.letters)
         EventSystem.EventOccured(NewWordEvent(newWord))
-        #TODO raise a newWord event.
+        #TODO add handling for this event.
+        #So solverscreen and app need listners for this.
+            #The solver screen needs to update it's word, and then the app needs to update screen
+            #The order is important though so maybe the app should have the listener..
