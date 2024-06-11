@@ -1,15 +1,14 @@
 from WordleSolver.Events import EventSystem
 from WordleSolver.Events.NewWordEvent import NewWordEvent
 
-from WordleSolver.app import WordleSolver as App
-
 class AppListener:
-    def __init__(self, app: App):
-        self.app = app
+    #The function from the app is expected for when setting solver screen
+    def __init__(self, appFunc):
+        self.setSolverScreen = appFunc
         self.RegisterHandlers()
 
     def RegisterHandlers(self):
         EventSystem.subscribe(NewWordEvent, self.UpdateSolverScreen)
 
     def UpdateSolverScreen(self, event: NewWordEvent):
-        self.app.SetSolverScreen(event.word)
+        self.setSolverScreen(event.word)

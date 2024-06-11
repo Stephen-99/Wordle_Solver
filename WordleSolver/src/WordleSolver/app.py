@@ -1,26 +1,27 @@
 """
 This is an app that solves the wordle with you! It also allows you to play a wordle replica
 """
-from typing import Any
 import toga
-from toga.style import Pack
-from toga.style.pack import COLUMN, ROW
 
 from WordleLibrary.solver import WordleSolver as Solver
-from WordleLibrary.LetterColour import LetterColour
-from .EventListeners.SolverListener import SolverListener
-from .EventListeners.AppListener import AppListener         #CAN't IMPORT THIS COS IT IMPORTS ?T?HIS BACK (Injector stuff will fix this)
+from .EventListeners.ListenerCreator import ListenerCreator
 from .screens.MainMenuScreen import MainMenuScreen
 from .screens.SolverScreen import SolverScreen
 
 class WordleSolver(toga.App):
     #Have an init. Setup thimgs like a solver gui class. Looks after the buttons and their colours.
     
+
+    #TODO:
+        #OK. So still circular imports. Because this app class is special, I can't manually create this app class and trigger 
+        # dependencies like I might normally do. Instead, I need to separate almost everything out of it. 
+            #The one screenManager opr whatever, will need to be provided with a callback to the app for the one functionality 
+            # of changing the screen. I could also just subvert the problem for now by providing a callback. That is only an average soln though.
     def startup(self):
         #TODO: Move these 2 into the init of the solver screen..
         self.solver = Solver(self)
-
-        self.SetupListeners()        
+        self.Listeners = ListenerCreator()
+        self.Listeners.SetupListeners(self.SetSolverScreen, self.solver)
 
         self.solverScreen = SolverScreen("words")
         #self.mainScreen = MainMenuScreen()
@@ -40,11 +41,6 @@ class WordleSolver(toga.App):
     def SetMainScreen(self):
         self.main_window.content = self.mainScreen.UpdateScreen()
         self.main_window.show()    
-
-    #TODO: this should be done by some factrory or som,ething for dependency injhection
-    def SetupListeners(self):
-        solverListener = SolverListener(self.solver)
-        appListener = AppListener(self)
 
 
 def main():
