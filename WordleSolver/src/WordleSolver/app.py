@@ -33,6 +33,10 @@ class WordleSolver(toga.App):
         #self.SetMainScreen()
         self.SetSolverScreen(self.solver.GetNextGuess()) #TODO use events and things for all this.
 
+    def ChangeScreen(self, screenContent):
+        self.main_window.content = screenContent
+        self.main_window.show()
+
     def SetSolverScreen(self, word):
         self.solverScreen.UpdateWord(word)
         self.main_window.content = self.solverScreen.UpdateScreen()
