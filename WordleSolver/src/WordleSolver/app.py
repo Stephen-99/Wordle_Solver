@@ -4,6 +4,7 @@ This is an app that solves the wordle with you! It also allows you to play a wor
 import toga
 
 from WordleLibrary.solver import WordleSolver as Solver
+from WordleSolver.src.WordleSolver.screens.ScreenManager import ScreenManager
 from .EventListeners.ListenerCreator import ListenerCreator
 from .screens.MainMenuScreen import MainMenuScreen
 from .screens.SolverScreen import SolverScreen
@@ -19,19 +20,22 @@ class WordleSolver(toga.App):
             # of changing the screen. I could also just subvert the problem for now by providing a callback. That is only an average soln though.
     def startup(self):
         #TODO: Move these 2 into the init of the solver screen..
-        self.solver = Solver(self)
-        self.Listeners = ListenerCreator()
-        self.Listeners.SetupListeners(self.SetSolverScreen, self.solver)
+        solver = Solver(self)
+        ScreenManager(self.ChangeScreen)
+        ListenerCreator().SetupListeners(self.SetSolverScreen, solver)
 
+        self.main_window = toga.MainWindow(title=self.formal_name)
+
+        #This is the injector's job to create these.
+        #Also the injector's job to setup the listeners
         self.solverScreen = SolverScreen("words")
         #self.mainScreen = MainMenuScreen()
         self.solverScreen.CreateScreen()
         #self.mainScreen.CreateScreen()
     
-        self.main_window = toga.MainWindow(title=self.formal_name)
 
         #self.SetMainScreen()
-        self.SetSolverScreen(self.solver.GetNextGuess()) #TODO use events and things for all this.
+        self.SetSolverScreen(solver.GetNextGuess()) #TODO use events and things for all this.
 
     def ChangeScreen(self, screenContent):
         self.main_window.content = screenContent
