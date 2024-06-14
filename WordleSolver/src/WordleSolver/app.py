@@ -21,17 +21,12 @@ class WordleSolver(toga.App):
     def startup(self):
         #TODO: Move these 2 into the init of the solver screen..
         solver = Solver(self)
-        ScreenManager(self.ChangeScreen)
-        ListenerCreator().SetupListeners(self.SetSolverScreen, solver)
+        ListenerCreator().SetupListeners(self.ChangeScreen, solver)
 
         self.main_window = toga.MainWindow(title=self.formal_name)
 
-        #This is the injector's job to create these.
-        #Also the injector's job to setup the listeners
-        self.solverScreen = SolverScreen("words")
-        #self.mainScreen = MainMenuScreen()
-        self.solverScreen.CreateScreen()
-        #self.mainScreen.CreateScreen()
+
+
     
 
         #self.SetMainScreen()

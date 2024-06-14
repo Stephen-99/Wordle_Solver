@@ -20,8 +20,7 @@ class SolverListener:
         PlayWordle()
 
     def SubmitGuessHandler(self, event: SubmitGuessResultsEvent):
-        newWord = self.solver.ProcessGuessResults(event.letters)
-        EventSystem.EventOccured(NewWordEvent(newWord))
+        self.solver.ProcessGuessResults(event.letters)
         #TODO add handling for this event.
         #So solverscreen and app need listners for this.
             #The solver screen needs to update it's word, and then the app needs to update screen

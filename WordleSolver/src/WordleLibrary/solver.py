@@ -1,6 +1,12 @@
 import random
 
-import WordleLibrary.GUI as GUI 
+#HAve to think do I maybe instead want to decouple this so that the solver doesn't have anything to do with the eventSystem
+#Otherewise I have to worry about wrapping every little edge case. Solver causes most of the events, makes sense for it to raise them
+from WordleSolver.Events.NewWordEvent import NewWordEvent 
+from WordleSolver.Events import EventSystem
+
+
+import WordleLibrary.GUI as GUI
 from .Guess import *
 from .CharCommonality import *
 from .Database import *
@@ -40,6 +46,8 @@ class WordleSolver:
 
         #    print("Best guess is:", guess.word, " With a score of:", score)
 
+        EventSystem.EventOccured(NewWordEvent(self.curGuess.word))
+        #TODO: can maybe remove this return
         return self.curGuess.word
 
     def ProcessGuessResults(self, res: list[LetterColour]):
@@ -58,6 +66,8 @@ class WordleSolver:
 
         self.FilterWords()
         self.DetermineNumberOfOccurrences()
+        
+        #TODO: can maybe remove this return
         return self.GetNextGuess()
 
     def DetermineGuess(self) -> tuple[Guess, int]:

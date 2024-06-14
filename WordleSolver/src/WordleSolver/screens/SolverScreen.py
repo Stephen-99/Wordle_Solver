@@ -8,7 +8,7 @@ from WordleSolver.Events import EventSystem
 from WordleSolver.Events.SubmitGuessResultsEvent import SubmitGuessResultsEvent
 
 class SolverScreen(Screen):
-    def __init__(self, word):
+    def __init__(self, word="tempw"):
         self.letters = [LetterColour() for _ in range(5)]
         self.UpdateWord(word)
 

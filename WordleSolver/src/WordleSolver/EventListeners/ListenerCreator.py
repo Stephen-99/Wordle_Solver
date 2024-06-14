@@ -1,7 +1,7 @@
 #To create and setup the listeners
 
 #Listeners
-from .AppListener import AppListener
+from WordleSolver.screens.ScreenManager import ScreenManager
 from .SolverListener import SolverListener
 
 #Dependencies of those listeners.
@@ -11,6 +11,6 @@ class ListenerCreator:
     def __init__(self) -> None:
         self.listeners = []
 
-    def SetupListeners(self, appFunc, solver: WordleSolver):
-        self.listeners.append(AppListener(appFunc))
+    def SetupListeners(self, changeScreensFunc, solver: WordleSolver):
+        self.listeners.append(ScreenManager(changeScreensFunc))
         self.listeners.append(SolverListener(solver))
