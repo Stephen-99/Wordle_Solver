@@ -2,9 +2,9 @@ from WordleSolver.Events import EventSystem
 from WordleSolver.Events.PlayWordleEvent import PlayWordleEvent
 from WordleSolver.Events.SubmitGuessResultsEvent import SubmitGuessResultsEvent
 from WordleSolver.Events.NewWordEvent import NewWordEvent
+from WordleSolver.Events.RunSolverEvent import RunSolverEvent
 
 from WordleLibrary.solver import WordleSolver, PlayWordle
-
 
 class SolverListener:
     def __init__(self, solver: WordleSolver):
@@ -21,7 +21,7 @@ class SolverListener:
 
     def SubmitGuessHandler(self, event: SubmitGuessResultsEvent):
         self.solver.ProcessGuessResults(event.letters)
-        #TODO add handling for this event.
-        #So solverscreen and app need listners for this.
-            #The solver screen needs to update it's word, and then the app needs to update screen
-            #The order is important though so maybe the app should have the listener..
+    
+    def RunSolverHandler(self, event: RunSolverEvent):
+        self.solver.resetSolver()
+        self.solver.GetNextGuess()

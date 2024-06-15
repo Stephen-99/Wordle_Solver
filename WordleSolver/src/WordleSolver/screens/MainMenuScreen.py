@@ -2,8 +2,12 @@ import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
-from .Screen import Screen
+from WordleSolver.Events import EventSystem
+from WordleSolver.Events.ExitAppEvent import ExitAppEvent
+from WordleSolver.Events.PlayWordleEvent import PlayWordleEvent
+from WordleSolver.Events.RunSolverEvent import RunSolverEvent
 
+from .Screen import Screen
 
 class MainMenuScreen(Screen):
     def __init__(self):
@@ -29,10 +33,10 @@ class MainMenuScreen(Screen):
         return mainBox
     
     def ExitAppHandler(self, widget) -> None:
-        self.app.exit()
+        EventSystem.EventOccured(ExitAppEvent())
 
     def PlayWordleHandler(self, widget) -> None:
-        PlayWordle()
+        EventSystem.EventOccured(PlayWordleEvent())
 
     def RunSolverHandler(self, widget) -> None:
-        self.SetSolverScreen(self.solver.GetNextGuess())
+        EventSystem.EventOccured(RunSolverEvent())

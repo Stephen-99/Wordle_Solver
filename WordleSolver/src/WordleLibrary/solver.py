@@ -26,11 +26,16 @@ from .WebScraper import *
 #should be created upon creating colverScreen
 #Or could have a setup solver, and setup playGame funtion. Then I only need 1 class.
 class WordleSolver:
-    def __init__(self, gui):
+    def __init__(self):
         self.db = WordleDB()
         self.validWords, self.allowedWords = self.db.GetWords()
         self.lookup = CharCommonality(self.validWords)
-        self.gui = gui #TODO stop depending on gui, use event system.
+        self.curGuess = None
+        self.guesses = 0
+
+    def resetSolver(self):
+        self.validWords, self.allowedWords = self.db.GetWords()
+        self.lookup = CharCommonality(self.validWords)
         self.curGuess = None
         self.guesses = 0
 

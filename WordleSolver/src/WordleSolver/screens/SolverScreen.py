@@ -3,9 +3,11 @@ from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
 from WordleLibrary.LetterColour import LetterColour
+
 from .Screen import Screen
 from WordleSolver.Events import EventSystem
 from WordleSolver.Events.SubmitGuessResultsEvent import SubmitGuessResultsEvent
+from WordleSolver.Events.SolverFinishedEvent import SolverFinishedEvent
 
 class SolverScreen(Screen):
     def __init__(self, word="tempw"):
@@ -21,7 +23,7 @@ class SolverScreen(Screen):
 
         #TODO add integration with the wordle library here so that it can actually use the solver.
         self.submitButton = toga.Button("Submit", on_press=self.SolverSubmitHandler, style=Pack(padding=5, font_size=12))
-        self.correctButton = toga.Button("Correct Guess!", style=Pack(padding=5, font_size=12))
+        self.correctButton = toga.Button("Correct Guess!", on_press=self.CorrectGuessHandler, style=Pack(padding=5, font_size=12))
 
 
     def UpdateWord(self, word):
@@ -60,14 +62,13 @@ class SolverScreen(Screen):
         return button
     
     def SolverSubmitHandler(self, widget) -> None:
-        #Somehow need the state of the letter buttons to pass on. Will need to re-think how this class is structured.
-        #TODO: rethink about how the whole app is structured. This file particularly. Should there be separate classes fro solver and main screens?
-            #Each screen should have it's own class with it's own set of variables and functions.
-            #May need some Inheritance hierachy So can use all the screens interchangeably.
-        #if it returns none, don't set solver screen, go to main.
-        
-        #self.SetSolverScreen(self.solver.ProcessGuessResults(self.letters))
-        event = SubmitGuessResultsEvent(self.letters)
-        EventSystem.EventOccured(event)
-        
+        EventSystem.EventOccured(SubmitGuessResultsEvent(self.letters))
+    
+    def CorrectGuessHandler(self, widget) -> None:
+        EventSystem.EventOccured(SolverFinishedEvent())
+        #This is good, but will also need to handle going back to menu screen when had 6 guesses and failed them all.
+        #Or if there is an error
+
+        #TODO TODO TODO: 
+            #Refactor all event into one file. It will make imports sooo muych easier.
 
