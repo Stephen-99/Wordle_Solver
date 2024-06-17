@@ -27,7 +27,7 @@ class ScreenManager:
     def RegisterHandlers(self):
         EventSystem.subscribe(NewWordEvent, self.UpdateSolverScreen)
         EventSystem.subscribe(ExitAppEvent, self.ExitAllScreens)
-        EventSystem.subscribe(SolverFinishedEvent, self.menuScreen)
+        EventSystem.subscribe(SolverFinishedEvent, self.SolverFinished)
 
     def UpdateSolverScreen(self, event: NewWordEvent):
         self.solverScreen.UpdateWord(event.word)
