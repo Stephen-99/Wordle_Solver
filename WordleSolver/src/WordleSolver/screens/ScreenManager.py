@@ -9,22 +9,17 @@ from WordleSolver.Events.SolverFinishedEvent import SolverFinishedEvent
 
 #TODO create a listener interface this can implement.
 class ScreenManager:
-    #Also the different screens that we do have.
-    #Can we decouple the screens from this manager somehow?
-    #We just have a listener that takes the screen to update as a parameter.
-        #Will have an event that has the screen as a parameter
-        #Will call to updateScreen, and then call self.changeScreens
     def __init__(self, changeScreensFunc, exitAppFunc):
         self.changeScreens = changeScreensFunc
         self.exit = exitAppFunc
         
+        self.RegisterHandlers()
+
         #initiate screens
         self.solverScreen = SolverScreen()
         self.solverScreen.CreateScreen()
         self.menuScreen = MainMenuScreen()
         self.menuScreen.CreateScreen()
-
-        self.RegisterHandlers()
 
         #start with menuScreen (This may need to move to a separate startup func)
         self.ChangeScreen(self.menuScreen)
