@@ -24,6 +24,8 @@ class ScreenManager:
         self.menuScreen = MainMenuScreen()
         self.menuScreen.CreateScreen()
 
+        self.RegisterHandlers()
+
         #start with menuScreen (This may need to move to a separate startup func)
         self.ChangeScreen(self.menuScreen)
 

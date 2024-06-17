@@ -14,6 +14,7 @@ class SolverListener:
     def RegisterHandlers(self):
         EventSystem.subscribe(PlayWordleEvent, self.PlayWordleHandler)
         EventSystem.subscribe(SubmitGuessResultsEvent, self.SubmitGuessHandler)
+        EventSystem.subscribe(RunSolverEvent, self.RunSolverHandler)
 
     def PlayWordleHandler(self, event: PlayWordleEvent):
         #TODO: ideally this belongs to the wordle Solver class, or a different class and a different listener.
