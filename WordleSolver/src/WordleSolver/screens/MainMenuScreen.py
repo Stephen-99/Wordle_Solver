@@ -11,10 +11,10 @@ from .Screen import Screen
 
 class MainMenuScreen(Screen):
     def __init__(self):
-        pass
+        self.content = None
 
     def UpdateScreen(self):
-        pass
+        return self.content
     #TODO: what will need updating, if any.
 
     def CreateScreen(self):
@@ -30,7 +30,7 @@ class MainMenuScreen(Screen):
 
         mainBox.add(welcomeTextLabel, buttonsBox)
     
-        return mainBox
+        self.content = mainBox
     
     def ExitAppHandler(self, widget) -> None:
         EventSystem.EventOccured(ExitAppEvent())
