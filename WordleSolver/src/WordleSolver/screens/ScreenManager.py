@@ -37,8 +37,8 @@ class ScreenManager:
         self.ChangeScreen(self.solverScreen)
 
     def ChangeScreen(self, screen: Screen):
-        screen.UpdateScreen()
-        self.changeScreens(screen)
+        screenContent = screen.UpdateScreen()
+        self.changeScreens(screenContent)
  
     def ExitAllScreens(self, event: ExitAppEvent):
         self.exit()
