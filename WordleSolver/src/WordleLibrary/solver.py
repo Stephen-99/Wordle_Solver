@@ -46,6 +46,7 @@ class WordleSolver:
             print(e.message)
             return
         except IndexError as err:
+            #TODO handle this with events so it exits
             print("Invalid selection. There are no valid words left.")
             return
 
