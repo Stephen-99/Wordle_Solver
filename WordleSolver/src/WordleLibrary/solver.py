@@ -3,7 +3,7 @@ import random
 #HAve to think do I maybe instead want to decouple this so that the solver doesn't have anything to do with the eventSystem
 #Otherewise I have to worry about wrapping every little edge case. Solver causes most of the events, makes sense for it to raise them
 from WordleSolver.Events.NewWordEvent import NewWordEvent 
-from WordleSolver.Events.ExitAppEvent import ExitAppEvent
+from WordleSolver.Events.SolverFinishedEvent import SolverFinishedEvent
 from WordleSolver.Events import EventSystem
 
 
@@ -48,7 +48,7 @@ class WordleSolver:
             return
         except IndexError as err:
             print("Invalid selection. There are no valid words left.")
-            EventSystem.EventOccured(ExitAppEvent())             #TODO handle this with events so it gives a pop-up then main menu
+            EventSystem.EventOccured(SolverFinishedEvent()) #TODO show popup with message
             return
 
         #    print("Best guess is:", guess.word, " With a score of:", score)
