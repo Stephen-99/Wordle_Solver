@@ -3,10 +3,7 @@ from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
 from WordleSolver.Events import EventSystem
-from WordleSolver.Events.ExitAppEvent import ExitAppEvent
-from WordleSolver.Events.PlayWordleEvent import PlayWordleEvent
-from WordleSolver.Events.RunSolverEvent import RunSolverEvent
-
+from WordleSolver.Events.Events import ExitAppEvent, PlayWordleEvent, RunSolverEvent
 from .Screen import Screen
 
 class MainMenuScreen(Screen):

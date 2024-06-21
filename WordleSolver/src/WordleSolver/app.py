@@ -4,10 +4,7 @@ This is an app that solves the wordle with you! It also allows you to play a wor
 import toga
 
 from WordleLibrary.solver import WordleSolver as Solver
-from WordleSolver.screens.ScreenManager import ScreenManager
 from .EventListeners.ListenerCreator import ListenerCreator
-from .screens.MainMenuScreen import MainMenuScreen
-from .screens.SolverScreen import SolverScreen
 
 class WordleSolver(toga.App):
     def startup(self):

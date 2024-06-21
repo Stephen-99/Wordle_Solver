@@ -1,9 +1,5 @@
 from WordleSolver.Events import EventSystem
-from WordleSolver.Events.PlayWordleEvent import PlayWordleEvent
-from WordleSolver.Events.SubmitGuessResultsEvent import SubmitGuessResultsEvent
-from WordleSolver.Events.NewWordEvent import NewWordEvent
-from WordleSolver.Events.RunSolverEvent import RunSolverEvent
-
+from WordleSolver.Events.Events import *
 from WordleLibrary.solver import WordleSolver, PlayWordle
 
 class SolverListener:

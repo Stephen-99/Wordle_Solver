@@ -1,2 +1,0 @@
-class RunSolverEvent:
-    pass

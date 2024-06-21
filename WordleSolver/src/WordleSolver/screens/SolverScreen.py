@@ -6,8 +6,7 @@ from WordleLibrary.LetterColour import LetterColour
 
 from .Screen import Screen
 from WordleSolver.Events import EventSystem
-from WordleSolver.Events.SubmitGuessResultsEvent import SubmitGuessResultsEvent
-from WordleSolver.Events.SolverFinishedEvent import SolverFinishedEvent
+from WordleSolver.Events.Events import SubmitGuessResultsEvent, SolverFinishedEvent
 
 class SolverScreen(Screen):
     def __init__(self, word="tempw"):

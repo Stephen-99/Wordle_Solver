@@ -3,9 +3,7 @@ from WordleSolver.screens.MainMenuScreen import MainMenuScreen
 from WordleSolver.screens.SolverScreen import SolverScreen
 
 from WordleSolver.Events import EventSystem
-from WordleSolver.Events.NewWordEvent import NewWordEvent
-from WordleSolver.Events.ExitAppEvent import ExitAppEvent
-from WordleSolver.Events.SolverFinishedEvent import SolverFinishedEvent
+from WordleSolver.Events.Events import NewWordEvent, ExitAppEvent, SolverFinishedEvent
 
 #TODO create a listener interface this can implement.
 class ScreenManager:
