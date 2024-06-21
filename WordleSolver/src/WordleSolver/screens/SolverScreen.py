@@ -20,7 +20,6 @@ class SolverScreen(Screen):
         self.letterButtonsBox = toga.Box(style=Pack(direction=ROW))
         self.submitButtonsBox = toga.Box(style=Pack(direction=ROW))
 
-        #TODO add integration with the wordle library here so that it can actually use the solver.
         self.submitButton = toga.Button("Submit", on_press=self.SolverSubmitHandler, style=Pack(padding=5, font_size=12))
         self.correctButton = toga.Button("Correct Guess!", on_press=self.CorrectGuessHandler, style=Pack(padding=5, font_size=12))
 
@@ -34,10 +33,6 @@ class SolverScreen(Screen):
         letterButtons  = [self.CreateLetterButton(letter, colourData) for letter, colourData in zip(self.word.upper(), self.letters)]
         self.letterButtonsBox.clear()
         [self.letterButtonsBox.add(button) for button in letterButtons]
-        
-        #TODO: test if these will be needed or not.
-        #self.innerBox.refresh()
-        #self.solverBox.refresh()
 
         return self.solverBox
 
@@ -68,6 +63,4 @@ class SolverScreen(Screen):
         #This is good, but will also need to handle going back to menu screen when had 6 guesses and failed them all.
         #Or if there is an error
 
-        #TODO TODO TODO: 
-            #Refactor all event into one file. It will make imports sooo muych easier.
 

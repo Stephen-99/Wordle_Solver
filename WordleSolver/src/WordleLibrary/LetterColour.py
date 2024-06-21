@@ -37,3 +37,4 @@ class LetterColour:
                 
     def ResetState(self):
         self.colour = self.gray
+        self.state = WordleStates.INCORRECT
