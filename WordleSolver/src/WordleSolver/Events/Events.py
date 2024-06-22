@@ -19,9 +19,13 @@ class PlayWordleEvent:
 class RunSolverEvent:
     pass
 
-class SolverFinishedEvent:
+class ReturnToMainMenuEvent:  #TODO Does it make sense to update this tpo a return to mainmenue event?
     pass
 
 class SubmitGuessResultsEvent:
     def __init__(self, letters: List[LetterColour]):
         self.letters = letters
+
+class ErrorOccuredEvent:
+    def __init__(self, errorMsg):
+        self.errorMsg = errorMsg

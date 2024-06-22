@@ -6,7 +6,7 @@ from WordleLibrary.LetterColour import LetterColour
 
 from .Screen import Screen
 from WordleSolver.Events import EventSystem
-from WordleSolver.Events.Events import SubmitGuessResultsEvent, SolverFinishedEvent
+from WordleSolver.Events.Events import SubmitGuessResultsEvent, ReturnToMainMenuEvent
 
 class SolverScreen(Screen):
     def __init__(self, word="tempw"):
@@ -59,7 +59,7 @@ class SolverScreen(Screen):
         EventSystem.EventOccured(SubmitGuessResultsEvent(self.letters))
     
     def CorrectGuessHandler(self, widget) -> None:
-        EventSystem.EventOccured(SolverFinishedEvent())
+        EventSystem.EventOccured(ReturnToMainMenuEvent())
         #This is good, but will also need to handle going back to menu screen when had 6 guesses and failed them all.
         #Or if there is an error
 

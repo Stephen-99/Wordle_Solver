@@ -14,7 +14,6 @@ class WordleSolver(toga.App):
         solver = Solver()
         ListenerCreator().SetupListeners(self.ChangeScreen, self.app.exit, solver)
 
-        
 
     def ChangeScreen(self, screenContent):
         self.main_window.content = screenContent

@@ -46,7 +46,10 @@ class WordleSolver:
             return
         except IndexError as err:
             print("Invalid selection. There are no valid words left.")
-            EventSystem.EventOccured(SolverFinishedEvent()) #TODO show popup with message
+            EventSystem.EventOccured(ErrorOccuredEvent("Invalid selection. There are no valid words left.")) #TODO show popup with message
+            #So new windows are not supported on andriod and ios. RIP
+                #Seems the best way to do it would be to show a new screen instead of a popup
+                #TODO: create a new event for this error and screenmanager should handle it by showing the ErrorScreen
             return
 
         #    print("Best guess is:", guess.word, " With a score of:", score)
