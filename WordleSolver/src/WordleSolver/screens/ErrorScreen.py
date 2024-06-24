@@ -18,6 +18,8 @@ class ErrorScreen(Screen):
     def CreateScreen(self):
         self.box = toga.Box(style=Pack(direction=COLUMN, alignment="center"))
         self.text = toga.Label(self.errorMsg, style=Pack(padding=(2,5), font_size=16, text_align='center'))
+
+        #TODO: restrict the width fo this button (just needs to fit the text really)
         self.okButton = toga.Button("Ok", on_press=self.OkButtonHandler, style=Pack(padding=5, font_size=12))
         
         self.box.add(self.text)
