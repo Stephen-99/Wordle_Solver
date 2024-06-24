@@ -27,14 +27,11 @@ class ErrorScreen(Screen):
         self.errorMsg = msg
 
     def UpdateScreen(self):
-        old = self.text
+        self.box.remove(self.text)
         self.text = toga.Label(self.errorMsg, style=Pack(padding=(2,5), font_size=16, text_align='center'))
-        
-        #So replace doesn't work, Can get the index, remove it, and re-add the new one. 
-        #Don't want to have to re-add all the elements here. If it gets bigger, that becomes a pain.
-        self.box.replace(old, self.text)
+        self.box.insert(0, self.text)
 
         return self.box
 
     def OkButtonHandler(self, widget):
-        EventSystem.EventOccured(ReturnToMainMenuEvent)
+        EventSystem.EventOccured(ReturnToMainMenuEvent())
