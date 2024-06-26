@@ -21,6 +21,11 @@ from .WebScraper import *
 
 
 #TODO it's getting messy. Get it to work using the class, then can remove the rest.
+    #~~~NEXT STEP~~~
+    #Remove the gui references. 
+    #Go through all the other functions. Add what's needed to the class then remove the rest
+    #Create a new class for playing wordle.
+        #May need some of the same shared methods though. Think about how to structure that.
 
 #should be created upon creating colverScreen
 #Or could have a setup solver, and setup playGame funtion. Then I only need 1 class.
@@ -43,13 +48,11 @@ class WordleSolver:
             self.curGuess, score = self.DetermineGuess()
         except InvalidWordLength as e:
             print(e.message)
+            EventSystem.EventOccured(ErrorOccuredEvent(e.message))
             return
         except IndexError as err:
             print("Invalid selection. There are no valid words left.")
-            EventSystem.EventOccured(ErrorOccuredEvent("Invalid selection. There are no valid words left.")) #TODO show popup with message
-            #So new windows are not supported on andriod and ios. RIP
-                #Seems the best way to do it would be to show a new screen instead of a popup
-                #TODO: create a new event for this error and screenmanager should handle it by showing the ErrorScreen
+            EventSystem.EventOccured(ErrorOccuredEvent("Invalid selection. There are no valid words left."))
             return
 
         #    print("Best guess is:", guess.word, " With a score of:", score)

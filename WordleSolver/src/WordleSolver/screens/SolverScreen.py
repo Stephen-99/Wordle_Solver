@@ -60,7 +60,5 @@ class SolverScreen(Screen):
     
     def CorrectGuessHandler(self, widget) -> None:
         EventSystem.EventOccured(ReturnToMainMenuEvent())
-        #This is good, but will also need to handle going back to menu screen when had 6 guesses and failed them all.
-        #Or if there is an error
 
 
