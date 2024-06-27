@@ -22,7 +22,6 @@ from .WebScraper import *
 
 #TODO it's getting messy. Get it to work using the class, then can remove the rest.
     #~~~NEXT STEP~~~
-    #Remove the gui references. 
     #Go through all the other functions. Add what's needed to the class then remove the rest
     #Create a new class for playing wordle.
         #May need some of the same shared methods though. Think about how to structure that.
@@ -63,16 +62,16 @@ class WordleSolver:
 
     def ProcessGuessResults(self, res: list[LetterColour]):
         if res == None:
-            #TODO reset state?
-            self.gui.SetMainScreen()
+            #This shouldn't be possible.
+            print("\n\n~~~WHAT HAPPENED HERE?!~~~\n\n")
+            EventSystem.EventOccured(ReturnToMainMenuEvent())
             return
 
         self.guesses += 1
         correctGuess = self.curGuess.UserValidateGuess(res)
         if correctGuess:
             #This should never happen. They should press the correct guess button!
-            #TODO reset state?
-            self.gui.SetMainScreen()
+            EventSystem.EventOccured(ErrorOccuredEvent("You got the correct answer!"))
             return
 
         self.FilterWords()
