@@ -5,7 +5,6 @@ import random
 from WordleSolver.Events import EventSystem
 from WordleSolver.Events.Events import *
 
-import WordleLibrary.GUI as GUI
 from .Guess import *
 from .CharCommonality import *
 from .Database import *
