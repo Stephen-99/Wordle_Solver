@@ -19,7 +19,8 @@ class Guess:
                 self.misplaced[ii] = True
             else:
                 self.incorrect[ii] = True
-
+        
+        self.CheckForDoubleLetters()
         if False not in self.correct:
             return True
         return False

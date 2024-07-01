@@ -156,6 +156,7 @@ def PlayWordle():
         GUI.DisplayErrorMessage(e.message)
         return
     correctGuess = guess.ValidateGuess(answer)
+    #TODO validate that the guess is in the valid guesses list.
     guesses = 1
     GUI.DisplayGuessResult(guess)
 
