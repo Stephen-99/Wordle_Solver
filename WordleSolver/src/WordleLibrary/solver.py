@@ -176,17 +176,6 @@ def PlayWordle():
         GUI.DisplayLostScreen()
 
 
-def RunWithoutGUI():
-    db = WordleDB()
-    words, allowedWords = db.GetWords()
-
-    TESTWORD = GetRandomWord(words)
-    TESTWORD = "boxer"
-    print("Randomly selected word is:", TESTWORD)
-
-    commonalityLookup = DetermineNumberOfOccurrences(words)
-    print("Took ", RunGame(words, commonalityLookup, TESTWORD, db), "guesses")
-
 
 # converts them from a per word basis to a list of letter combinations.
 # GetLetterCombinations can then take these and convert them to combinations based on the number of required letters
