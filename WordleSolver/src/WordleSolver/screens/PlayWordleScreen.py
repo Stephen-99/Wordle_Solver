@@ -47,8 +47,6 @@ class PlayWordleScreen(Screen):
                               on_change=self.FormatTextInput)
 
     def FormatTextInput(self, widget: toga.TextInput):
-        print(widget.value)
-    
         if widget.value and widget.value[0] == " ":
             if len(widget.value) > 2:
                 widget.value = widget.value[0:2]
