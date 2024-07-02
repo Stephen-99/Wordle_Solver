@@ -9,6 +9,7 @@
 import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
+from toga.validators import MaxLength
 
 from WordleLibrary.LetterColour import LetterColour
 
@@ -42,4 +43,15 @@ class PlayWordleScreen(Screen):
     
     def CreateTextSquare(self):
         size = 70
-        return toga.TextInput(style=Pack(padding=5, font_weight="bold", font_size=size//2, width=size, height=size, color="#ffffff", background_color=LetterColour.gray))
+        return toga.TextInput(style=Pack(padding=5, font_weight="bold", font_size=size//2, width=size-10, color="#ffffff", background_color=LetterColour.gray),
+                              on_change=self.FormatTextInput)
+
+    def FormatTextInput(self, widget: toga.TextInput):
+        print(widget.value)
+    
+        if widget.value and widget.value[0] == " ":
+            if len(widget.value) > 2:
+                widget.value = widget.value[0:2]
+            return
+        
+        widget.value = " " + widget.value
