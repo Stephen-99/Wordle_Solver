@@ -21,13 +21,18 @@ class PlayWordleScreen(Screen):
     def __init__(self):
         self.outerBox = toga.Box(style=Pack(direction=ROW, alignment="center"))
         self.innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
+        self.title = None
         self.rows = [self.CreateRow() for _ in range(6)]
         self.curRow = self.rows[0]
         self.curRowIdx = 0 #TODO: these 2 things make me thing I need a small class for rows.
 
     def CreateScreen(self):
+        self.title = toga.Label("Guess the word!") #TODO: center and format text
+        self.innerBox.add(self.title)
+
         [self.innerBox.add(row) for row in self.rows]
-        #self.innerBox.add("SOME TEXT")
+        
+        
         self.outerBox.add(self.innerBox)
 
     
