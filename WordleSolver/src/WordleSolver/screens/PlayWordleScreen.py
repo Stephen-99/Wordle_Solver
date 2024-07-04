@@ -27,12 +27,10 @@ class PlayWordleScreen(Screen):
         self.curRowIdx = 0 #TODO: these 2 things make me thing I need a small class for rows.
 
     def CreateScreen(self):
-        self.title = toga.Label("Guess the word!") #TODO: center and format text
+        self.title = toga.Label("Guess the word!", style=Pack(padding=(2,5), font_size=16, text_align='center')) #TODO: center and format text
         self.innerBox.add(self.title)
 
         [self.innerBox.add(row) for row in self.rows]
-        
-        
         self.outerBox.add(self.innerBox)
 
     
