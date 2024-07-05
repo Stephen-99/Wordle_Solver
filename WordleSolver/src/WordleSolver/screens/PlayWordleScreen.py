@@ -9,11 +9,10 @@
 import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
-from toga.validators import MaxLength
 
-from WordleLibrary.LetterColour import LetterColour
-
+from .ScreenHelpers.PlayWordleRows import PlayWordleRows
 from .Screen import Screen
+
 
 #TODO add keyboard.
     #Should auto pop up, but can add highlighting to show which letters are unavailable or should be used.
@@ -22,37 +21,17 @@ class PlayWordleScreen(Screen):
         self.outerBox = toga.Box(style=Pack(direction=ROW, alignment="center"))
         self.innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
         self.title = None
-        self.rows = [self.CreateRow() for _ in range(6)]
-        self.curRow = self.rows[0]
-        self.curRowIdx = 0 #TODO: these 2 things make me thing I need a small class for rows.
+        self.rows = PlayWordleRows()
 
     def CreateScreen(self):
         self.title = toga.Label("Guess the word!", style=Pack(padding=(2,5), font_size=16, text_align='center')) #TODO: center and format text
         self.innerBox.add(self.title)
 
-        [self.innerBox.add(row) for row in self.rows]
+        [self.innerBox.add(row) for row in self.rows]   #TODO: replace this with a function to sort this form the PlayWordleRows class
         self.outerBox.add(self.innerBox)
 
     
     def UpdateScreen(self):
         return self.outerBox
 
-    def CreateRow(self):
-        squares = [self.CreateTextSquare() for _ in range(5)]
-        row = toga.Box(style=Pack(direction=ROW))
-        [row.add(square) for square in squares]
 
-        return row
-    
-    def CreateTextSquare(self):
-        size = 70
-        return toga.TextInput(style=Pack(padding=5, font_weight="bold", font_size=size//2, width=size-10, color="#ffffff", background_color=LetterColour.gray),
-                              on_change=self.FormatTextInput)
-
-    def FormatTextInput(self, widget: toga.TextInput):
-        if widget.value and widget.value[0] == " ":
-            if len(widget.value) > 2:
-                widget.value = widget.value[0:2]
-            return
-        
-        widget.value = " " + widget.value
