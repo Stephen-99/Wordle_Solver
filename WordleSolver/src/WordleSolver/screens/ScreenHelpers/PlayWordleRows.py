@@ -30,3 +30,7 @@ class PlayWordleRows:
             return
         
         widget.value = " " + widget.value
+
+    def AddToBox(self, box: toga.Box):
+        for row in self.rows:
+            box.add(row)

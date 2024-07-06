@@ -27,7 +27,7 @@ class PlayWordleScreen(Screen):
         self.title = toga.Label("Guess the word!", style=Pack(padding=(2,5), font_size=16, text_align='center')) #TODO: center and format text
         self.innerBox.add(self.title)
 
-        [self.innerBox.add(row) for row in self.rows]   #TODO: replace this with a function to sort this form the PlayWordleRows class
+        self.rows.AddToBox(self.innerBox)
         self.outerBox.add(self.innerBox)
 
     
