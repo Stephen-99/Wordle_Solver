@@ -7,8 +7,13 @@ from WordleLibrary.LetterColour import LetterColour
 class PlayWordleRows:
     def __init__(self):
         self.rows = [self.CreateRow() for _ in range(6)]
-        self.curRow = self.rows[0]
-        self.curRowIdx = 0 #TODO: these 2 things make me thing I need a small class for rows.
+        self.curRowIdx = 0
+        self.setNewCurRow() #Can't do this sine it will increment curRowIdx. and setting it to -1 will give indexOutOf bounds
+
+    def setNewCurRow(self):
+        self.rows[self.curRowIdx] #set these to readonly and change the colours accordingly
+        self.curRowIdx += 1
+        self.rows[self.curRowIdx] #set these to not be readonly and make the colours ligher to show it's active.
 
     def CreateRow(self):
         squares = [self.CreateTextSquare() for _ in range(5)]
@@ -20,7 +25,7 @@ class PlayWordleRows:
     def CreateTextSquare(self):
         size = 70
         return toga.TextInput(style=Pack(padding=5, font_weight="bold", font_size=size//2, width=size-10, color="#ffffff", background_color=LetterColour.gray),
-                              on_change=self.FormatTextInput)
+                              on_change=self.FormatTextInput, readonly=True)
     
     
     def FormatTextInput(self, widget: toga.TextInput):
