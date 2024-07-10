@@ -4,11 +4,17 @@ from toga.style.pack import COLUMN, ROW
 
 from WordleLibrary.LetterColour import LetterColour
 
+
+#TODO create another class for a single row. Keep it in this file.
 class PlayWordleRows:
     def __init__(self):
         self.rows = [self.CreateRow() for _ in range(6)]
         self.curRowIdx = 0
         self.setNewCurRow() #Can't do this sine it will increment curRowIdx. and setting it to -1 will give indexOutOf bounds
+
+    def rowSetup(self):
+        pass
+        #To complete the work of setNewCurRow but properly for the initial setup
 
     def setNewCurRow(self):
         self.rows[self.curRowIdx] #set these to readonly and change the colours accordingly
