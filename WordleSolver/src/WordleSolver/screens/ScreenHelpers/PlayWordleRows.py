@@ -3,36 +3,18 @@ from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
 from WordleLibrary.LetterColour import LetterColour
+from WordleLibrary.Guess import Guess
 
-
-#TODO create another class for a single row. Keep it in this file.
-class PlayWordleRows:
+class PlayWordleRow:
+    SQUARESIZE = 70
     def __init__(self):
-        self.rows = [self.CreateRow() for _ in range(6)]
-        self.curRowIdx = 0
-        self.setNewCurRow() #Can't do this sine it will increment curRowIdx. and setting it to -1 will give indexOutOf bounds
+        self.squares = [self.CreateTextSquare() for _ in range(5)]
+        self.box = toga.Box(style=Pack(direction=ROW))
+        [self.box.add(square) for square in self.squares]
 
-    def rowSetup(self):
-        pass
-        #To complete the work of setNewCurRow but properly for the initial setup
-
-    def setNewCurRow(self):
-        self.rows[self.curRowIdx] #set these to readonly and change the colours accordingly
-        self.curRowIdx += 1
-        self.rows[self.curRowIdx] #set these to not be readonly and make the colours ligher to show it's active.
-
-    def CreateRow(self):
-        squares = [self.CreateTextSquare() for _ in range(5)]
-        row = toga.Box(style=Pack(direction=ROW))
-        [row.add(square) for square in squares]
-
-        return row
-    
     def CreateTextSquare(self):
-        size = 70
-        return toga.TextInput(style=Pack(padding=5, font_weight="bold", font_size=size//2, width=size-10, color="#ffffff", background_color=LetterColour.gray),
+        return toga.TextInput(style=Pack(padding=5, font_weight="bold", font_size=self.SQUARESIZE//2, width=self.SQUARESIZE-10, color="#ffffff", background_color=LetterColour.gray),
                               on_change=self.FormatTextInput, readonly=True)
-    
     
     def FormatTextInput(self, widget: toga.TextInput):
         if widget.value and widget.value[0] == " ":
@@ -43,5 +25,39 @@ class PlayWordleRows:
         widget.value = " " + widget.value
 
     def AddToBox(self, box: toga.Box):
+        box.add(self.box)
+
+    def SetReadonly(self, isReadonly = True):
+        for square in self.squares:
+            square.readonly = isReadonly
+
+    def UpdateColours(self, guessResult: Guess):
+        raise NotImplementedError()
+
+class PlayWordleRows:
+    def __init__(self):
+        self.rows = [PlayWordleRow() for _ in range(6)]
+        self.curRowIdx = 0
+        self.setNewCurRow() #Can't do this sine it will increment curRowIdx. and setting it to -1 will give indexOutOf bounds
+
+    def rowSetup(self):
+        pass
+        #To complete the work of setNewCurRow but properly for the initial setup
+
+    def setNewCurRow(self):
+        #INSTEAD OF THIS READONLY CALL HAVE A SET INACTIVE AND SET ACTIVE
+        for row in self.rows[self.curRowIdx]:
+            #set these to readonly and change the colours accordingly
+            row.SetReadonly()
+            #row.updateColours(guessResult)
+
+        self.curRowIdx += 1
+        for row in self.rows[self.curRowIdx]:
+            row.SetReadonly(isReadonly = False) 
+            #set these to not be readonly and make the colours ligher to show it's active.
+
+
+    def AddToBox(self, box: toga.Box):
         for row in self.rows:
-            box.add(row)
+            row.AddToBox(box)
+    
