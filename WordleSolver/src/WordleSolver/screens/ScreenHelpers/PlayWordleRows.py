@@ -46,15 +46,14 @@ class PlayWordleRows:
 
     def setNewCurRow(self):
         #INSTEAD OF THIS READONLY CALL HAVE A SET INACTIVE AND SET ACTIVE
-        for row in self.rows[self.curRowIdx]:
-            #set these to readonly and change the colours accordingly
-            row.SetReadonly()
-            #row.updateColours(guessResult)
+        
+        #set these to readonly and change the colours accordingly
+        self.rows[self.curRowIdx].SetReadonly()
+        #row.updateColours(guessResult)
 
         self.curRowIdx += 1
-        for row in self.rows[self.curRowIdx]:
-            row.SetReadonly(isReadonly = False) 
-            #set these to not be readonly and make the colours ligher to show it's active.
+        self.rows[self.curRowIdx].SetReadonly(isReadonly = False)
+        #set these to not be readonly and make the colours ligher to show it's active.
 
 
     def AddToBox(self, box: toga.Box):
