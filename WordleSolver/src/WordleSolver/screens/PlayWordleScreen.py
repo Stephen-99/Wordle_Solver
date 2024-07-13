@@ -28,9 +28,13 @@ class PlayWordleScreen(Screen):
         self.innerBox.add(self.title)
 
         self.rows.AddToBox(self.innerBox)
+        self.innerBox.add(toga.Button("Submit", on_press=self.SubmitWordHandler, style=Pack(padding=5, font_size=12)))
         self.outerBox.add(self.innerBox)
 
-    
+    def SubmitWordHandler(self, widget) -> None:
+        raise NotImplementedError("ayo")
+        #TODO: create an event for managing this
+
     def UpdateScreen(self):
         return self.outerBox
 

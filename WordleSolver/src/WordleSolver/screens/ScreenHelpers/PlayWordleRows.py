@@ -7,6 +7,8 @@ from WordleLibrary.Guess import Guess
 
 class PlayWordleRow:
     SQUARESIZE = 70
+    ACTIVECOLOUR = "#848484"
+    
     def __init__(self):
         self.squares = [self.CreateTextSquare() for _ in range(5)]
         self.box = toga.Box(style=Pack(direction=ROW))
@@ -22,10 +24,20 @@ class PlayWordleRow:
                 widget.value = widget.value[0:2]
             return
         
-        widget.value = " " + widget.value
+        widget.value = " " + widget.value.lower()
 
     def AddToBox(self, box: toga.Box):
         box.add(self.box)
+
+    def SetActive(self):
+        self.SetReadonly(isReadonly = False)
+        for square in self.squares:
+            square.style.background_color = self.ACTIVECOLOUR
+
+    def SetInactive(self):
+        self.SetReadonly()
+        #Update to colours based on correctness of the thingo. Will need to call the solver
+            #Have a separate one for playing.
 
     def SetReadonly(self, isReadonly = True):
         for square in self.squares:
@@ -38,7 +50,7 @@ class PlayWordleRows:
     def __init__(self):
         self.rows = [PlayWordleRow() for _ in range(6)]
         self.curRowIdx = 0
-        self.setNewCurRow() #Can't do this sine it will increment curRowIdx. and setting it to -1 will give indexOutOf bounds
+        self.rows[self.curRowIdx].SetActive()
 
     def rowSetup(self):
         pass
@@ -48,11 +60,11 @@ class PlayWordleRows:
         #INSTEAD OF THIS READONLY CALL HAVE A SET INACTIVE AND SET ACTIVE
         
         #set these to readonly and change the colours accordingly
-        self.rows[self.curRowIdx].SetReadonly()
+        self.rows[self.curRowIdx].SetInactive
         #row.updateColours(guessResult)
 
         self.curRowIdx += 1
-        self.rows[self.curRowIdx].SetReadonly(isReadonly = False)
+        self.rows[self.curRowIdx].SetActive()
         #set these to not be readonly and make the colours ligher to show it's active.
 
 
