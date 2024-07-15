@@ -52,13 +52,7 @@ class PlayWordleRows:
         self.curRowIdx = 0
         self.rows[self.curRowIdx].SetActive()
 
-    def rowSetup(self):
-        pass
-        #To complete the work of setNewCurRow but properly for the initial setup
-
     def setNewCurRow(self):
-        #INSTEAD OF THIS READONLY CALL HAVE A SET INACTIVE AND SET ACTIVE
-        
         #set these to readonly and change the colours accordingly
         self.rows[self.curRowIdx].SetInactive
         #row.updateColours(guessResult)
@@ -67,6 +61,7 @@ class PlayWordleRows:
         self.rows[self.curRowIdx].SetActive()
         #set these to not be readonly and make the colours ligher to show it's active.
 
+    #~~~~~~~~~~~~~TODO: setup a listener and event to manage this (trigger on submit button)~~~~~~~~~~~~~~~~~~~~~~~~
 
     def AddToBox(self, box: toga.Box):
         for row in self.rows:
