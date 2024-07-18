@@ -55,7 +55,7 @@ class PlayWordleRows:
 
     def setNewCurRow(self):
         #set these to readonly and change the colours accordingly
-        self.rows[self.curRowIdx].SetInactive
+        self.rows[self.curRowIdx].SetInactive()
         #row.updateColours(guessResult)
 
         self.curRowIdx += 1
