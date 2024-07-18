@@ -5,6 +5,7 @@ from toga.style.pack import COLUMN, ROW
 from WordleLibrary.LetterColour import LetterColour
 from WordleLibrary.Guess import Guess
 
+#TODO: Should these be backed by guess objects?
 class PlayWordleRow:
     SQUARESIZE = 70
     ACTIVECOLOUR = "#848484"

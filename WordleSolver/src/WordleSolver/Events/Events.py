@@ -3,6 +3,7 @@
 from typing import List
 
 from WordleLibrary.LetterColour import LetterColour
+from WordleLibrary.Guess import Guess
 
 #TODO make all events data classes
 
@@ -21,6 +22,10 @@ class RunSolverEvent:
 
 class ReturnToMainMenuEvent:  #TODO Does it make sense to update this tpo a return to mainmenue event?
     pass
+
+class SubmitPlayWordleGuessEvent:
+    def __init__(self, guess: Guess):
+        self.guess = guess
 
 class SubmitGuessResultsEvent:
     def __init__(self, letters: List[LetterColour]):
