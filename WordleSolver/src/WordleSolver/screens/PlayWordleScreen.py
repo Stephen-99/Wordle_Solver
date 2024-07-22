@@ -32,7 +32,7 @@ class PlayWordleScreen(Screen):
         self.outerBox.add(self.innerBox)
 
     def SubmitWordHandler(self, widget) -> None:
-        self.rows.setNewCurRow()
+        self.rows.SetNewCurRow()
     
         #TODO: create an event for managing this
             #Only if we need to call the new 'solver' class
