@@ -32,11 +32,10 @@ class PlayWordleScreen(Screen):
         self.outerBox.add(self.innerBox)
 
     def SubmitWordHandler(self, widget) -> None:
-        #raise NotImplementedError("ayo")
-        #Do I even need an event here? I can directly call self.rows...
         self.rows.setNewCurRow()
     
         #TODO: create an event for managing this
+            #Only if we need to call the new 'solver' class
 
     def UpdateScreen(self):
         return self.outerBox

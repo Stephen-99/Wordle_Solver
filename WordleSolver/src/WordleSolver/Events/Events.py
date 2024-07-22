@@ -23,7 +23,7 @@ class RunSolverEvent:
 class ReturnToMainMenuEvent:  #TODO Does it make sense to update this tpo a return to mainmenue event?
     pass
 
-class SubmitPlayWordleGuessEvent:
+class PlayWordleGuessMadeEvent:
     def __init__(self, guess: Guess):
         self.guess = guess
 
@@ -34,3 +34,16 @@ class SubmitGuessResultsEvent:
 class ErrorOccuredEvent:
     def __init__(self, errorMsg):
         self.errorMsg = errorMsg
+
+#TODO: error event should become a temporary overlay type thing, and this a new screen
+class ShowTextScreenEvent(ErrorOccuredEvent):
+    def __init__(self, msg):
+        super.__init__(msg)
+
+class WonGameEvent(ShowTextScreenEvent):
+    def __init__(self, msg):
+        super().__init__(msg)
+
+class LostGameEvent(ShowTextScreenEvent):
+    def __init__(self, msg):
+        super().__init__(msg)

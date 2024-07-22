@@ -35,17 +35,17 @@ class PlayWordleRow:
         for square in self.squares:
             square.style.background_color = self.ACTIVECOLOUR
 
-    def SetInactive(self):
+    def SetInactive(self, guessResult: Guess):
         self.SetReadonly()
-        #Update to colours based on correctness of the thingo. Will need to call the solver
-            #Have a separate one for playing.
+        self.UpdateColours(guessResult)
 
     def SetReadonly(self, isReadonly = True):
         for square in self.squares:
             square.readonly = isReadonly
 
     def UpdateColours(self, guessResult: Guess):
-        raise NotImplementedError()
+        for square in self.squares:
+            print(square.value)
 
 class PlayWordleRows:
     def __init__(self):
@@ -54,9 +54,12 @@ class PlayWordleRows:
         self.rows[self.curRowIdx].SetActive()
 
     def setNewCurRow(self):
-        #set these to readonly and change the colours accordingly
-        self.rows[self.curRowIdx].SetInactive()
-        #row.updateColours(guessResult)
+        #Cause an error if curRow is the last row.
+            #Actually cause end screen. We need to know here if we have won or not.
+            #No we don't. Just raise an event. Handler will deal with it.
+        #Cause an error if not every box has a letter
+        
+        self.rows[self.curRowIdx].SetInactive(None)
 
         self.curRowIdx += 1
         self.rows[self.curRowIdx].SetActive()

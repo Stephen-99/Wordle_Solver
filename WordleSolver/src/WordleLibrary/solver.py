@@ -1,5 +1,3 @@
-import random
-
 #HAve to think do I maybe instead want to decouple this so that the solver doesn't have anything to do with the eventSystem
 #Otherewise I have to worry about wrapping every little edge case. Solver causes most of the events, makes sense for it to raise them
 from WordleSolver.Events import EventSystem
@@ -14,19 +12,10 @@ from .WebScraper import *
 # - Instead of randomly generated word, interface with the wordle site (de-prioritised)
 # - Allow the user to play it as a game by randomly selecting a word
 # - Make an exe for easy windows deployment
-# - Create a GUI pop up for erros instead of print statements
+# - Create a GUI pop up for errors instead of print statements
 # - Make a mobile deployment (BeeWare)
 # - Make database accessible from any device (only for reading though)
 
-
-#TODO it's getting messy. Get it to work using the class, then can remove the rest.
-    #~~~NEXT STEP~~~
-    #Go through all the other functions. Add what's needed to the class then remove the rest
-    #Create a new class for playing wordle.
-        #May need some of the same shared methods though. Think about how to structure that.
-
-#should be created upon creating colverScreen
-#Or could have a setup solver, and setup playGame funtion. Then I only need 1 class.
 class WordleSolver:
     def __init__(self):
         self.db = WordleDB()
@@ -250,5 +239,3 @@ def GetAllLetterFilter(letters: list[str]) -> str:
     return filter
 
 
-def GetRandomWord(words: list[str]) -> str:
-    return random.choice(words)

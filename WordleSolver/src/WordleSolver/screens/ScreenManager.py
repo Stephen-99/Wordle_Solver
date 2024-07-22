@@ -5,7 +5,7 @@ from WordleSolver.screens.ErrorScreen import ErrorScreen
 from WordleSolver.screens.PlayWordleScreen import PlayWordleScreen
 
 from WordleSolver.Events import EventSystem
-from WordleSolver.Events.Events import NewWordEvent, ExitAppEvent, ReturnToMainMenuEvent, ErrorOccuredEvent
+from WordleSolver.Events.Events import NewWordEvent, ExitAppEvent, ReturnToMainMenuEvent, ErrorOccuredEvent, PlayWordleEvent
 
 #TODO create a listener interface this can implement.
 class ScreenManager:
@@ -26,14 +26,14 @@ class ScreenManager:
         self.playWordleScreen.CreateScreen()
 
         #start with menuScreen (This may need to move to a separate startup func)
-        #self.ChangeScreen(self.menuScreen)
-        self.ChangeScreen(self.playWordleScreen)
+        self.ChangeScreen(self.menuScreen)
 
     def RegisterHandlers(self):
         EventSystem.subscribe(NewWordEvent, self.UpdateSolverScreen)
         EventSystem.subscribe(ExitAppEvent, self.ExitAllScreens)
         EventSystem.subscribe(ReturnToMainMenuEvent, self.SolverFinished)
         EventSystem.subscribe(ErrorOccuredEvent, self.ErrorOccured)
+        EventSystem.subscribe(PlayWordleEvent, self.PlayWordle)
 
     def UpdateSolverScreen(self, event: NewWordEvent):
         self.solverScreen.UpdateWord(event.word)
@@ -48,6 +48,9 @@ class ScreenManager:
 
     def SolverFinished(self, event: ReturnToMainMenuEvent):
         self.ChangeScreen(self.menuScreen)
+
+    def PlayWordle(self, event: PlayWordleEvent):
+        self.ChangeScreen(self.playWordleScreen)
 
     def ErrorOccured(self, event: ErrorOccuredEvent):
         self.errorScreen.UpdateMessage(event.errorMsg)
