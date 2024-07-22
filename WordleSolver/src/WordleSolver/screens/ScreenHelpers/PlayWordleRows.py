@@ -33,6 +33,8 @@ class PlayWordleRow:
         box.add(self.box)
 
     def SetActive(self):
+        #This used to work to make sure the colour updated etc, now it doesn't...
+            #Might require triggering a screen update
         self.SetReadonly(isReadonly = False)
         for square in self.squares:
             square.style.background_color = self.ACTIVECOLOUR
@@ -42,12 +44,24 @@ class PlayWordleRow:
         self.UpdateColours(guessResult)
 
     def SetReadonly(self, isReadonly = True):
+        print("Setting readonly to:", isReadonly)
         for square in self.squares:
             square.readonly = isReadonly
 
     def UpdateColours(self, guessResult: Guess):
-        for square in self.squares:
-            print(square.value[1])
+        print("Updating colours")
+        for ii in range(5):
+            self.squares[ii].style.background_color = self.GetColour(guessResult, ii)
+        #Now need to trigger a screen refresh...
+            #Just need the squarsBox to update...
+        #Can just try having a new event and letting the Screen Manager call it's changescreen func
+    
+    def GetColour(self, guess: Guess, idx: int):
+        if guess.correct[idx]:
+            return LetterColour.green
+        if guess.misplaced[idx]:
+            return LetterColour.yellow
+        return LetterColour.gray
 
     def ValidateRow(self) -> str:
         word = ""
@@ -72,8 +86,8 @@ class PlayWordleRows:
         EventSystem.EventOccured(PlayWordleGuessEvent(word))
 
     def UpdateActiveRow(self, guess: Guess):
+        print("UPDATING ACTIVE ROW")
         self.rows[self.curRowIdx].SetInactive(guess)
-
         self.curRowIdx += 1
         self.rows[self.curRowIdx].SetActive()
 

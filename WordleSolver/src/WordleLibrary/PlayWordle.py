@@ -8,12 +8,16 @@ from .Guess import *
 
 class PlayWordle:
     def __init__(self):
-        self.db = WordleDB()
-        self.validWords, self.allowedWords = self.db.GetWords()
+        db = WordleDB()
+        self.validWords, self.allowedWords = db.GetWords()
         self.guesses = 0
         self.answer = self.GetRandomWord()
 
-    #Will need to be caused by an event raised in wordleRow.
+    def reset(self):
+        self.guesses = 0
+        self.answer = self.GetRandomWord()
+
+    #Will need to be caused by an event raised in wordleRow (PlayWordleGuess event. Create a listener)
     #Will then raise an event on competion to so wordleRow can updateColours
     def MakeAGuess(self, word: str):
         #TODO: Validate the word exists in self.allowedWords

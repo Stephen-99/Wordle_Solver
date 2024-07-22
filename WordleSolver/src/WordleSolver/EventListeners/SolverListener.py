@@ -1,6 +1,6 @@
 from WordleSolver.Events import EventSystem
 from WordleSolver.Events.Events import *
-from WordleLibrary.solver import WordleSolver, PlayWordle
+from WordleLibrary.solver import WordleSolver
 
 class SolverListener:
     def __init__(self, solver: WordleSolver):
