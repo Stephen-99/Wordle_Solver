@@ -38,6 +38,7 @@ class PlayWordleScreen(Screen):
         self.rows.SetNewCurRow()
 
     def UpdateScreen(self):
+        print("Updating play wordle screen")
         self.innerBox.clear()
         self.innerBox.add(self.title)
         self.rows.AddToBox(self.innerBox)

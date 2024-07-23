@@ -33,8 +33,12 @@ class PlayWordleRow:
         box.add(self.box)
 
     def SquaresUpdated(self):
+        #DO I need to do something in regards to the rows updaing it's reference
+        #Or do I just need to delete and re-create the squares :(
+        print("updating squares")
         self.box.clear()
         for square in self.squares:
+            print("col:", square.style.background_color, "Readonly:", square.readonly)
             self.box.add(square)
 
     def SetActive(self):
