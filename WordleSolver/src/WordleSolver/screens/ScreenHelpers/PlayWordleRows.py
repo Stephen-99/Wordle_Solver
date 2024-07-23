@@ -3,7 +3,7 @@ from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
 from WordleSolver.Events import EventSystem
-from WordleSolver.Events.Events import PlayWordleGuessEvent, ErrorOccuredEvent
+from WordleSolver.Events.Events import PlayWordleGuessEvent, ErrorOccuredEvent, PlayWordleUpdatedEvent
 
 from WordleLibrary.LetterColour import LetterColour
 from WordleLibrary.Guess import Guess
@@ -32,16 +32,23 @@ class PlayWordleRow:
     def AddToBox(self, box: toga.Box):
         box.add(self.box)
 
+    def SquaresUpdated(self):
+        self.box.clear()
+        for square in self.squares:
+            self.box.add(square)
+
     def SetActive(self):
         #This used to work to make sure the colour updated etc, now it doesn't...
             #Might require triggering a screen update
         self.SetReadonly(isReadonly = False)
         for square in self.squares:
             square.style.background_color = self.ACTIVECOLOUR
+        self.SquaresUpdated()
 
     def SetInactive(self, guessResult: Guess):
         self.SetReadonly()
         self.UpdateColours(guessResult)
+        self.SquaresUpdated()
 
     def SetReadonly(self, isReadonly = True):
         print("Setting readonly to:", isReadonly)
@@ -52,9 +59,6 @@ class PlayWordleRow:
         print("Updating colours")
         for ii in range(5):
             self.squares[ii].style.background_color = self.GetColour(guessResult, ii)
-        #Now need to trigger a screen refresh...
-            #Just need the squarsBox to update...
-        #Can just try having a new event and letting the Screen Manager call it's changescreen func
     
     def GetColour(self, guess: Guess, idx: int):
         if guess.correct[idx]:
@@ -90,6 +94,7 @@ class PlayWordleRows:
         self.rows[self.curRowIdx].SetInactive(guess)
         self.curRowIdx += 1
         self.rows[self.curRowIdx].SetActive()
+        EventSystem.EventOccured(PlayWordleUpdatedEvent()) 
 
     def AddToBox(self, box: toga.Box):
         for row in self.rows:

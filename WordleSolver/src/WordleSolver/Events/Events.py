@@ -23,6 +23,9 @@ class RunSolverEvent:
 class ReturnToMainMenuEvent:  #TODO Does it make sense to update this tpo a return to mainmenue event?
     pass
 
+class PlayWordleUpdatedEvent:
+    pass
+
 class PlayWordleGuessEvent:
     def __init__(self, word: str):
         self.word = word
