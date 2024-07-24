@@ -5,9 +5,9 @@ from WordleLibrary.PlayWordle import PlayWordle
 from WordleSolver.screens.ScreenHelpers.PlayWordleRows import PlayWordleRows
 
 class PlayWordleListener:
-    def __init__(self, playWordleClient: PlayWordle):
+    def __init__(self, playWordleClient: PlayWordle, wordleRows: PlayWordleRows):
         self.playWordleClient = playWordleClient
-        self.wordleRows = PlayWordleRows()
+        self.wordleRows = wordleRows
         self.RegisterHandlers()
 
     def RegisterHandlers(self):

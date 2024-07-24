@@ -17,12 +17,12 @@ from .Screen import Screen
 #TODO add keyboard.
     #Should auto pop up, but can add highlighting to show which letters are unavailable or should be used.
 class PlayWordleScreen(Screen):
-    def __init__(self):
+    def __init__(self, wordleRows: PlayWordleRows):
         self.outerBox = toga.Box(style=Pack(direction=ROW, alignment="center"))
         self.innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
         self.title = None
         self.submitButton = None
-        self.rows = PlayWordleRows()
+        self.rows = wordleRows
 
     def CreateScreen(self):
         self.title = toga.Label("Guess the word!", style=Pack(padding=(2,5), font_size=16, text_align='center')) #TODO: center and format text
@@ -38,7 +38,10 @@ class PlayWordleScreen(Screen):
         self.rows.SetNewCurRow()
 
     def UpdateScreen(self):
-        print("Updating play wordle screen")
+        #Without this, innerbox doesn't even get initially update rows.
+        #Even with this, it seems self.rows is not getting the later updates.
+
+        # print("Updating play wordle screen")
         self.innerBox.clear()
         self.innerBox.add(self.title)
         self.rows.AddToBox(self.innerBox)
@@ -46,6 +49,14 @@ class PlayWordleScreen(Screen):
 
         self.outerBox.clear()
         self.outerBox.add(self.innerBox)
+        print("Returning 'updated' screen.\n Lets see what we have:\nRows:")
+        for row in self.rows.rows:
+            for sq in row.squares:
+                print("SQUARE: col:", sq.style.background_color, "  Readonly:", sq.readonly)
+        print("InnerBox children:")
+        for ch in self.innerBox.children[1:-1]:
+            for child in ch.children:
+                print("SQUARE: col:", sq.style.background_color, "  Readonly:", sq.readonly)
         return self.outerBox
 
 

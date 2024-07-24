@@ -9,7 +9,7 @@ from WordleSolver.Events.Events import *
 
 #TODO create a listener interface this can implement.
 class ScreenManager:
-    def __init__(self, changeScreensFunc, exitAppFunc):
+    def __init__(self, changeScreensFunc, exitAppFunc, wordleRows):
         self.changeScreens = changeScreensFunc
         self.exit = exitAppFunc
         
@@ -22,7 +22,7 @@ class ScreenManager:
         self.menuScreen.CreateScreen()
         self.errorScreen = ErrorScreen()
         self.errorScreen.CreateScreen()
-        self.playWordleScreen = PlayWordleScreen()
+        self.playWordleScreen = PlayWordleScreen(wordleRows)
         self.playWordleScreen.CreateScreen()
 
         #start with menuScreen (This may need to move to a separate startup func)
