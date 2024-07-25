@@ -98,17 +98,12 @@ class PlayWordleRows:
         EventSystem.EventOccured(PlayWordleGuessEvent(word))
 
     def UpdateActiveRow(self, guess: Guess):
-        print("UPDATING ACTIVE ROW, idx:", self.curRowIdx)
         self.rows[self.curRowIdx].SetInactive(guess)
         self.curRowIdx += 1
-        print("idx:", self.curRowIdx)
         self.rows[self.curRowIdx].SetActive()
         EventSystem.EventOccured(PlayWordleUpdatedEvent()) 
 
     def AddToBox(self, box: toga.Box):
-        ii = 0
         for row in self.rows:
-            ii += 1
-            print(f"Adding row {ii} to box")
             row.AddToBox(box)
     

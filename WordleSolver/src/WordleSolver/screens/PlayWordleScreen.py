@@ -38,10 +38,7 @@ class PlayWordleScreen(Screen):
         self.rows.SetNewCurRow()
 
     def UpdateScreen(self):
-        #Without this, innerbox doesn't even get initially update rows.
-        #Even with this, it seems self.rows is not getting the later updates.
-
-        # print("Updating play wordle screen")
+        #TODO: test if I actually need to do all this for it to work
         self.innerBox.clear()
         self.innerBox.add(self.title)
         self.rows.AddToBox(self.innerBox)
@@ -49,14 +46,6 @@ class PlayWordleScreen(Screen):
 
         self.outerBox.clear()
         self.outerBox.add(self.innerBox)
-        print("Returning 'updated' screen.\n Lets see what we have:\nRows:")
-        for row in self.rows.rows:
-            for sq in row.squares:
-                print("SQUARE: col:", sq.style.background_color, "  Readonly:", sq.readonly)
-        print("InnerBox children:")
-        for ch in self.innerBox.children[1:-1]:
-            for child in ch.children:
-                print("SQUARE: col:", sq.style.background_color, "  Readonly:", sq.readonly)
         return self.outerBox
 
 
