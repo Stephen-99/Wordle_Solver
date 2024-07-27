@@ -15,6 +15,8 @@ from .WebScraper import *
 # - Create a GUI pop up for errors instead of print statements
 # - Make a mobile deployment (BeeWare)
 # - Make database accessible from any device (only for reading though)
+# - Ability to use the solver mid way when some guesses have already been made
+    # have a 'different guess used button or something
 
 class WordleSolver:
     def __init__(self):

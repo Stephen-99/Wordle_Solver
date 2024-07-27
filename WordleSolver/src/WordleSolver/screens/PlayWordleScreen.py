@@ -1,11 +1,3 @@
-#This will use s imilar section to the Solver screen. But not buttons. So don't actually create a reausable fragment type idea
-#TODO:
-#COMBINE WITH GETGUESSFROMUSER
-    #We want to have a stacked list of words like in woordle itself.
-    #bottom most one they can enter text in.
-        #have it fixed with the 6 rows, just keep the last ones blank for now
-    #After a guess the next row will become active, and the one above will get colours.
-
 import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
@@ -38,14 +30,6 @@ class PlayWordleScreen(Screen):
         self.rows.SetNewCurRow()
 
     def UpdateScreen(self):
-        #TODO: test if I actually need to do all this for it to work
-        self.innerBox.clear()
-        self.innerBox.add(self.title)
-        self.rows.AddToBox(self.innerBox)
-        self.innerBox.add(self.submitButton)
-
-        self.outerBox.clear()
-        self.outerBox.add(self.innerBox)
         return self.outerBox
 
 

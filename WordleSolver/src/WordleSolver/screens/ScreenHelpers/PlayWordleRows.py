@@ -32,22 +32,15 @@ class PlayWordleRow:
     def AddToBox(self, box: toga.Box):
         self.box.clear()
         for square in self.squares:
-            print("\tSquare: \tcol:", square.style.background_color, "Readonly:", square.readonly)
             self.box.add(square)
         box.add(self.box)
 
     def SquaresUpdated(self):
-        #DO I need to do something in regards to the rows updaing it's reference
-        #Or do I just need to delete and re-create the squares :(
-        print("updating squares")
         self.box.clear()
         for square in self.squares:
-            print("col:", square.style.background_color, "Readonly:", square.readonly)
             self.box.add(square)
 
     def SetActive(self):
-        #This used to work to make sure the colour updated etc, now it doesn't...
-            #Might require triggering a screen update
         self.SetReadonly(isReadonly = False)
         for square in self.squares:
             square.style.background_color = self.ACTIVECOLOUR
@@ -59,12 +52,10 @@ class PlayWordleRow:
         self.SquaresUpdated()
 
     def SetReadonly(self, isReadonly = True):
-        print("Setting readonly to:", isReadonly)
         for square in self.squares:
             square.readonly = isReadonly
 
     def UpdateColours(self, guessResult: Guess):
-        print("Updating colours")
         for ii in range(5):
             self.squares[ii].style.background_color = self.GetColour(guessResult, ii)
     
@@ -81,7 +72,6 @@ class PlayWordleRow:
             word += square.value
         word = word.replace(" ", "")
         
-        print(word)
         if len(word) != 5:
             EventSystem.EventOccured(ErrorOccuredEvent("Make sure every square has a letter"))
             return
