@@ -23,11 +23,12 @@ class PlayWordleRow:
     
     #Formats it to always have 1 character preceded by 1 space
     def FormatTextInput(self, widget: toga.TextInput):
+        widget.value = widget.value.upper()
         if widget.value and widget.value[0] == " ":
             if len(widget.value) > 2:
                 widget.value = widget.value[0:2]
             return
-        widget.value = " " + widget.value.lower()
+        widget.value = " " + widget.value
 
     def AddToBox(self, box: toga.Box):
         self.box.clear()
@@ -75,7 +76,7 @@ class PlayWordleRow:
         if len(word) != 5:
             EventSystem.EventOccured(ErrorOccuredEvent("Make sure every square has a letter"))
             return
-        return word
+        return word.lower()
 
 class PlayWordleRows:
     def __init__(self):
