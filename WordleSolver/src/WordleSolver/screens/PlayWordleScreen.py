@@ -26,6 +26,9 @@ class PlayWordleScreen(Screen):
     
         self.outerBox.add(self.innerBox)
 
+    #TODO NEED A WAY TO RESET THE SCREEN!!
+    #Will need to call playwordle rows which will need a way to reset.
+
     def SubmitWordHandler(self, widget) -> None:
         self.rows.SetNewCurRow()
 
