@@ -19,7 +19,8 @@ class PlayWordleListener:
         self.playWordleClient.MakeAGuess(event.word)
 
     def PlayWordle(self, event: PlayWordleEvent):
-        self.playWordleClient.reset()
+        self.playWordleClient.Reset()
+        self.wordleRows.Reset()
 
     def IncorrectGuessHandler(self, event: IncorrectGuessEvent):
         self.wordleRows.UpdateActiveRow(event.guess)

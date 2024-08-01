@@ -13,7 +13,7 @@ class PlayWordle:
         self.guesses = 0
         self.answer = self.GetRandomWord()
 
-    def reset(self):
+    def Reset(self):
         self.guesses = 0
         self.answer = self.GetRandomWord()
 

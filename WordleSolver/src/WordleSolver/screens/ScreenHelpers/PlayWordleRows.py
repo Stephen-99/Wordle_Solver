@@ -17,6 +17,12 @@ class PlayWordleRow:
         self.box = toga.Box(style=Pack(direction=ROW))
         [self.box.add(square) for square in self.squares]
 
+    def Reset(self):
+        for square in self.squares:
+            square.value = ""
+            square.readonly = True
+            square.style.background_color = LetterColour.gray
+
     def CreateTextSquare(self):
         return toga.TextInput(style=Pack(padding=5, font_weight="bold", font_size=self.SQUARESIZE//2, width=self.SQUARESIZE-10, color="#ffffff", background_color=LetterColour.gray),
                               on_change=self.FormatTextInput, readonly=True)
@@ -82,6 +88,12 @@ class PlayWordleRows:
     def __init__(self):
         self.rows = [PlayWordleRow() for _ in range(6)]
         self.curRowIdx = 0
+        self.rows[self.curRowIdx].SetActive()
+
+    def Reset(self):
+        self.curRowIdx = 0
+        for row in self.rows:
+            row.Reset()
         self.rows[self.curRowIdx].SetActive()
 
     def SetNewCurRow(self):
