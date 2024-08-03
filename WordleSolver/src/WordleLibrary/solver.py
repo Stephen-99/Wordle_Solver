@@ -134,40 +134,6 @@ class WordleSolver:
         self.lookup = CharCommonality(self.validWords)
 
 
-#TODO: put these functions in the class where it makes sense, otherwise put them in a sepearate file for static functions
-
-def PlayWordle():
-    db = WordleDB()
-    words, allowedWords = db.GetWords()
-    answer = GetRandomWord(words)
-
-    try:
-        guess = Guess(GUI.GetGuessFromUser())
-    except InvalidWordLength as e:
-        GUI.DisplayErrorMessage(e.message)
-        return
-    correctGuess = guess.ValidateGuess(answer)
-    #TODO validate that the guess is in the valid guesses list.
-    guesses = 1
-    GUI.DisplayGuessResult(guess)
-
-    while not correctGuess and guesses < 6:
-        GUI.DisplayGuessResult(guess)
-        try:
-            guess = Guess(GUI.GetGuessFromUser())
-        except InvalidWordLength as e:
-            GUI.DisplayErrorMessage(e.message)
-            return
-        correctGuess = guess.ValidateGuess(answer)
-        guesses += 1
-        GUI.DisplayGuessResult(guess)
-
-    if guesses < 6:
-        GUI.DisplayWonScreen()
-    else:
-        GUI.DisplayLostScreen()
-
-
 
 # converts them from a per word basis to a list of letter combinations.
 # GetLetterCombinations can then take these and convert them to combinations based on the number of required letters

@@ -1,7 +1,7 @@
 import random
 
 from WordleSolver.Events import EventSystem
-from WordleSolver.Events.Events import WonGameEvent, LostGameEvent, IncorrectGuessEvent
+from WordleSolver.Events.Events import WonGameEvent, LostGameEvent, IncorrectGuessEvent, ErrorOccuredEvent
 
 from .Database import *
 from .Guess import *
@@ -17,13 +17,12 @@ class PlayWordle:
         self.guesses = 0
         self.answer = self.GetRandomWord()
 
-    #Will need to be caused by an event raised in wordleRow (PlayWordleGuess event. Create a listener)
-    #Will then raise an event on competion to so wordleRow can updateColours
     def MakeAGuess(self, word: str):
-        #TODO: Validate the word exists in self.allowedWords
-        self.guesses += 1
-        guess = Guess(word)
-        guessIsCorrect = guess.ValidateGuess(self.answer)
+        if not self.IsAllowedWord(word):
+            EventSystem.EventOccured(ErrorOccuredEvent("Word is not an allowed word"))
+            return
+        
+        guess, guessIsCorrect = self.GetGuess(word)
 
         if guessIsCorrect:
             EventSystem.EventOccured(WonGameEvent("~~~You Won!~~~"))
@@ -35,6 +34,15 @@ class PlayWordle:
         
         EventSystem.EventOccured(IncorrectGuessEvent(guess))
 
+    def GetGuess(self, word):
+        self.guesses += 1
+        guess = Guess(word)
+        guessIsCorrect = guess.ValidateGuess(self.answer)
+        
+        return guess, guessIsCorrect
+
+    def IsAllowedWord(self, word):
+        return word in self.allowedWords
 
     def GetRandomWord(self) -> str:
         return random.choice(self.validWords)
