@@ -22,9 +22,9 @@ test_sources = [
 ]
 
 requires = [
-"PySimpleGUI", "pymongo", "bs4",
+    "pymongo", "bs4",
 ]
-test_requires = [    "pytest",]
+test_requires = [ "pytest",]
 
 
 [tool.briefcase.app.WordleSolver.macOS]

@@ -17,3 +17,6 @@ class SolverListener:
     def RunSolverHandler(self, event: RunSolverEvent):
         self.solver.resetSolver()
         self.solver.GetNextGuess()
+
+#TODO: try updating to use latest version of toga. see if it helps.
+#It still trys to pull in simpleyPyGUI too even though I removed it so find out what's up wiht that..
