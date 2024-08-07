@@ -22,7 +22,7 @@ test_sources = [
 ]
 
 requires = [
-    "pymongo", "bs4",
+    "pymongo", "bs4", "certifi", "requests"
 ]
 test_requires = [ "pytest",]
 

@@ -34,3 +34,6 @@ def main():
 # I figured that to update the andorid build I need to run:   briefcase build android -u -r
 # When doing that I finally got an update requirements installed, and it actually built!
 # I ran it on the emulator, and it crashed :( But a start, and a way forward!
+
+#fixed the missing packages, now crashing because it can't access the db since it doesn't have the password file
+    #Need a longer term soln for this. Don't really want to ship with the password, although We could...
