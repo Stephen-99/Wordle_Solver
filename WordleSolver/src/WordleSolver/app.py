@@ -29,3 +29,8 @@ class WordleSolver(toga.App):
 
 def main():
     return WordleSolver()
+
+# This is a better place for updates:    
+# I figured that to update the andorid build I need to run:   briefcase build android -u -r
+# When doing that I finally got an update requirements installed, and it actually built!
+# I ran it on the emulator, and it crashed :( But a start, and a way forward!
