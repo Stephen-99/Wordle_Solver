@@ -37,3 +37,5 @@ def main():
 
 #fixed the missing packages, now crashing because it can't access the db since it doesn't have the password file
     #Need a longer term soln for this. Don't really want to ship with the password, although We could...
+
+    #Could just send the password with itfor now as a temp soln. Or make separate account with less access so they can't erite, only read
