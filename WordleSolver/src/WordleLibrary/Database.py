@@ -8,17 +8,21 @@ import os
 from .WebScraper import *
 
 
+#updated database connection to use a user with read-only access. Now getting a different error. 
+# Apparently related to dns on android. Might try on my phone first instead of the emulator to see if that will fix it.
 class WordleDB:
     def __init__(self):
         self.db = self.ConnectToDB()
 
     def ConnectToDB(self) -> pymongo.database.Database:
-        with open("C:/Dev/Wordle_Solver/WordleSolver/src/WordleLibrary/password") as passFile:
-            password = passFile.readline()
+        #with open("C:/Dev/Wordle_Solver/WordleSolver/src/WordleLibrary/password") as passFile:
+        #    password = passFile.readline()
+        password = "4BiCaHWwA25bwHSS"
 
         cert = certifi.where()
         client = pymongo.MongoClient(
-            "mongodb+srv://admin:"
+            #"mongodb+srv://admin:"
+            "mongodb+srv://user:"
             + password
             + "@wordlesolver.u6oi1ao.mongodb.net/?retryWrites=true&w=majority",
             tls=True,
