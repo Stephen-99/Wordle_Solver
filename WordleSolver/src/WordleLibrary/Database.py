@@ -3,22 +3,21 @@
 import time
 import certifi
 import pymongo
-import dns
+import dns.resolver as dns_res
 import os
 
 from .WebScraper import *
 
 
-#Dns config fixed the issue.
-    #Well. It works on the android now. But nor on windows :/
-    #Seems it's an environment issue. Conflicting package or something
 #Now the content doesn't wrap to the screen size. Will need to fix that :D
 #Also worth putting GUI stuff on a separate thread. It's all single-threaded atm
 #Also breaks on "play wordle" although it works after stopping the app here. Seems to be a recursion thing. Maybe on setting the screen?
+#Definitely want it to auto jump to next box on letter submission too
+#Also does not seem to work well in landscape mode
 class WordleDB:
     def __init__(self):
-        dns.resolver.default_resolver=dns.resolver.Resolver(configure=False)
-        dns.resolver.default_resolver.nameservers=['8.8.8.8']
+        dns_res.default_resolver=dns_res.Resolver(configure=False)
+        dns_res.default_resolver.nameservers=['8.8.8.8']
         self.db = self.ConnectToDB()
 
     def ConnectToDB(self) -> pymongo.database.Database:
