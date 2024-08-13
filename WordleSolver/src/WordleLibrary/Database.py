@@ -3,15 +3,22 @@
 import time
 import certifi
 import pymongo
+import dns
 import os
 
 from .WebScraper import *
 
 
-#updated database connection to use a user with read-only access. Now getting a different error. 
-# Apparently related to dns on android. Might try on my phone first instead of the emulator to see if that will fix it.
+#Dns config fixed the issue.
+    #Well. It works on the android now. But nor on windows :/
+    #Seems it's an environment issue. Conflicting package or something
+#Now the content doesn't wrap to the screen size. Will need to fix that :D
+#Also worth putting GUI stuff on a separate thread. It's all single-threaded atm
+#Also breaks on "play wordle" although it works after stopping the app here. Seems to be a recursion thing. Maybe on setting the screen?
 class WordleDB:
     def __init__(self):
+        dns.resolver.default_resolver=dns.resolver.Resolver(configure=False)
+        dns.resolver.default_resolver.nameservers=['8.8.8.8']
         self.db = self.ConnectToDB()
 
     def ConnectToDB(self) -> pymongo.database.Database:
