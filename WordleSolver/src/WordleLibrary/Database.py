@@ -9,6 +9,9 @@ import os
 from .WebScraper import *
 
 #Definitely want it to auto jump to next box on letter submission too
+    #The FormatTextInput should raise an event to then trigget focus to shift to the next square
+    #Will need to know whcih square has focus etc.
+#Also set onClick for each square to put the cursor at the start of the square.
 
 #Now the content doesn't wrap to the screen size. Will need to fix that :D
 #Also worth putting GUI stuff on a separate thread. It's all single-threaded atm
