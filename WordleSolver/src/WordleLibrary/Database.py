@@ -8,11 +8,10 @@ import os
 
 from .WebScraper import *
 
+#Definitely want it to auto jump to next box on letter submission too
 
 #Now the content doesn't wrap to the screen size. Will need to fix that :D
 #Also worth putting GUI stuff on a separate thread. It's all single-threaded atm
-#Also breaks on "play wordle" although it works after stopping the app here. Seems to be a recursion thing. Maybe on setting the screen?
-#Definitely want it to auto jump to next box on letter submission too
 #Also does not seem to work well in landscape mode
 class WordleDB:
     def __init__(self):
