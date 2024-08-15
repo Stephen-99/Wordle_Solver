@@ -8,14 +8,24 @@ import os
 
 from .WebScraper import *
 
-#Definitely want it to auto jump to next box on letter submission too
+#  ~~~~~  Must do before releasing to play store  ~~~~~  #
+    # Fix text not fitting on home screen
+
+#  ~~~~~  Like to do before releasing to play store  ~~~~~  #
+    # Play wordle, jump to next box after entering a letter
+    # Play wordle, on clicking a box, set cursor to the start
+    # Cause errors to not send back to the home screen
+    # Nicer won and loss screens
+    # An app logo
+
+#  ~~~~~  Would like to do  ~~~~~  #
+    # putting GUI stuff on a separate thread. It's all single-threaded atm
+    # Make it work for landscape, or enforce portrait mode
+
+
+#For auto focusing on next square:
     #The FormatTextInput should raise an event to then trigget focus to shift to the next square
     #Will need to know whcih square has focus etc.
-#Also set onClick for each square to put the cursor at the start of the square.
-
-#Now the content doesn't wrap to the screen size. Will need to fix that :D
-#Also worth putting GUI stuff on a separate thread. It's all single-threaded atm
-#Also does not seem to work well in landscape mode
 class WordleDB:
     def __init__(self):
         dns_res.default_resolver=dns_res.Resolver(configure=False)
