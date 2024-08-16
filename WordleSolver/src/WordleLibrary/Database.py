@@ -17,6 +17,7 @@ from .WebScraper import *
     # Cause errors to not send back to the home screen
     # Nicer won and loss screens
     # An app logo
+    # Allow players to input their own word choices and results so far
 
 #  ~~~~~  Would like to do  ~~~~~  #
     # putting GUI stuff on a separate thread. It's all single-threaded atm
