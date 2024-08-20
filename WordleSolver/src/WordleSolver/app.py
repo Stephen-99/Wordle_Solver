@@ -30,14 +30,23 @@ class WordleSolver(toga.App):
 def main():
     return WordleSolver()
 
-# This is a better place for updates:    
-# I figured that to update the andorid build I need to run:   briefcase build android -u -r
-# When doing that I finally got an update requirements installed, and it actually built!
-# I ran it on the emulator, and it crashed :( But a start, and a way forward!
 
-#fixed the missing packages, now crashing because it can't access the db since it doesn't have the password file
-    #Need a longer term soln for this. Don't really want to ship with the password, although We could...
+#  ~~~~~  Must do before releasing to play store  ~~~~~  #
+    # Fix text not fitting on home screen
 
-    #Could just send the password with itfor now as a temp soln. Or make separate account with less access so they can't erite, only read
-    #Not sure how anymore :(
-    #I removed it from the gitignore and it still couldn't find it...
+#  ~~~~~  Like to do before releasing to play store  ~~~~~  #
+    # Play wordle, jump to next box after entering a letter
+    # Play wordle, on clicking a box, set cursor to the start
+    # Cause errors to not send back to the home screen
+    # Nicer won and loss screens
+    # An app logo
+    # Allow players to input their own word choices and results so far
+
+#  ~~~~~  Would like to do  ~~~~~  #
+    # putting GUI stuff on a separate thread. It's all single-threaded atm
+    # Make it work for landscape, or enforce portrait mode
+
+
+#For auto focusing on next square:
+    #The FormatTextInput should raise an event to then trigget focus to shift to the next square
+    #Will need to know whcih square has focus etc.

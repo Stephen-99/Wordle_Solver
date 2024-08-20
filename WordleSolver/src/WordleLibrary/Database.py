@@ -8,25 +8,6 @@ import os
 
 from .WebScraper import *
 
-#  ~~~~~  Must do before releasing to play store  ~~~~~  #
-    # Fix text not fitting on home screen
-
-#  ~~~~~  Like to do before releasing to play store  ~~~~~  #
-    # Play wordle, jump to next box after entering a letter
-    # Play wordle, on clicking a box, set cursor to the start
-    # Cause errors to not send back to the home screen
-    # Nicer won and loss screens
-    # An app logo
-    # Allow players to input their own word choices and results so far
-
-#  ~~~~~  Would like to do  ~~~~~  #
-    # putting GUI stuff on a separate thread. It's all single-threaded atm
-    # Make it work for landscape, or enforce portrait mode
-
-
-#For auto focusing on next square:
-    #The FormatTextInput should raise an event to then trigget focus to shift to the next square
-    #Will need to know whcih square has focus etc.
 class WordleDB:
     def __init__(self):
         dns_res.default_resolver=dns_res.Resolver(configure=False)
