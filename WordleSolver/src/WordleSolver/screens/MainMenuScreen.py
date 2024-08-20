@@ -3,7 +3,7 @@ from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
 from WordleSolver.Events import EventSystem
-from WordleSolver.Events.Events import ExitAppEvent, PlayWordleEvent, RunSolverEvent
+from WordleSolver.Events.Events import PlayWordleEvent, RunSolverEvent
 from .Screen import Screen
 
 class MainMenuScreen(Screen):
@@ -23,16 +23,11 @@ class MainMenuScreen(Screen):
         buttonsBox = toga.Box()
         playButton = toga.Button("Play Wordle", on_press=self.PlayWordleHandler, style=Pack(padding=5, font_size=12))
         solveButton = toga.Button("Use the solver", on_press=self.RunSolverHandler, style=Pack(padding=5, font_size=12))
-        exitButton = toga.Button("Exit", on_press=self.ExitAppHandler, style=Pack(padding=5, font_size=12))
-        buttonsBox.add(playButton, solveButton, exitButton)
+        buttonsBox.add(playButton, solveButton)
 
         mainBox.add(welcomeTextLabel, buttonsBox)
         outerBox.add(mainBox)
         self.content = outerBox
-    
-    def ExitAppHandler(self, widget) -> None:
-        EventSystem.EventOccured(ExitAppEvent())
-        #TODO: this doesn't allow the app to exit anymore :(
 
     def PlayWordleHandler(self, widget) -> None:
         EventSystem.EventOccured(PlayWordleEvent())

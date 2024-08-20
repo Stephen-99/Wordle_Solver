@@ -9,9 +9,8 @@ from WordleSolver.Events.Events import *
 
 #TODO create a listener interface this can implement.
 class ScreenManager:
-    def __init__(self, changeScreensFunc, exitAppFunc, wordleRows):
+    def __init__(self, changeScreensFunc, wordleRows):
         self.changeScreens = changeScreensFunc
-        self.exit = exitAppFunc
         
         self.RegisterHandlers()
 
@@ -30,7 +29,6 @@ class ScreenManager:
 
     def RegisterHandlers(self):
         EventSystem.subscribe(NewWordEvent, self.UpdateSolverScreen)
-        EventSystem.subscribe(ExitAppEvent, self.ExitAllScreens)
         EventSystem.subscribe(ReturnToMainMenuEvent, self.SolverFinished)
         EventSystem.subscribe(ErrorOccuredEvent, self.ErrorOccured)
         EventSystem.subscribe(PlayWordleEvent, self.PlayWordle)
@@ -43,9 +41,6 @@ class ScreenManager:
     def ChangeScreen(self, screen: Screen):
         screenContent = screen.UpdateScreen()
         self.changeScreens(screenContent)
- 
-    def ExitAllScreens(self, event: ExitAppEvent):
-        self.exit()
 
     def SolverFinished(self, event: ReturnToMainMenuEvent):
         self.ChangeScreen(self.menuScreen)

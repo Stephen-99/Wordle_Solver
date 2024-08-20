@@ -14,7 +14,7 @@ class ListenerCreator:
     def __init__(self) -> None:
         self.listeners = []
 
-    def SetupListeners(self, changeScreensFunc, exitFunc, solver: WordleSolver, playWordleClient: PlayWordle, wordleRows: PlayWordleRows):
-        self.listeners.append(ScreenManager(changeScreensFunc, exitFunc, wordleRows))
+    def SetupListeners(self, changeScreensFunc, solver: WordleSolver, playWordleClient: PlayWordle, wordleRows: PlayWordleRows):
+        self.listeners.append(ScreenManager(changeScreensFunc, wordleRows))
         self.listeners.append(SolverListener(solver))
         self.listeners.append(PlayWordleListener(playWordleClient, wordleRows))

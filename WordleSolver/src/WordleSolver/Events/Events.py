@@ -11,9 +11,6 @@ class NewWordEvent:
     def __init__(self, word: List[str]):
         self.word = word
 
-class ExitAppEvent:
-    pass
-
 class PlayWordleEvent:
     pass
 

@@ -19,7 +19,7 @@ class WordleSolver(toga.App):
         solver = Solver()
         wordleRows = PlayWordleRows()
         playWordleClient = PlayWordle()
-        ListenerCreator().SetupListeners(self.ChangeScreen, self.app.exit, solver, playWordleClient, wordleRows)
+        ListenerCreator().SetupListeners(self.ChangeScreen, solver, playWordleClient, wordleRows)
 
 
     def ChangeScreen(self, screenContent):
@@ -38,9 +38,11 @@ def main():
     # Play wordle, jump to next box after entering a letter
     # Play wordle, on clicking a box, set cursor to the start
     # Cause errors to not send back to the home screen
+    # Add back buttons to playWordle and solver screens
     # Nicer won and loss screens
     # An app logo
     # Allow players to input their own word choices and results so far
+    # 2nd letter only highlight if it is in the word twice. (Check how does nytimes do it?)
 
 #  ~~~~~  Would like to do  ~~~~~  #
     # putting GUI stuff on a separate thread. It's all single-threaded atm
