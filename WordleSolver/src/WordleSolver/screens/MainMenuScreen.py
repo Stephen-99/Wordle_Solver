@@ -15,9 +15,9 @@ class MainMenuScreen(Screen):
     #TODO: what will need updating, if any.
 
     def CreateScreen(self):
-        mainBox = toga.Box(style=Pack(direction=COLUMN, alignment='center'))
-        welcomeTextLabel = toga.Label("Hello! Welcome to Wordle Solver!\nPlease choose to either play a game of Wordle, use the solver to solve a wordle puzzle, or exit.",
-                                      style=Pack(padding=(2,5), font_size=16, text_align='center'))
+        mainBox = toga.Box(style=Pack(direction=COLUMN, alignment='center', padding=(20, 5)))
+        welcomeTextLabel = toga.Label("Hello! Welcome to Wordle Solver!\n",
+                                      style=Pack(padding=(2,5), font_size=18, text_align='center'))
         
         buttonsBox = toga.Box()
         playButton = toga.Button("Play Wordle", on_press=self.PlayWordleHandler, style=Pack(padding=5, font_size=12))
