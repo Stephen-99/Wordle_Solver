@@ -18,7 +18,7 @@ class PlayWordleScreen(Screen):
 
     def CreateScreen(self):
         self.title = toga.Label("Guess the word!", style=Pack(padding=(2,5), font_size=16, text_align='center')) #TODO: center and format text
-        self.submitButton = toga.Button("Submit", on_press=self.SubmitWordHandler, style=Pack(padding=5, font_size=12))
+        self.submitButton = toga.Button("Submit", on_press=self.SubmitWordHandler, style=Pack(padding=5, font_size=12, width=100))
         
         self.innerBox.add(self.title)
         self.rows.AddToBox(self.innerBox)
