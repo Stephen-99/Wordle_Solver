@@ -15,7 +15,8 @@ class MainMenuScreen(Screen):
     #TODO: what will need updating, if any.
 
     def CreateScreen(self):
-        mainBox = toga.Box(style=Pack(direction=COLUMN, alignment='center', padding=(20, 5)))
+        outerBox = toga.Box(style=Pack(direction=ROW, alignment='center'))
+        mainBox = toga.Box(style=Pack(direction=COLUMN, alignment='center', padding=(20, 5), flex=1))
         welcomeTextLabel = toga.Label("Hello! Welcome to Wordle Solver!\n",
                                       style=Pack(padding=(2,5), font_size=18, text_align='center'))
         
@@ -26,11 +27,12 @@ class MainMenuScreen(Screen):
         buttonsBox.add(playButton, solveButton, exitButton)
 
         mainBox.add(welcomeTextLabel, buttonsBox)
-    
-        self.content = mainBox
+        outerBox.add(mainBox)
+        self.content = outerBox
     
     def ExitAppHandler(self, widget) -> None:
         EventSystem.EventOccured(ExitAppEvent())
+        #TODO: this doesn't allow the app to exit anymore :(
 
     def PlayWordleHandler(self, widget) -> None:
         EventSystem.EventOccured(PlayWordleEvent())

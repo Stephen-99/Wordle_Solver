@@ -50,8 +50,8 @@ class SolverScreen(Screen):
 
     def CreateLetterButton(self, letter, colourData: LetterColour):
         colourData.ResetState()
-        size = 100
-        button = toga.Button(letter, on_press=colourData, style=Pack(padding=5, font_weight="bold", font_size=32, width=size, height=size, color="#ffffff", background_color=colourData.colour))
+        size = 80
+        button = toga.Button(letter, on_press=colourData, style=Pack(padding=5, font_weight="bold", font_size=28, width=size, height=size, color="#ffffff", background_color=colourData.colour))
         #Can't seem to get button border to change color... :(
         return button
     
