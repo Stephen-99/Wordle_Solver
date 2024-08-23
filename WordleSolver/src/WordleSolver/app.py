@@ -35,8 +35,8 @@ def main():
     # Fix text not fitting on home screen ~~ :D ~~
 
 #  ~~~~~  Like to do before releasing to play store  ~~~~~  #
-    # Play wordle, jump to next box after entering a letter
-    # Play wordle, on clicking a box, set cursor to the start
+    # Play wordle, jump to next box after entering a letter ~~ :D ~~
+    # Play wordle, on clicking a box, set cursor to the start ~~ Don't seem to be able to move the cursor with Toga ~~
     # Cause errors to not send back to the home screen
     # Add back buttons to playWordle and solver screens
     # Nicer won and loss screens
