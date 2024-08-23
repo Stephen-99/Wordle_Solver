@@ -13,6 +13,7 @@ class PlayWordleRow:
     ACTIVECOLOUR = "#848484"
     
     def __init__(self):
+        self.squareWithFocusIdx = -1 #No square starts with the focus
         self.squares = [self.CreateTextSquare() for _ in range(5)]
         self.box = toga.Box(style=Pack(direction=ROW))
         [self.box.add(square) for square in self.squares]
@@ -25,7 +26,7 @@ class PlayWordleRow:
 
     def CreateTextSquare(self):
         return toga.TextInput(style=Pack(padding=5, font_weight="bold", font_size=self.SQUARESIZE//2, width=self.SQUARESIZE-10, color="#ffffff", background_color=LetterColour.gray),
-                              on_change=self.FormatTextInput, readonly=True)
+                              on_change=self.FormatTextInput, on_gain_focus=self.FocusWasSetToSquare, readonly=True)
     
     #Formats it to always have 1 character preceded by 1 space
     def FormatTextInput(self, widget: toga.TextInput):
@@ -41,6 +42,18 @@ class PlayWordleRow:
             valToSet = valToSet[0:2]
         
         widget.value = valToSet
+        self.MoveFocusToNextSquare()
+
+    def MoveFocusToNextSquare(self):
+        if self.squareWithFocusIdx < len(self.squares):
+            self.squareWithFocusIdx += 1
+            self.squares[self.squareWithFocusIdx].focus()
+
+    def FocusWasSetToSquare(self, widget: toga.TextInput):
+        for ii, square in enumerate(self.squares):
+            if square == widget:
+                self.squareWithFocusIdx = ii
+                break
 
     def AddToBox(self, box: toga.Box):
         self.box.clear()

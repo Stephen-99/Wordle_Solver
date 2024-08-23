@@ -32,7 +32,7 @@ def main():
 
 
 #  ~~~~~  Must do before releasing to play store  ~~~~~  #
-    # Fix text not fitting on home screen
+    # Fix text not fitting on home screen ~~ :D ~~
 
 #  ~~~~~  Like to do before releasing to play store  ~~~~~  #
     # Play wordle, jump to next box after entering a letter
