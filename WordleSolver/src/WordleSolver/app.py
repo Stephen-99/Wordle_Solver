@@ -47,8 +47,3 @@ def main():
 #  ~~~~~  Would like to do  ~~~~~  #
     # putting GUI stuff on a separate thread. It's all single-threaded atm
     # Make it work for landscape, or enforce portrait mode
-
-
-#For auto focusing on next square:
-    #The FormatTextInput should raise an event to then trigget focus to shift to the next square
-    #Will need to know whcih square has focus etc.
