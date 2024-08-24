@@ -12,7 +12,7 @@ class MainMenuScreen(Screen):
 
     def UpdateScreen(self):
         return self.content
-    #TODO: what will need updating, if any.
+    # TODO: what will need updating, if any.
 
     def CreateScreen(self):
         outerBox = toga.Box(style=Pack(direction=ROW, alignment='center'))

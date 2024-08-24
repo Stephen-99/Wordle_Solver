@@ -54,3 +54,8 @@ class ScreenManager:
     def ErrorOccured(self, event: ErrorOccuredEvent):
         self.errorScreen.UpdateMessage(event.errorMsg)
         self.ChangeScreen(self.errorScreen)
+
+        #So currently getting these events. This is good. Need to update  to instead create a box with the error message, and then add that to the relevant screen.
+        #Need to know the current screen though. 
+        #Create a separate erreroHandler for this. It should handle creating the box
+        #The event will also need a custom object. One with the error message and the screen it came from.
