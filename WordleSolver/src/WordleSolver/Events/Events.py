@@ -4,6 +4,7 @@ from typing import List
 
 from WordleLibrary.LetterColour import LetterColour
 from WordleLibrary.Guess import Guess
+from WordleSolver.Events.ErrorInfo import ErrorInfo
 
 #TODO make all events data classes
 
@@ -36,10 +37,11 @@ class SubmitGuessResultsEvent:
         self.letters = letters
 
 class ErrorOccuredEvent:
-    def __init__(self, errorMsg):
-        self.errorMsg = errorMsg
+    def __init__(self, errorInfo: ErrorInfo):
+        self.errorInfo = errorInfo
 
 #TODO: error event should become a temporary overlay type thing, and this a new screen
+#This then will no longer inherit from ErrorOccuredEvent
 class ShowTextScreenEvent(ErrorOccuredEvent):
     def __init__(self, msg):
         super().__init__(msg)

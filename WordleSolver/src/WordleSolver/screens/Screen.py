@@ -5,3 +5,5 @@ class Screen:
     def UpdateScreen(self):
         raise NotImplementedError("This should be implemented by all child classes")
     
+    def ShowError(self):
+        raise NotImplementedError("This should be implemented by all child classes")

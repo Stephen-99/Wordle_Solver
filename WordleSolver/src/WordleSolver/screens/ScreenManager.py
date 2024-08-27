@@ -51,6 +51,7 @@ class ScreenManager:
     def UpdatePlayWordleScreen(self, event: PlayWordleUpdatedEvent):
         self.ChangeScreen(self.playWordleScreen)
 
+    #TODO Should be updated to use ShowTextScreenEvent
     def ErrorOccured(self, event: ErrorOccuredEvent):
         self.errorScreen.UpdateMessage(event.errorMsg)
         self.ChangeScreen(self.errorScreen)

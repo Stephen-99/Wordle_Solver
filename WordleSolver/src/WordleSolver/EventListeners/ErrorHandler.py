@@ -9,7 +9,12 @@ class ErrorHandler:
         EventSystem.subscribe(ErrorOccuredEvent, self.ErrorOccured)
 
     def ErrorOccured(self, event: ErrorOccuredEvent):
-        print(event.errorMsg)
+        event.errorInfo.screenWithError.ShowError(self.CreateErrorBox(event.errorInfo.msg))
+
+    def CreateErrorBox(self, errorMsg: str):
+        pass
+
+
         #TODO, event will need to also have the screen it came from
         # Also have a function fro creating a box with the error message which can then be appended to the relevant screen.
             # Each screen should implement the generic screen which should have a method for adding temporary content to the bottom of the screen
