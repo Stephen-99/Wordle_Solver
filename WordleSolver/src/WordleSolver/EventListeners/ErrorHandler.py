@@ -1,3 +1,7 @@
+import toga
+from toga.style import Pack
+from toga.style.pack import COLUMN, ROW
+
 from WordleSolver.Events import EventSystem
 from WordleSolver.Events.Events import *
 
@@ -5,6 +9,7 @@ class ErrorHandler:
     def __init__(self):
         self.RegisterHandlers()
 
+#TODO: make sure this is getting created and called.
     def RegisterHandlers(self):
         EventSystem.subscribe(ErrorOccuredEvent, self.ErrorOccured)
 
@@ -12,7 +17,11 @@ class ErrorHandler:
         event.errorInfo.screenWithError.ShowError(self.CreateErrorBox(event.errorInfo.msg))
 
     def CreateErrorBox(self, errorMsg: str):
-        pass
+        box = toga.Box(style=Pack(direction=COLUMN, background_color="#FFEBEE", padding=10))
+        msgLabel = toga.Label(text=errorMsg, style=Pack(color="#FF0000", font_size=16, text_align='center'))
+
+        box.add(msgLabel)
+        return box
 
 
         #TODO, event will need to also have the screen it came from
