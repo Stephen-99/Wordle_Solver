@@ -25,6 +25,8 @@ class ErrorHandler:
 
 
         #TODO, event will need to also have the screen it came from
+            #It now does. Needs to be created in the right places though
+
         # Also have a function fro creating a box with the error message which can then be appended to the relevant screen.
             # Each screen should implement the generic screen which should have a method for adding temporary content to the bottom of the screen
             # Potentially this class should raise the event to take care of timeouts for the errors...
