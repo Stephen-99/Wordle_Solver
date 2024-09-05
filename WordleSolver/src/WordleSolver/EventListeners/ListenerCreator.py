@@ -4,6 +4,7 @@
 from WordleSolver.screens.ScreenManager import ScreenManager
 from .SolverListener import SolverListener
 from .PlayWordleListener import PlayWordleListener
+from .ErrorHandler import ErrorHandler
 from WordleSolver.screens.ScreenHelpers.PlayWordleRows import PlayWordleRows
 
 #Dependencies of those listeners.
@@ -18,3 +19,4 @@ class ListenerCreator:
         self.listeners.append(ScreenManager(changeScreensFunc, wordleRows))
         self.listeners.append(SolverListener(solver))
         self.listeners.append(PlayWordleListener(playWordleClient, wordleRows))
+        self.listeners.append(ErrorHandler())
