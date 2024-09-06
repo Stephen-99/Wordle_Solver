@@ -33,3 +33,5 @@ class ErrorHandler:
             # What about if they spam a button to raise a ton of errors. It will break the screen. We only want to allow for 1 at a time
                 #This should be in the screen's implementation. They just have a box for it, and for each error set the content to that box
                     #This will mean the screen has knowledge of the last added error, so should be in charge of the tiemout.
+#NOTE:
+    #seems to eb an issue where thing doesn't say what word is invalid.
