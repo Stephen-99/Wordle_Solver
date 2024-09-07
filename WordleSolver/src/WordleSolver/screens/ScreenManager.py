@@ -1,3 +1,4 @@
+import toga
 from WordleSolver.screens.Screen import Screen
 from WordleSolver.screens.MainMenuScreen import MainMenuScreen
 from WordleSolver.screens.SolverScreen import SolverScreen
@@ -50,6 +51,9 @@ class ScreenManager:
 
     def UpdatePlayWordleScreen(self, event: PlayWordleUpdatedEvent):
         self.ChangeScreen(self.playWordleScreen)
+
+    def AddErrorBoxToCurScreen(self, errorBox: toga.Box):
+        #I think I can call a thing to get the main app and get the cur screen from there. Idk tho. might have to keep track fo the current screen here otherwise.
 
     #TODO Should be updated to use ShowTextScreenEvent
     def ErrorOccured(self, event: ErrorOccuredEvent):
