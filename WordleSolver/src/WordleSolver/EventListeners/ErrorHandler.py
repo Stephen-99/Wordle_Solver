@@ -15,6 +15,8 @@ class ErrorHandler:
 
     def ErrorOccured(self, event: ErrorOccuredEvent):
         event.errorInfo.screenWithError.ShowError(self.CreateErrorBox(event.errorInfo.msg))
+        #Should instead call the screen manager to update the current screen with the error message
+        #May need to do that by raising a new type fo event.
 
     def CreateErrorBox(self, errorMsg: str):
         box = toga.Box(style=Pack(direction=COLUMN, background_color="#FFEBEE", padding=10))

@@ -31,7 +31,7 @@ class ScreenManager:
     def RegisterHandlers(self):
         EventSystem.subscribe(NewWordEvent, self.UpdateSolverScreen)
         EventSystem.subscribe(ReturnToMainMenuEvent, self.SolverFinished)
-        EventSystem.subscribe(ErrorOccuredEvent, self.ErrorOccured)
+        #EventSystem.subscribe(ErrorOccuredEvent, self.ErrorOccured)
         EventSystem.subscribe(PlayWordleEvent, self.PlayWordle)
         EventSystem.subscribe(PlayWordleUpdatedEvent, self.UpdatePlayWordleScreen)
 
@@ -53,6 +53,16 @@ class ScreenManager:
         self.ChangeScreen(self.playWordleScreen)
 
     def AddErrorBoxToCurScreen(self, errorBox: toga.Box):
+        screen = toga.app.current.main_window.content
+        screen.ShowError(errorBox)
+        #So Screens will need to implement a method to add error content.
+        #Let's try add that and see what happens
+
+        #SO currentlya n error occured event is raised and that calls the function below, but we actually want the erro hanfler to be called...
+        #Currently commenterd out the registration for the below func
+
+        #I think I need to make the error handler a listener.
+
         #I think I can call a thing to get the main app and get the cur screen from there. Idk tho. might have to keep track fo the current screen here otherwise.
 
     #TODO Should be updated to use ShowTextScreenEvent
