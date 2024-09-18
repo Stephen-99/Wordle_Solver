@@ -37,8 +37,12 @@ class SubmitGuessResultsEvent:
         self.letters = letters
 
 class ErrorOccuredEvent:
-    def __init__(self, errorInfo: ErrorInfo):
-        self.errorInfo = errorInfo
+    def __init__(self, msg):
+        self.msg = msg
+
+class ShowErrorContentEvent:
+    def __init__(self, errorBox):
+        self.content = errorBox
 
 #TODO: error event should become a temporary overlay type thing, and this a new screen
 #This then will no longer inherit from ErrorOccuredEvent

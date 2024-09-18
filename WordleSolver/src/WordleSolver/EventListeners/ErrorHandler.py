@@ -14,7 +14,10 @@ class ErrorHandler:
         EventSystem.subscribe(ErrorOccuredEvent, self.ErrorOccured)
 
     def ErrorOccured(self, event: ErrorOccuredEvent):
-        event.errorInfo.screenWithError.ShowError(self.CreateErrorBox(event.errorInfo.msg))
+        #event.errorInfo.screenWithError.ShowError(self.CreateErrorBox(event.errorInfo.msg))
+        errorBox = self.CreateErrorBox(event.msg)
+        EventSystem.EventOccured(ShowErrorContentEvent(errorBox))
+
         #Should instead call the screen manager to update the current screen with the error message
         #May need to do that by raising a new type fo event.
 
