@@ -45,7 +45,8 @@ class PlayWordleRow:
         self.MoveFocusToNextSquare()
 
     def MoveFocusToNextSquare(self):
-        if self.squareWithFocusIdx < len(self.squares):
+        #This causes an error on the last idx atm
+        if self.squareWithFocusIdx <= len(self.squares):
             self.squareWithFocusIdx += 1
             self.squares[self.squareWithFocusIdx].focus()
 

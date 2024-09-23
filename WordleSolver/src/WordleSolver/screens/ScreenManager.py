@@ -12,7 +12,7 @@ from WordleSolver.Events.Events import *
 class ScreenManager:
     def __init__(self, changeScreensFunc, wordleRows):
         self.changeScreens = changeScreensFunc
-        
+        self.curScreen = None
         self.RegisterHandlers()
 
         #initiate screens
@@ -27,6 +27,7 @@ class ScreenManager:
 
         #start with menuScreen (This may need to move to a separate startup func)
         self.ChangeScreen(self.menuScreen)
+        self.curScreen = self.menuScreen
 
     def RegisterHandlers(self):
         EventSystem.subscribe(NewWordEvent, self.UpdateSolverScreen)
@@ -43,6 +44,7 @@ class ScreenManager:
     def ChangeScreen(self, screen: Screen):
         screenContent = screen.UpdateScreen()
         self.changeScreens(screenContent)
+        self.curScreen = screen
 
     def SolverFinished(self, event: ReturnToMainMenuEvent):
         self.ChangeScreen(self.menuScreen)
@@ -54,8 +56,7 @@ class ScreenManager:
         self.ChangeScreen(self.playWordleScreen)
 
     def AddErrorBoxToCurScreen(self, event: ShowErrorContentEvent):
-        screen = toga.app.main_window.content   #currently doesn't work. Keep track of current screen instead
-        screen.ShowError(event.content)
+        self.curScreen.ShowError(event.content)
         #So Screens will need to implement a method to add error content.
 
     #TODO Should be updated to use ShowTextScreenEvent
