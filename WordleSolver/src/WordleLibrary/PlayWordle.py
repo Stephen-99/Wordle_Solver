@@ -2,7 +2,6 @@ import random
 
 from WordleSolver.Events import EventSystem
 from WordleSolver.Events.Events import WonGameEvent, LostGameEvent, IncorrectGuessEvent, ErrorOccuredEvent
-from WordleSolver.Events.ErrorInfo import ErrorInfo
 
 from .Database import *
 from .Guess import *
@@ -22,7 +21,7 @@ class PlayWordle:
         if not self.IsAllowedWord(word):
             #TODO: will need someway to keep track fo which screen we have. That should kind of be screenManagers job. It should have that state.
             #Either the errorHandler should call screenManager to show the message to the right screen, or screenManager will call errorHandler..
-            EventSystem.EventOccured(ErrorOccuredEvent(ErrorInfo("Word is not an allowed word", None)))
+            EventSystem.EventOccured(ErrorOccuredEvent("Word is not an allowed word"))
             return
         
         guess, guessIsCorrect = self.GetGuess(word)

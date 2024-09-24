@@ -56,7 +56,8 @@ class ScreenManager:
         self.ChangeScreen(self.playWordleScreen)
 
     def AddErrorBoxToCurScreen(self, event: ShowErrorContentEvent):
-        self.curScreen.ShowError(event.content)
+        updatedScreenContent = self.curScreen.ShowError(event.content)
+        self.changeScreens(updatedScreenContent)
         #So Screens will need to implement a method to add error content.
 
     #TODO Should be updated to use ShowTextScreenEvent

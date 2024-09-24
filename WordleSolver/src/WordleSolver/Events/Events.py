@@ -4,7 +4,6 @@ from typing import List
 
 from WordleLibrary.LetterColour import LetterColour
 from WordleLibrary.Guess import Guess
-from WordleSolver.Events.ErrorInfo import ErrorInfo
 
 #TODO make all events data classes
 

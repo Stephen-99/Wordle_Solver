@@ -31,5 +31,17 @@ class PlayWordleScreen(Screen):
 
     def UpdateScreen(self):
         return self.outerBox
+    
+    def ShowError(self, errorBox: toga.Box):
+        self.innerBox.add(errorBox)
+        #TODO: set some timer or some way to remove the error box
+        #Also need to reset it on updateScreen. 
+            #Is there some way I can implement it once for all the screens?
+                #Doesn't really make sense though. They could theoretically ahve dif logic for  showing and removing errors
+                #Just need to know they can show an error
+
+    def CreateErrorBox(self, errorMsg: str):
+
+        return self.outerBox
 
 
