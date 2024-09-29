@@ -12,6 +12,7 @@ class PlayWordleScreen(Screen):
     def __init__(self, wordleRows: PlayWordleRows):
         self.outerBox = toga.Box(style=Pack(direction=ROW, alignment="center"))
         self.innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
+        self.errorBox = toga.Box()
         self.title = None
         self.submitButton = None
         self.rows = wordleRows
@@ -33,15 +34,24 @@ class PlayWordleScreen(Screen):
         return self.outerBox
     
     def ShowError(self, errorBox: toga.Box):
-        self.innerBox.add(errorBox)
-        #TODO: set some timer or some way to remove the error box
-        #Also need to reset it on updateScreen. 
-            #Is there some way I can implement it once for all the screens?
-                #Doesn't really make sense though. They could theoretically ahve dif logic for  showing and removing errors
-                #Just need to know they can show an error
-
-    def CreateErrorBox(self, errorMsg: str):
-
+        self.innerBox.remove(self.errorBox)
+        self.errorBox = errorBox
+        self.innerBox.add(self.errorBox)
+        self.SetErrorTimeout()
+    
         return self.outerBox
+    
+    def SetErrorTimeout(self):
+        #If there is an existing thread waiting, cancel the task
+        #Start a new task to run RemoveError after 5s
+        pass
+
+    def RemoveError(self):
+        self.innerBox.remove(self.errorBox)
+        #TODO raise a new event to update the current screen content
+        #What if we are no longer the current screen?
+            #Just let the screen manager take care of the refresh.
+                #Do we really want a refresh if it's another screen?
+                #Just stop caring ig. It should be fine to refresh
 
 

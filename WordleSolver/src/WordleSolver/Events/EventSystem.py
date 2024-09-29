@@ -12,7 +12,6 @@ def unsubscribe(eventType, fn):
         eventSubscribers[eventType].remove(fn)
 
 def EventOccured(event):
-    print("event!", event)
     if type(event) not in eventSubscribers:
         #Look for it's super type
         if len(type(event).__bases__) > 0:
