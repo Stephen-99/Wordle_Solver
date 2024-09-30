@@ -2,6 +2,9 @@ import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
+from threading import Thread
+from time import sleep
+
 from .ScreenHelpers.PlayWordleRows import PlayWordleRows
 from .Screen import Screen
 
@@ -13,6 +16,7 @@ class PlayWordleScreen(Screen):
         self.outerBox = toga.Box(style=Pack(direction=ROW, alignment="center"))
         self.innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
         self.errorBox = toga.Box()
+        self.errorThread = Thread(target=self.RemoveError)
         self.title = None
         self.submitButton = None
         self.rows = wordleRows
@@ -41,17 +45,20 @@ class PlayWordleScreen(Screen):
     
         return self.outerBox
     
-    def SetErrorTimeout(self):
-        #If there is an existing thread waiting, cancel the task
-        #Start a new task to run RemoveError after 5s
-        pass
+    def SetErrorTimeout(self): #Rename this as it doesn't set the timout
+        if self.errorThread.is_alive():
+            self.errorThread.cancel() #TODO need to set a flag and stuff to cancel the thread instead.
+        self.errorThread = Thread(target=self.RemoveError)
+        self.errorThread.start()
+
+    def ErrorRemovalAfterTimeout(self):
+        sleep(5)
+        #TODO create an event to remove error from current screen. Only the original thread can change the view.
+            #Send the current screen too so that the screen manager can verify if the screen has changed
+                #The screen could have changed, forward and back though. We might unwittingly remove the wrong error
+                    #This will only be meaningful if we have another error, in which case we will have cancelled the first thread.
 
     def RemoveError(self):
         self.innerBox.remove(self.errorBox)
-        #TODO raise a new event to update the current screen content
-        #What if we are no longer the current screen?
-            #Just let the screen manager take care of the refresh.
-                #Do we really want a refresh if it's another screen?
-                #Just stop caring ig. It should be fine to refresh
-
+        return self.outerBox
 
