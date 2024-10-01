@@ -7,6 +7,8 @@ from time import sleep
 
 from .ScreenHelpers.PlayWordleRows import PlayWordleRows
 from .Screen import Screen
+from WordleSolver.Events import EventSystem
+from WordleSolver.Events.Events import RemoveErrorEvent
 
 
 #TODO add keyboard.
@@ -53,6 +55,7 @@ class PlayWordleScreen(Screen):
 
     def ErrorRemovalAfterTimeout(self):
         sleep(5)
+        EventSystem.EventOccured(RemoveErrorEvent())
         #TODO create an event to remove error from current screen. Only the original thread can change the view.
             #Send the current screen too so that the screen manager can verify if the screen has changed
                 #The screen could have changed, forward and back though. We might unwittingly remove the wrong error

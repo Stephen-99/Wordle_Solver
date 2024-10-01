@@ -43,6 +43,9 @@ class ShowErrorContentEvent:
     def __init__(self, errorBox):
         self.content = errorBox
 
+class RemoveErrorEvent:
+    pass
+
 #TODO: error event should become a temporary overlay type thing, and this a new screen
 #This then will no longer inherit from ErrorOccuredEvent
 class ShowTextScreenEvent(ErrorOccuredEvent):
