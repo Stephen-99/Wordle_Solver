@@ -9,3 +9,6 @@ class Screen:
     
     def ShowError(self, errorBox: toga.Box):
         raise NotImplementedError("This should be implemented by all child classes")
+    
+    def RemoveError(self) -> toga.Box:
+        raise NotImplementedError("This should be implemented by all child classes")

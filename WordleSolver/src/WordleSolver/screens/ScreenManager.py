@@ -34,6 +34,7 @@ class ScreenManager:
         EventSystem.subscribe(ReturnToMainMenuEvent, self.SolverFinished)
         #EventSystem.subscribe(ErrorOccuredEvent, self.ErrorOccured)
         EventSystem.subscribe(ShowErrorContentEvent, self.AddErrorBoxToCurScreen)
+        EventSystem.subscribe(RemoveErrorEvent, self.RemoveErrorBoxFromCurScreen)
         EventSystem.subscribe(PlayWordleEvent, self.PlayWordle)
         EventSystem.subscribe(PlayWordleUpdatedEvent, self.UpdatePlayWordleScreen)
 
@@ -60,12 +61,12 @@ class ScreenManager:
         self.changeScreens(updatedScreenContent)
         #So Screens will need to implement a method to add error content.
 
+    def RemoveErrorBoxFromCurScreen(self, event: RemoveErrorEvent):
+        if event.screen == type(self.curScreen):
+            updatedScreenContent = self.curScreen.RemoveError()
+            self.changeScreens(updatedScreenContent)
+
     #TODO Should be updated to use ShowTextScreenEvent
     def ErrorOccured(self, event: ErrorOccuredEvent):
         self.errorScreen.UpdateMessage(event.errorMsg)
         self.ChangeScreen(self.errorScreen)
-
-        #So currently getting these events. This is good. Need to update  to instead create a box with the error message, and then add that to the relevant screen.
-        #Need to know the current screen though. 
-        #Create a separate erreroHandler for this. It should handle creating the box
-        #The event will also need a custom object. One with the error message and the screen it came from.

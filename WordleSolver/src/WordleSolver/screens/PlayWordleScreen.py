@@ -39,6 +39,11 @@ class PlayWordleScreen(Screen):
     def UpdateScreen(self):
         return self.outerBox
     
+    #Once it's all sorted out, these 4 functions can be defined in some error handling class that Screen can inherit from.
+    #This way all screens get it for free. This threads logic shouldn't have to be repeated everywhere.
+    #This ShowError msg might be different for each screen. 
+        #I could have a public method in errorHandler which gets called when the error occurs, and in turn calls the method in screen.
+        #That way I can wrap it to always SetErrorTimeout. The screen shouldn't neeed to know about that.
     def ShowError(self, errorBox: toga.Box):
         self.innerBox.remove(self.errorBox)
         self.errorBox = errorBox
@@ -50,12 +55,12 @@ class PlayWordleScreen(Screen):
     def SetErrorTimeout(self): #Rename this as it doesn't set the timout
         if self.errorThread.is_alive():
             self.errorThread.cancel() #TODO need to set a flag and stuff to cancel the thread instead.
-        self.errorThread = Thread(target=self.RemoveError)
+        self.errorThread = Thread(target=self.ErrorRemovalAfterTimeout)
         self.errorThread.start()
 
     def ErrorRemovalAfterTimeout(self):
         sleep(5)
-        EventSystem.EventOccured(RemoveErrorEvent())
+        EventSystem.EventOccured(RemoveErrorEvent(type(PlayWordleScreen)))
         #TODO create an event to remove error from current screen. Only the original thread can change the view.
             #Send the current screen too so that the screen manager can verify if the screen has changed
                 #The screen could have changed, forward and back though. We might unwittingly remove the wrong error
