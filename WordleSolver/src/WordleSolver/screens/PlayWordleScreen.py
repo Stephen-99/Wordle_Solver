@@ -55,14 +55,18 @@ class PlayWordleScreen(Screen):
         return self.outerBox
     
     def SetErrorTimeout(self): #Rename this as it doesn't set the timout
+        #TODO: this has an issue when 2 errors get raised at once, such as when there are blank squares.
+            #Realy we should only throw one error in that situation. Fix that instead
         if self.errorThread.is_alive():
             self.threadCancellations[0].set()
         self.errorThread = Thread(target=self.ErrorRemovalAfterTimeout)
         self.threadCancellations.append(threading.Event())
         self.errorThread.start()
+        print("thread cancellations after starting thread:", self.threadCancellations)
 
     def ErrorRemovalAfterTimeout(self):
         sleep(5)
+        print("thread cancellations before trying to raise event:", self.threadCancellations)
         if not self.threadCancellations[0].is_set():
             EventSystem.EventOccured(RemoveErrorEvent(PlayWordleScreen))
         del self.threadCancellations[0]
