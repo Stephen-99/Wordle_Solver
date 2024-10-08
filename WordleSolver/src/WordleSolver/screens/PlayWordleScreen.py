@@ -3,6 +3,7 @@ from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
 from threading import Thread
+import threading
 from time import sleep
 
 from .ScreenHelpers.PlayWordleRows import PlayWordleRows
@@ -19,6 +20,7 @@ class PlayWordleScreen(Screen):
         self.innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
         self.errorBox = toga.Box()
         self.errorThread = Thread(target=self.RemoveError)
+        self.threadCancellations = []
         self.title = None
         self.submitButton = None
         self.rows = wordleRows
@@ -54,14 +56,17 @@ class PlayWordleScreen(Screen):
     
     def SetErrorTimeout(self): #Rename this as it doesn't set the timout
         if self.errorThread.is_alive():
-            self.errorThread.cancel() #TODO need to set a flag and stuff to cancel the thread instead.
+            self.threadCancellations[0].set()
         self.errorThread = Thread(target=self.ErrorRemovalAfterTimeout)
+        self.threadCancellations.append(threading.Event())
         self.errorThread.start()
 
     def ErrorRemovalAfterTimeout(self):
         sleep(5)
-        EventSystem.EventOccured(RemoveErrorEvent(type(PlayWordleScreen)))
-        #TODO create an event to remove error from current screen. Only the original thread can change the view.
+        if not self.threadCancellations[0].is_set():
+            EventSystem.EventOccured(RemoveErrorEvent(PlayWordleScreen))
+        del self.threadCancellations[0]
+        #Only the original thread can change the view.
             #Send the current screen too so that the screen manager can verify if the screen has changed
                 #The screen could have changed, forward and back though. We might unwittingly remove the wrong error
                     #This will only be meaningful if we have another error, in which case we will have cancelled the first thread.

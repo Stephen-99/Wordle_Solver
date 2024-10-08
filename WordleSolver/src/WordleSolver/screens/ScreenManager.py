@@ -62,6 +62,8 @@ class ScreenManager:
         #So Screens will need to implement a method to add error content.
 
     def RemoveErrorBoxFromCurScreen(self, event: RemoveErrorEvent):
+        print("Removing error from screen:", event.screen, "Current screen is:", type(self.curScreen))
+        print("Are they equla? ", event.screen == type(self.curScreen))
         if event.screen == type(self.curScreen):
             updatedScreenContent = self.curScreen.RemoveError()
             self.changeScreens(updatedScreenContent)
