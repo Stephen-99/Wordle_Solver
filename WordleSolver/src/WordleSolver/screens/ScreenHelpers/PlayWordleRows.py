@@ -118,7 +118,8 @@ class PlayWordleRows:
 
     def SetNewCurRow(self):
         word = self.rows[self.curRowIdx].ValidateRow()
-        EventSystem.EventOccured(PlayWordleGuessEvent(word))
+        if word:
+            EventSystem.EventOccured(PlayWordleGuessEvent(word))
 
     def UpdateActiveRow(self, guess: Guess):
         self.rows[self.curRowIdx].SetInactive(guess)

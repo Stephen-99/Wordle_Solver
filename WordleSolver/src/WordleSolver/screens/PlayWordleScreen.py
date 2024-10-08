@@ -55,10 +55,8 @@ class PlayWordleScreen(Screen):
         return self.outerBox
     
     def SetErrorTimeout(self): #Rename this as it doesn't set the timout
-        #TODO: this has an issue when 2 errors get raised at once, such as when there are blank squares.
-            #Realy we should only throw one error in that situation. Fix that instead
         if self.errorThread.is_alive():
-            self.threadCancellations[0].set()
+            self.threadCancellations[-1].set()
         self.errorThread = Thread(target=self.ErrorRemovalAfterTimeout)
         self.threadCancellations.append(threading.Event())
         self.errorThread.start()
@@ -71,9 +69,7 @@ class PlayWordleScreen(Screen):
             EventSystem.EventOccured(RemoveErrorEvent(PlayWordleScreen))
         del self.threadCancellations[0]
         #Only the original thread can change the view.
-            #Send the current screen too so that the screen manager can verify if the screen has changed
-                #The screen could have changed, forward and back though. We might unwittingly remove the wrong error
-                    #This will only be meaningful if we have another error, in which case we will have cancelled the first thread.
+            #unfortunately, this means I will have to setup an architecture to send things to and from the gui thread.
 
     def RemoveError(self):
         self.innerBox.remove(self.errorBox)
