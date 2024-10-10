@@ -10,8 +10,9 @@ from WordleSolver.Events.Events import *
 
 #TODO create a listener interface this can implement.
 class ScreenManager:
-    def __init__(self, changeScreensFunc, wordleRows):
+    def __init__(self, changeScreensFunc, updateGuiFunc, wordleRows):
         self.changeScreens = changeScreensFunc
+        self.updateGui = updateGuiFunc
         self.curScreen = None
         self.RegisterHandlers()
 
@@ -63,9 +64,9 @@ class ScreenManager:
 
     def RemoveErrorBoxFromCurScreen(self, event: RemoveErrorEvent):
         print("Removing error from screen:", event.screen, "Current screen is:", type(self.curScreen))
-        print("Are they equla? ", event.screen == type(self.curScreen))
+        print("Are they equal? ", event.screen == type(self.curScreen))
         if event.screen == type(self.curScreen):
-            updatedScreenContent = self.curScreen.RemoveError()
+            updatedScreenContent = self.updateGui(self.curScreen.RemoveError)
             self.changeScreens(updatedScreenContent)
 
     #TODO Should be updated to use ShowTextScreenEvent

@@ -1,7 +1,9 @@
 """
 This is an app that solves the wordle with you! It also allows you to play a wordle replica
 """
+import asyncio
 import toga
+from time import sleep
 
 from WordleLibrary.solver import WordleSolver as Solver
 from WordleLibrary.PlayWordle import PlayWordle
@@ -10,6 +12,8 @@ from .EventListeners.ListenerCreator import ListenerCreator
 
 class WordleSolver(toga.App):
     def startup(self):
+        self.guiTasks = []
+        self.results = []
         self.main_window = toga.MainWindow(title=self.formal_name)
         
         #TODO: Move these 2 into the Injector
@@ -19,12 +23,38 @@ class WordleSolver(toga.App):
         solver = Solver()
         wordleRows = PlayWordleRows()
         playWordleClient = PlayWordle()
-        ListenerCreator().SetupListeners(self.ChangeScreen, solver, playWordleClient, wordleRows)
 
+        #TODO: create this with new thread. all gui requests to come here.
+        ListenerCreator().SetupListeners(self.ChangeScreen, self.UpdateGui, solver, playWordleClient, wordleRows)
 
     def ChangeScreen(self, screenContent):
         self.main_window.content = screenContent
         self.main_window.show()
+
+    def on_running(self):
+        #This is never getting called
+        print("On running is CALLLEEEEEEEEEEEEED\n\n\n\n\n\n\n")
+        #NEW EVENT SYSTEM HERE WHAT FUN!
+        #Really just the current event system needs to know about this, and can pass specific gui events here.
+        while True:
+                #Need to setup and get a lock here to avoid race conditions
+            if len(self.guiTasks) > 0:
+                print("Running gui task", self.guiTasks[0])
+                res = self.guiTasks[0]()
+                del self.guiTasks[0]
+                self.results.append(res)
+                print("gui task result:", self.results) 
+                #SOmething something notify results
+
+
+    def UpdateGui(self, fnToRun):
+        self.guiTasks.append(fnToRun)
+        sleep(5)
+        result = self.results[0]
+        return result
+    
+    
+
 
 
 def main():

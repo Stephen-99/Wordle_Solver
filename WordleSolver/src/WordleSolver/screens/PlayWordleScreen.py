@@ -1,3 +1,4 @@
+import asyncio
 import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
@@ -70,6 +71,8 @@ class PlayWordleScreen(Screen):
         del self.threadCancellations[0]
         #Only the original thread can change the view.
             #unfortunately, this means I will have to setup an architecture to send things to and from the gui thread.
+            #Look how I did it in sec for the robots assignment.
+        
 
     def RemoveError(self):
         self.innerBox.remove(self.errorBox)
