@@ -31,6 +31,8 @@ class WordleSolver(toga.App):
         self.main_window.content = screenContent
         self.main_window.show()
 
+    #My other option is to manually call this function with what I know is the main thread. I suppose it can't run this loop forever
+    #unless I spawn everything else in different threads.
     def on_running(self):
         #This is never getting called
         print("On running is CALLLEEEEEEEEEEEEED\n\n\n\n\n\n\n")

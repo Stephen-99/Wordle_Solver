@@ -55,6 +55,7 @@ class PlayWordleScreen(Screen):
     
         return self.outerBox
     
+    #Or could I do this some different way, ending the thread before rmoving the error so that another thread removes it.
     def SetErrorTimeout(self): #Rename this as it doesn't set the timout
         if self.errorThread.is_alive():
             self.threadCancellations[-1].set()
