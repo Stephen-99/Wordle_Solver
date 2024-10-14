@@ -1,7 +1,7 @@
 """
 This is an app that solves the wordle with you! It also allows you to play a wordle replica
 """
-import asyncio
+import threading
 import toga
 from time import sleep
 
@@ -19,10 +19,14 @@ class WordleSolver(toga.App):
         #TODO: Move these 2 into the Injector
         #I could instead do lazy initialization for the solver and playWordle objects. Have them as singletons
         #The listeners can create them as needed.
-            #THIS HAS BBECOME IMPORTANT. I'm now passing wordle rows everywhere :(
         solver = Solver()
         wordleRows = PlayWordleRows()
         playWordleClient = PlayWordle()
+
+        #Some of what this calls is setting up the new screens, so that will need to be on the gui thread.
+        #What if instead I make some gui thread object, and pass that into the screens to use for setting up. 
+            #It will need some from of queue etc.
+        #ONE last chance to see if toga has made an easy way to do this.
 
         #TODO: create this with new thread. all gui requests to come here.
         ListenerCreator().SetupListeners(self.ChangeScreen, self.UpdateGui, solver, playWordleClient, wordleRows)

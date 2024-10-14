@@ -25,6 +25,7 @@ class PlayWordleScreen(Screen):
         self.title = None
         self.submitButton = None
         self.rows = wordleRows
+        self.eventLoop = asyncio.get_event_loop()
 
     def CreateScreen(self):
         self.title = toga.Label("Guess the word!", style=Pack(padding=(2,5), font_size=16, text_align='center')) #TODO: center and format text
@@ -68,14 +69,12 @@ class PlayWordleScreen(Screen):
         sleep(5)
         print("thread cancellations before trying to raise event:", self.threadCancellations)
         if not self.threadCancellations[0].is_set():
-            EventSystem.EventOccured(RemoveErrorEvent(PlayWordleScreen))
+            asyncio.ensure_future(self.RemoveError(), loop=self.eventLoop)
+            #EventSystem.EventOccured(RemoveErrorEvent(PlayWordleScreen))
         del self.threadCancellations[0]
         #Only the original thread can change the view.
-            #unfortunately, this means I will have to setup an architecture to send things to and from the gui thread.
-            #Look how I did it in sec for the robots assignment.
-        
 
-    def RemoveError(self):
+    #Need to define this as a coroutine or future
+    async def RemoveError(self):
         self.innerBox.remove(self.errorBox)
         return self.outerBox
-
