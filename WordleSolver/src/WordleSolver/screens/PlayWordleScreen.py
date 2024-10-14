@@ -9,9 +9,6 @@ from time import sleep
 
 from .ScreenHelpers.PlayWordleRows import PlayWordleRows
 from .Screen import Screen
-from WordleSolver.Events import EventSystem
-from WordleSolver.Events.Events import RemoveErrorEvent
-
 
 #TODO add keyboard.
     #Should auto pop up, but can add highlighting to show which letters are unavailable or should be used.
@@ -56,7 +53,6 @@ class PlayWordleScreen(Screen):
     
         return self.outerBox
     
-    #Or could I do this some different way, ending the thread before rmoving the error so that another thread removes it.
     def SetErrorTimeout(self): #Rename this as it doesn't set the timout
         if self.errorThread.is_alive():
             self.threadCancellations[-1].set()
@@ -65,16 +61,20 @@ class PlayWordleScreen(Screen):
         self.errorThread.start()
         print("thread cancellations after starting thread:", self.threadCancellations)
 
+    #Currently no check if it's still the same screen. 
+    #This is ok since we want to remove the error from it even if it's not the current screen
+        #Potentially if they go forward and back screens, we want the screen to refresh without the error
+        #Then the remove error could be triggered when we don't want it to
+            #This should be very easy to fix. Simply set all the cancellations.
+    
+    #TODO: make this the async func
     def ErrorRemovalAfterTimeout(self):
         sleep(5)
         print("thread cancellations before trying to raise event:", self.threadCancellations)
         if not self.threadCancellations[0].is_set():
             asyncio.ensure_future(self.RemoveError(), loop=self.eventLoop)
-            #EventSystem.EventOccured(RemoveErrorEvent(PlayWordleScreen))
         del self.threadCancellations[0]
-        #Only the original thread can change the view.
 
-    #Need to define this as a coroutine or future
     async def RemoveError(self):
         self.innerBox.remove(self.errorBox)
         return self.outerBox

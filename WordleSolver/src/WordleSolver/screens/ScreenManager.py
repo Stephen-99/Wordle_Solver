@@ -10,9 +10,8 @@ from WordleSolver.Events.Events import *
 
 #TODO create a listener interface this can implement.
 class ScreenManager:
-    def __init__(self, changeScreensFunc, updateGuiFunc, wordleRows):
+    def __init__(self, changeScreensFunc, wordleRows):
         self.changeScreens = changeScreensFunc
-        self.updateGui = updateGuiFunc
         self.curScreen = None
         self.RegisterHandlers()
 
@@ -35,7 +34,6 @@ class ScreenManager:
         EventSystem.subscribe(ReturnToMainMenuEvent, self.SolverFinished)
         #EventSystem.subscribe(ErrorOccuredEvent, self.ErrorOccured)
         EventSystem.subscribe(ShowErrorContentEvent, self.AddErrorBoxToCurScreen)
-        EventSystem.subscribe(RemoveErrorEvent, self.RemoveErrorBoxFromCurScreen)
         EventSystem.subscribe(PlayWordleEvent, self.PlayWordle)
         EventSystem.subscribe(PlayWordleUpdatedEvent, self.UpdatePlayWordleScreen)
 
@@ -61,13 +59,6 @@ class ScreenManager:
         updatedScreenContent = self.curScreen.ShowError(event.content)
         self.changeScreens(updatedScreenContent)
         #So Screens will need to implement a method to add error content.
-
-    def RemoveErrorBoxFromCurScreen(self, event: RemoveErrorEvent):
-        print("Removing error from screen:", event.screen, "Current screen is:", type(self.curScreen))
-        print("Are they equal? ", event.screen == type(self.curScreen))
-        if event.screen == type(self.curScreen):
-            updatedScreenContent = self.updateGui(self.curScreen.RemoveError)
-            self.changeScreens(updatedScreenContent)
 
     #TODO Should be updated to use ShowTextScreenEvent
     def ErrorOccured(self, event: ErrorOccuredEvent):
