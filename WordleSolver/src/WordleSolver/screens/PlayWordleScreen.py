@@ -59,7 +59,6 @@ class PlayWordleScreen(Screen):
         self.errorThread = Thread(target=self.ErrorRemovalAfterTimeout)
         self.threadCancellations.append(threading.Event())
         self.errorThread.start()
-        print("thread cancellations after starting thread:", self.threadCancellations)
 
     #Currently no check if it's still the same screen. 
     #This is ok since we want to remove the error from it even if it's not the current screen
@@ -67,10 +66,8 @@ class PlayWordleScreen(Screen):
         #Then the remove error could be triggered when we don't want it to
             #This should be very easy to fix. Simply set all the cancellations.
     
-    #TODO: make this the async func
     def ErrorRemovalAfterTimeout(self):
         sleep(5)
-        print("thread cancellations before trying to raise event:", self.threadCancellations)
         if not self.threadCancellations[0].is_set():
             asyncio.ensure_future(self.RemoveError(), loop=self.eventLoop)
         del self.threadCancellations[0]
