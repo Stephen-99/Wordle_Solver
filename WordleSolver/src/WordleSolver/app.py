@@ -33,7 +33,7 @@ def main():
 #Error handling todos:
     # Check when going back and forward bvetween screens, it doesn't cause errors
         # only do this when adding forward and back buttons
-    # Move error handling to new screen class, so all screens get it
+    # Move error handling to new screen class, so all screens get it --> implement show and remove error in all screens still
     # Make sure all error handling events are updated and consistent
 
 #Other todos:
