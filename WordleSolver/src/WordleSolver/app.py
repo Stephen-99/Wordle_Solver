@@ -30,6 +30,15 @@ class WordleSolver(toga.App):
 def main():
     return WordleSolver()
 
+#Error handling todos:
+    # Check when going back and forward bvetween screens, it doesn't cause errors
+        # only do this when adding forward and back buttons
+    # Move error handling to new screen class, so all screens get it
+    # Make sure all error handling events are updated and consistent
+
+#Other todos:
+    #Fix index out of range error.
+
 
 #  ~~~~~  Must do before releasing to play store  ~~~~~  #
     # Fix text not fitting on home screen ~~ :D ~~
@@ -42,7 +51,7 @@ def main():
     # Nicer won and loss screens
     # An app logo
     # Allow players to input their own word choices and results so far
-    # 2nd letter only highlight if it is in the word twice. (Check how does nytimes do it?)
+    # 2nd letter only highlight if it is in the word twice.
 
 #  ~~~~~  Would like to do  ~~~~~  #
     # putting GUI stuff on a separate thread. It's all single-threaded atm
