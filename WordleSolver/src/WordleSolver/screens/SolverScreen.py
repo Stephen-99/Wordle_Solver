@@ -10,6 +10,7 @@ from WordleSolver.Events.Events import SubmitGuessResultsEvent, ReturnToMainMenu
 
 class SolverScreen(Screen):
     def __init__(self, word="tempw"):
+        super().__init__()
         self.letters = [LetterColour() for _ in range(5)]
         self.UpdateWord(word)
 
@@ -23,6 +24,7 @@ class SolverScreen(Screen):
         self.submitButton = toga.Button("Submit", on_press=self.SolverSubmitHandler, style=Pack(padding=5, font_size=12))
         self.correctButton = toga.Button("Correct Guess!", on_press=self.CorrectGuessHandler, style=Pack(padding=5, font_size=12))
 
+        self.errorBox = None
 
     def UpdateWord(self, word):
         if len(word) != 5:
@@ -35,7 +37,6 @@ class SolverScreen(Screen):
         [self.letterButtonsBox.add(button) for button in letterButtons]
 
         return self.solverBox
-
 
     def CreateScreen(self) -> toga.Box:
         letterButtons  = [self.CreateLetterButton(letter, colourData) for letter, colourData in zip(self.word.upper(), self.letters)]
@@ -52,7 +53,6 @@ class SolverScreen(Screen):
         colourData.ResetState()
         size = 80
         button = toga.Button(letter, on_press=colourData, style=Pack(padding=5, font_weight="bold", font_size=28, width=size, height=size, color="#ffffff", background_color=colourData.colour))
-        #Can't seem to get button border to change color... :(
         return button
     
     def SolverSubmitHandler(self, widget) -> None:
@@ -61,4 +61,13 @@ class SolverScreen(Screen):
     def CorrectGuessHandler(self, widget) -> None:
         EventSystem.EventOccured(ReturnToMainMenuEvent())
 
+    async def RemoveError(self):
+        self.innerBox.remove(self.errorBox)
+        return self.solverBox
 
+    def ShowError(self, errorBox: toga.Box):
+        self.innerBox.remove(self.errorBox)
+        self.errorBox = errorBox
+        self.innerBox.add(self.errorBox)
+        self.SetErrorTimeout()
+        return self.solverBox

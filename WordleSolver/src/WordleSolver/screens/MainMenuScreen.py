@@ -8,6 +8,7 @@ from .Screen import Screen
 
 class MainMenuScreen(Screen):
     def __init__(self):
+        super().__init__()
         self.content = None
 
     def UpdateScreen(self):
@@ -34,3 +35,14 @@ class MainMenuScreen(Screen):
 
     def RunSolverHandler(self, widget) -> None:
         EventSystem.EventOccured(RunSolverEvent())
+
+    async def RemoveError(self):
+        self.content.remove(self.errorBox)
+        return self.content
+
+    def ShowError(self, errorBox: toga.Box):
+        self.content.remove(self.errorBox)
+        self.errorBox = errorBox
+        self.content.add(self.errorBox)
+        self.SetErrorTimeout()
+        return self.content
