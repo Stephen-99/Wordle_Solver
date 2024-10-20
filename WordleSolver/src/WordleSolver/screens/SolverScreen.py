@@ -1,3 +1,4 @@
+import asyncio
 import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
@@ -23,8 +24,8 @@ class SolverScreen(Screen):
 
         self.submitButton = toga.Button("Submit", on_press=self.SolverSubmitHandler, style=Pack(padding=5, font_size=12))
         self.correctButton = toga.Button("Correct Guess!", on_press=self.CorrectGuessHandler, style=Pack(padding=5, font_size=12))
-
-        self.errorBox = None
+        
+        self.eventLoop = asyncio.get_event_loop()
 
     def UpdateWord(self, word):
         if len(word) != 5:
@@ -63,7 +64,6 @@ class SolverScreen(Screen):
 
     async def RemoveError(self):
         self.innerBox.remove(self.errorBox)
-        return self.solverBox
 
     def ShowError(self, errorBox: toga.Box):
         self.innerBox.remove(self.errorBox)

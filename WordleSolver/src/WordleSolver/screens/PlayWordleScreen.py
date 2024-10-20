@@ -46,5 +46,4 @@ class PlayWordleScreen(Screen):
     
     async def RemoveError(self):
         self.innerBox.remove(self.errorBox)
-        return self.outerBox
 
