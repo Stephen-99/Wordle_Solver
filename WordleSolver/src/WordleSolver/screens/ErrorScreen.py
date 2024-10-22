@@ -8,7 +8,7 @@ from WordleSolver.Events.Events import ReturnToMainMenuEvent
 
 #Show error, and on clicking ok, go back to mainScreen
 #If different bahviour required, can extend this class and overide the OkButtonHandler.
-class ErrorScreen(Screen):
+class TextScreen(Screen):
     def __init__(self):
         self.errorMsg = None
         self.innerBox = None

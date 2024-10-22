@@ -45,9 +45,9 @@ class ShowErrorContentEvent:
 
 #TODO: error event should become a temporary overlay type thing, and this a new screen
 #This then will no longer inherit from ErrorOccuredEvent
-class ShowTextScreenEvent(ErrorOccuredEvent):
+class ShowTextScreenEvent():
     def __init__(self, msg):
-        super().__init__(msg)
+        self.msg = msg
 
 class WonGameEvent(ShowTextScreenEvent):
     def __init__(self, msg):

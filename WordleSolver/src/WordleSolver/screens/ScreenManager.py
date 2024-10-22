@@ -2,7 +2,7 @@ import toga
 from WordleSolver.screens.Screen import Screen
 from WordleSolver.screens.MainMenuScreen import MainMenuScreen
 from WordleSolver.screens.SolverScreen import SolverScreen
-from WordleSolver.screens.ErrorScreen import ErrorScreen
+from WordleSolver.screens.ErrorScreen import TextScreen
 from WordleSolver.screens.PlayWordleScreen import PlayWordleScreen
 
 from WordleSolver.Events import EventSystem
@@ -20,7 +20,7 @@ class ScreenManager:
         self.solverScreen.CreateScreen()
         self.menuScreen = MainMenuScreen()
         self.menuScreen.CreateScreen()
-        self.errorScreen = ErrorScreen()
+        self.errorScreen = TextScreen()
         self.errorScreen.CreateScreen()
         self.playWordleScreen = PlayWordleScreen(wordleRows)
         self.playWordleScreen.CreateScreen()
@@ -32,7 +32,7 @@ class ScreenManager:
     def RegisterHandlers(self):
         EventSystem.subscribe(NewWordEvent, self.UpdateSolverScreen)
         EventSystem.subscribe(ReturnToMainMenuEvent, self.SolverFinished)
-        #EventSystem.subscribe(ErrorOccuredEvent, self.ErrorOccured)
+        EventSystem.subscribe(ShowTextScreenEvent, self.ShowTextScreen)
         EventSystem.subscribe(ShowErrorContentEvent, self.AddErrorBoxToCurScreen)
         EventSystem.subscribe(PlayWordleEvent, self.PlayWordle)
         EventSystem.subscribe(PlayWordleUpdatedEvent, self.UpdatePlayWordleScreen)
@@ -60,7 +60,6 @@ class ScreenManager:
         self.changeScreens(updatedScreenContent)
         #So Screens will need to implement a method to add error content.
 
-    #TODO Should be updated to use ShowTextScreenEvent
-    def ErrorOccured(self, event: ErrorOccuredEvent):
-        self.errorScreen.UpdateMessage(event.errorMsg)
+    def ShowTextScreen(self, event: ShowTextScreenEvent):
+        self.errorScreen.UpdateMessage(event.msg)
         self.ChangeScreen(self.errorScreen)
