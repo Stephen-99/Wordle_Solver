@@ -30,14 +30,9 @@ class WordleSolver(toga.App):
 def main():
     return WordleSolver()
 
-#Error handling todos:
-    # Check when going back and forward bvetween screens, it doesn't cause errors
-        # only do this when adding forward and back buttons
-    # Make sure all error handling events are updated and consistent
-        # Works. Won and lost screens need fixing. Different handler for the ShowTextScreenEvent type is needed
-
 #Other todos:
     #Fix index out of range error.
+    #Verify won and lost screens
 
 
 #  ~~~~~  Must do before releasing to play store  ~~~~~  #
