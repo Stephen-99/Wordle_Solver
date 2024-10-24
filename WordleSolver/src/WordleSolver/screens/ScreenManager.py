@@ -31,7 +31,7 @@ class ScreenManager:
 
     def RegisterHandlers(self):
         EventSystem.subscribe(NewWordEvent, self.UpdateSolverScreen)
-        EventSystem.subscribe(ReturnToMainMenuEvent, self.SolverFinished)
+        EventSystem.subscribe(ReturnToMainMenuEvent, self.ReturnToMenu)
         EventSystem.subscribe(ShowTextScreenEvent, self.ShowTextScreen)
         EventSystem.subscribe(ShowErrorContentEvent, self.AddErrorBoxToCurScreen)
         EventSystem.subscribe(PlayWordleEvent, self.PlayWordle)
@@ -46,7 +46,7 @@ class ScreenManager:
         self.changeScreens(screenContent)
         self.curScreen = screen
 
-    def SolverFinished(self, event: ReturnToMainMenuEvent):
+    def ReturnToMenu(self, event: ReturnToMainMenuEvent):
         self.ChangeScreen(self.menuScreen)
 
     def PlayWordle(self, event: PlayWordleEvent):

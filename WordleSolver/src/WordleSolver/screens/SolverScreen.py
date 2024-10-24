@@ -24,6 +24,7 @@ class SolverScreen(Screen):
 
         self.submitButton = toga.Button("Submit", on_press=self.SolverSubmitHandler, style=Pack(padding=5, font_size=12))
         self.correctButton = toga.Button("Correct Guess!", on_press=self.CorrectGuessHandler, style=Pack(padding=5, font_size=12))
+        self.backButton = toga.Button("Back", on_press=self.BackButtonHandler, style=Pack(padding=5, font_size=12, width=100))
         
         self.eventLoop = asyncio.get_event_loop()
 
@@ -43,7 +44,7 @@ class SolverScreen(Screen):
         letterButtons  = [self.CreateLetterButton(letter, colourData) for letter, colourData in zip(self.word.upper(), self.letters)]
         [self.letterButtonsBox.add(button) for button in letterButtons]
 
-        self.submitButtonsBox.add(self.submitButton, self.correctButton)
+        self.submitButtonsBox.add(self.submitButton, self.correctButton, self.backButton)
 
         self.innerBox.add(self.titleLabel, self.letterButtonsBox, self.submitButtonsBox)
         self.solverBox.add(self.innerBox)
@@ -60,6 +61,9 @@ class SolverScreen(Screen):
         EventSystem.EventOccured(SubmitGuessResultsEvent(self.letters))
     
     def CorrectGuessHandler(self, widget) -> None:
+        EventSystem.EventOccured(ReturnToMainMenuEvent())
+
+    def BackButtonHandler(self, widget) -> None:
         EventSystem.EventOccured(ReturnToMainMenuEvent())
 
     async def RemoveError(self):

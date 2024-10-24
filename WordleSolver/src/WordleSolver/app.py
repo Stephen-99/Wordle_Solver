@@ -37,7 +37,7 @@ def main():
     # Play wordle, jump to next box after entering a letter ~~ :D ~~
     # Play wordle, on clicking a box, set cursor to the start ~~ Don't seem to be able to move the cursor with Toga ~~
     # Cause errors to not send back to the home screen ~~ :D ~~
-    # Add back buttons to playWordle and solver screens
+    # Add back buttons to playWordle and solver screens ~~ :D ~~
     # Nicer won and loss screens
     # An app logo
     # Allow players to input their own word choices and results so far
