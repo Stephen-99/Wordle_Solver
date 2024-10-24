@@ -30,6 +30,10 @@ class WordleSolver(toga.App):
 def main():
     return WordleSolver()
 
+# ~~~~ ISSUES ~~~~ #
+    #Loading up the solver screen takes a long time. Wordle screen doesn't
+        #Cos init of db etc is done on main thread. Shift it off
+
 #  ~~~~~  Must do before releasing to play store  ~~~~~  #
     # Fix text not fitting on home screen ~~ :D ~~
 
