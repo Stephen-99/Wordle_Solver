@@ -30,18 +30,13 @@ class WordleSolver(toga.App):
 def main():
     return WordleSolver()
 
-#Other todos:
-    #Fix index out of range error.
-    #Verify won and lost screens
-
-
 #  ~~~~~  Must do before releasing to play store  ~~~~~  #
     # Fix text not fitting on home screen ~~ :D ~~
 
 #  ~~~~~  Like to do before releasing to play store  ~~~~~  #
     # Play wordle, jump to next box after entering a letter ~~ :D ~~
     # Play wordle, on clicking a box, set cursor to the start ~~ Don't seem to be able to move the cursor with Toga ~~
-    # Cause errors to not send back to the home screen
+    # Cause errors to not send back to the home screen ~~ :D ~~
     # Add back buttons to playWordle and solver screens
     # Nicer won and loss screens
     # An app logo
