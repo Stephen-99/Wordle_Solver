@@ -1,3 +1,4 @@
+from threading import Thread
 from WordleSolver.Events import EventSystem
 from WordleSolver.Events.Events import *
 from WordleLibrary.solver import WordleSolver
@@ -15,5 +16,10 @@ class SolverListener:
         self.solver.ProcessGuessResults(event.letters)
     
     def RunSolverHandler(self, event: RunSolverEvent):
+        Thread(target=self.SolverSetup).start()
+
+    def SolverSetup(self):
         self.solver.resetSolver()
         self.solver.GetNextGuess()
+        
+

@@ -11,6 +11,9 @@ def unsubscribe(eventType, fn):
     if eventType in eventSubscribers:
         eventSubscribers[eventType].remove(fn)
 
+
+#TODO: run all the events on the event loop thread (ln 26 & 34)
+    #This isn't a calls though, so we can't just store the event loop...
 def EventOccured(event):
     if type(event) not in eventSubscribers:
         #Look for it's super type
