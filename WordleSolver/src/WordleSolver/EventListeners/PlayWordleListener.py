@@ -18,7 +18,7 @@ class PlayWordleListener:
     def NewGuessHandler(self, event: PlayWordleGuessEvent):
         self.playWordleClient.MakeAGuess(event.word)
 
-    def PlayWordle(self, event: PlayWordleEvent):
+    async def PlayWordle(self, event: PlayWordleEvent):
         self.playWordleClient.Reset()
         self.wordleRows.Reset()
 

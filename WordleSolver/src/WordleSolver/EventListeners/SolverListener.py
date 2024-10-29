@@ -15,7 +15,7 @@ class SolverListener:
     def SubmitGuessHandler(self, event: SubmitGuessResultsEvent):
         self.solver.ProcessGuessResults(event.letters)
     
-    def RunSolverHandler(self, event: RunSolverEvent):
+    async def RunSolverHandler(self, event: RunSolverEvent):
         Thread(target=self.SolverSetup).start()
 
     def SolverSetup(self):

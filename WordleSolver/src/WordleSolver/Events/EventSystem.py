@@ -2,6 +2,7 @@ import asyncio
 from typing import cast, reveal_type
 
 eventSubscribers = {}
+eventLoop = None
 
 def subscribe(eventType, fn):
      if not eventType in eventSubscribers:
@@ -12,10 +13,16 @@ def unsubscribe(eventType, fn):
     if eventType in eventSubscribers:
         eventSubscribers[eventType].remove(fn)
 
-
-#TODO: run all the events on the event loop thread (ln 26 & 34)
-    #This isn't a calls though, so we can't just store the event loop...
+#hmm.
+#Need to get the correct eventLoop.
+#I could make this a class, but that ruins how this is all setup.
+#TODO update other event handlers to be async
 def EventOccured(event):
+    #Can't init earlier since toga event loop not setup yet
+    global eventLoop
+    if not eventLoop:
+        eventLoop = asyncio.get_event_loop()
+
     if type(event) not in eventSubscribers:
         #Look for it's super type
         if len(type(event).__bases__) > 0:
@@ -24,14 +31,8 @@ def EventOccured(event):
         print("Couldn't find any fns for event of type:", type(event), "\nlooked in dict: ", eventSubscribers)
         return
     
-    eventLoop = asyncio.get_event_loop()
+    print("EVENT OCURRED:" , event)
     for fn in eventSubscribers[type(event)]:
-        #This only works if function is async.
-            #I think it's ok to enforce all subscribers be async
-            #TODO: update all to be async. Currently jsut done screen manager.
-            #This has caused soemthing to stop working. Moreover, the eventloop given here is not always going to be 
-                #from the correct thread, so won't be able to get the correct event loop.
-                #Need to do some re-thinking here
         asyncio.ensure_future(fn(event), loop=eventLoop)
         #fn(event)
 
@@ -41,7 +42,7 @@ def _EventSuperclassSearch(event, curType: type):
             return _EventSuperclassSearch(event, curType.__bases__[0])
         return False
     
-    eventLoop = asyncio.get_event_loop()
+    print("EVENT OCURRED:" , event)
     for fn in eventSubscribers[curType]:
         asyncio.ensure_future(fn(event), loop=eventLoop)
         #fn(event)

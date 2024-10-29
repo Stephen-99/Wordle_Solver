@@ -26,7 +26,7 @@ class ScreenManager:
         self.playWordleScreen.CreateScreen()
 
         #start with menuScreen (This may need to move to a separate startup func)
-        self.ChangeScreen(self.menuScreen)
+        self.changeScreens(self.menuScreen.UpdateScreen())
         self.curScreen = self.menuScreen
 
     def RegisterHandlers(self):
@@ -39,7 +39,7 @@ class ScreenManager:
 
     async def UpdateSolverScreen(self, event: NewWordEvent):
         self.solverScreen.UpdateWord(event.word)
-        self.ChangeScreen(self.solverScreen)
+        await self.ChangeScreen(self.solverScreen)
 
     async def ChangeScreen(self, screen: Screen):
         screenContent = screen.UpdateScreen()
@@ -47,13 +47,13 @@ class ScreenManager:
         self.curScreen = screen
 
     async def ReturnToMenu(self, event: ReturnToMainMenuEvent):
-        self.ChangeScreen(self.menuScreen)
+        await self.ChangeScreen(self.menuScreen)
 
     async def PlayWordle(self, event: PlayWordleEvent):
-        self.ChangeScreen(self.playWordleScreen)
+        await self.ChangeScreen(self.playWordleScreen)
 
     async def UpdatePlayWordleScreen(self, event: PlayWordleUpdatedEvent):
-        self.ChangeScreen(self.playWordleScreen)
+        await self.ChangeScreen(self.playWordleScreen)
 
     async def AddErrorBoxToCurScreen(self, event: ShowErrorContentEvent):
         updatedScreenContent = self.curScreen.ShowError(event.content)
@@ -62,4 +62,4 @@ class ScreenManager:
 
     async def ShowTextScreen(self, event: ShowTextScreenEvent):
         self.errorScreen.UpdateMessage(event.msg)
-        self.ChangeScreen(self.errorScreen)
+        await self.ChangeScreen(self.errorScreen)
