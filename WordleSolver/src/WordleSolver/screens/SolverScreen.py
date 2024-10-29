@@ -26,7 +26,7 @@ class SolverScreen(Screen):
         self.correctButton = toga.Button("Correct Guess!", on_press=self.CorrectGuessHandler, style=Pack(padding=5, font_size=12))
         self.backButton = toga.Button("Back", on_press=self.BackButtonHandler, style=Pack(padding=5, font_size=12, width=100))
         
-        self.eventLoop = asyncio.get_event_loop()
+        self.eventLoop = asyncio.get_event_loop() #TODO: move to Screen
 
     def UpdateWord(self, word):
         if len(word) != 5:

@@ -37,29 +37,29 @@ class ScreenManager:
         EventSystem.subscribe(PlayWordleEvent, self.PlayWordle)
         EventSystem.subscribe(PlayWordleUpdatedEvent, self.UpdatePlayWordleScreen)
 
-    def UpdateSolverScreen(self, event: NewWordEvent):
+    async def UpdateSolverScreen(self, event: NewWordEvent):
         self.solverScreen.UpdateWord(event.word)
         self.ChangeScreen(self.solverScreen)
 
-    def ChangeScreen(self, screen: Screen):
+    async def ChangeScreen(self, screen: Screen):
         screenContent = screen.UpdateScreen()
         self.changeScreens(screenContent)
         self.curScreen = screen
 
-    def ReturnToMenu(self, event: ReturnToMainMenuEvent):
+    async def ReturnToMenu(self, event: ReturnToMainMenuEvent):
         self.ChangeScreen(self.menuScreen)
 
-    def PlayWordle(self, event: PlayWordleEvent):
+    async def PlayWordle(self, event: PlayWordleEvent):
         self.ChangeScreen(self.playWordleScreen)
 
-    def UpdatePlayWordleScreen(self, event: PlayWordleUpdatedEvent):
+    async def UpdatePlayWordleScreen(self, event: PlayWordleUpdatedEvent):
         self.ChangeScreen(self.playWordleScreen)
 
-    def AddErrorBoxToCurScreen(self, event: ShowErrorContentEvent):
+    async def AddErrorBoxToCurScreen(self, event: ShowErrorContentEvent):
         updatedScreenContent = self.curScreen.ShowError(event.content)
         self.changeScreens(updatedScreenContent)
         #So Screens will need to implement a method to add error content.
 
-    def ShowTextScreen(self, event: ShowTextScreenEvent):
+    async def ShowTextScreen(self, event: ShowTextScreenEvent):
         self.errorScreen.UpdateMessage(event.msg)
         self.ChangeScreen(self.errorScreen)
