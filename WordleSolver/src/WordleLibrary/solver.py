@@ -21,14 +21,16 @@ from .WebScraper import *
 class WordleSolver:
     def __init__(self):
         self.db = WordleDB()
-        self.validWords, self.allowedWords = self.db.GetWords()
-        self.lookup = CharCommonality(self.validWords)
+        self.initialValidWords, self.initialAllowedWords = self.db.GetWords()
+        self.validWords, self.allowedWords = self.initialValidWords, self.initialAllowedWords
+        self.initialLookup = CharCommonality(self.validWords)
+        self.lookup = self.initialLookup
         self.curGuess = None
         self.guesses = 0
 
     def resetSolver(self):
-        self.validWords, self.allowedWords = self.db.GetWords()
-        self.lookup = CharCommonality(self.validWords)
+        self.validWords, self.allowedWords = self.initialValidWords, self.initialAllowedWords
+        self.lookup = self.initialLookup
         self.curGuess = None
         self.guesses = 0
 
