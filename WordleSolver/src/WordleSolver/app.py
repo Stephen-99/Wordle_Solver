@@ -30,10 +30,6 @@ class WordleSolver(toga.App):
 def main():
     return WordleSolver()
 
-# ~~~~ ISSUES ~~~~ #
-    #Loading up the solver screen takes a long time. Wordle screen doesn't
-        #Cos init of db etc is done on main thread. Shift it off
-
 #  ~~~~~  Must do before releasing to play store  ~~~~~  #
     # Fix text not fitting on home screen ~~ :D ~~
 
@@ -42,11 +38,11 @@ def main():
     # Play wordle, on clicking a box, set cursor to the start ~~ Don't seem to be able to move the cursor with Toga ~~
     # Cause errors to not send back to the home screen ~~ :D ~~
     # Add back buttons to playWordle and solver screens ~~ :D ~~
-    # Nicer won and loss screens
-    # An app logo
     # Allow players to input their own word choices and results so far
     # 2nd letter only highlight if it is in the word twice.
 
 #  ~~~~~  Would like to do  ~~~~~  #
     # putting GUI stuff on a separate thread. It's all single-threaded atm
     # Make it work for landscape, or enforce portrait mode
+    # Nicer won and loss screens
+    # An app logo
