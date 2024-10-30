@@ -12,7 +12,7 @@ class SolverListener:
         EventSystem.subscribe(SubmitGuessResultsEvent, self.SubmitGuessHandler)
         EventSystem.subscribe(RunSolverEvent, self.RunSolverHandler)
 
-    def SubmitGuessHandler(self, event: SubmitGuessResultsEvent):
+    async def SubmitGuessHandler(self, event: SubmitGuessResultsEvent):
         self.solver.ProcessGuessResults(event.letters)
     
     async def RunSolverHandler(self, event: RunSolverEvent):

@@ -1,5 +1,3 @@
-#HAve to think do I maybe instead want to decouple this so that the solver doesn't have anything to do with the eventSystem
-#Otherewise I have to worry about wrapping every little edge case. Solver causes most of the events, makes sense for it to raise them
 from WordleSolver.Events import EventSystem
 from WordleSolver.Events.Events import *
 
@@ -8,15 +6,6 @@ from .CharCommonality import *
 from .Database import *
 from .WebScraper import *
 
-# TODO LIST
-# - Instead of randomly generated word, interface with the wordle site (de-prioritised)
-# - Allow the user to play it as a game by randomly selecting a word
-# - Make an exe for easy windows deployment
-# - Create a GUI pop up for errors instead of print statements
-# - Make a mobile deployment (BeeWare)
-# - Make database accessible from any device (only for reading though)
-# - Ability to use the solver mid way when some guesses have already been made
-    # have a 'different guess used button or something
 
 class WordleSolver:
     def __init__(self):

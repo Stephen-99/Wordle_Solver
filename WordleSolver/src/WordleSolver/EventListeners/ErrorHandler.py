@@ -13,7 +13,7 @@ class ErrorHandler:
     def RegisterHandlers(self):
         EventSystem.subscribe(ErrorOccuredEvent, self.ErrorOccured)
 
-    def ErrorOccured(self, event: ErrorOccuredEvent):
+    async def ErrorOccured(self, event: ErrorOccuredEvent):
         #event.errorInfo.screenWithError.ShowError(self.CreateErrorBox(event.errorInfo.msg))
         errorBox = self.CreateErrorBox(event.msg)
         EventSystem.EventOccured(ShowErrorContentEvent(errorBox))

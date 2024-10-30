@@ -15,12 +15,12 @@ class PlayWordleListener:
         EventSystem.subscribe(PlayWordleEvent, self.PlayWordle)
         EventSystem.subscribe(IncorrectGuessEvent, self.IncorrectGuessHandler)
 
-    def NewGuessHandler(self, event: PlayWordleGuessEvent):
+    async def NewGuessHandler(self, event: PlayWordleGuessEvent):
         self.playWordleClient.MakeAGuess(event.word)
 
     async def PlayWordle(self, event: PlayWordleEvent):
         self.playWordleClient.Reset()
         self.wordleRows.Reset()
 
-    def IncorrectGuessHandler(self, event: IncorrectGuessEvent):
+    async def IncorrectGuessHandler(self, event: IncorrectGuessEvent):
         self.wordleRows.UpdateActiveRow(event.guess)
