@@ -1,5 +1,4 @@
 import asyncio
-from typing import cast, reveal_type
 
 eventSubscribers = {}
 eventLoop = None
@@ -13,12 +12,8 @@ def unsubscribe(eventType, fn):
     if eventType in eventSubscribers:
         eventSubscribers[eventType].remove(fn)
 
-#hmm.
-#Need to get the correct eventLoop.
-#I could make this a class, but that ruins how this is all setup.
-#TODO update other event handlers to be async
 def EventOccured(event):
-    #Can't init earlier since toga event loop not setup yet
+    #Can't init eventLoop earlier since toga event loop not setup yet
     global eventLoop
     if not eventLoop:
         eventLoop = asyncio.get_event_loop()
@@ -31,10 +26,8 @@ def EventOccured(event):
         print("Couldn't find any fns for event of type:", type(event), "\nlooked in dict: ", eventSubscribers)
         return
     
-    print("EVENT OCURRED:" , event)
     for fn in eventSubscribers[type(event)]:
         asyncio.ensure_future(fn(event), loop=eventLoop)
-        #fn(event)
 
 def _EventSuperclassSearch(event, curType: type):
     if curType not in eventSubscribers:
@@ -42,9 +35,7 @@ def _EventSuperclassSearch(event, curType: type):
             return _EventSuperclassSearch(event, curType.__bases__[0])
         return False
     
-    print("EVENT OCURRED:" , event)
     for fn in eventSubscribers[curType]:
         asyncio.ensure_future(fn(event), loop=eventLoop)
-        #fn(event)
     return True
 

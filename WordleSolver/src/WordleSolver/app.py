@@ -1,9 +1,7 @@
 """
 This is an app that solves the wordle with you! It also allows you to play a wordle replica
 """
-import threading
 import toga
-from time import sleep
 
 from WordleLibrary.solver import WordleSolver as Solver
 from WordleLibrary.PlayWordle import PlayWordle
