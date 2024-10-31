@@ -75,3 +75,14 @@ class SolverScreen(Screen):
         self.innerBox.add(self.errorBox)
         self.SetErrorTimeout()
         return self.solverBox
+    
+    def GetUserGuess(self):
+        self.innerBox.insert(1, toga.TextInput())
+        #Also insert a text box, ior have placeholder text on the input
+        #And an ok button.
+        #After they hit ok, validate inpout is 5 letters (No other checks)
+        #Then remove this text input and update the letter buttons.
+
+        #Could also hide the letter buttons while all this is going on.
+            #As well as the submit and correct guess buttons
+

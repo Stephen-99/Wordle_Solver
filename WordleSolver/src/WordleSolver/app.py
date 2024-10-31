@@ -40,7 +40,7 @@ def main():
     # 2nd letter only highlight if it is in the word twice.
 
 #  ~~~~~  Would like to do  ~~~~~  #
-    # putting GUI stuff on a separate thread. It's all single-threaded atm
+    # putting GUI stuff on a separate thread. It's all single-threaded atm (done kinda)
     # Make it work for landscape, or enforce portrait mode
     # Nicer won and loss screens
     # An app logo
