@@ -7,19 +7,19 @@ from WordleLibrary.LetterColour import LetterColour
 
 from .Screen import Screen
 from WordleSolver.Events import EventSystem
-from WordleSolver.Events.Events import SubmitGuessResultsEvent, ReturnToMainMenuEvent
+from WordleSolver.Events.Events import SubmitGuessResultsEvent, ReturnToMainMenuEvent, ErrorOccuredEvent
 
 class SolverScreen(Screen):
     def __init__(self, word="tempw"):
         super().__init__()
         self.letters = [LetterColour() for _ in range(5)]
-        self.UpdateWord(word)
+        self.TryUpdateWord(word)
 
         self.solverBox = toga.Box(style=Pack(direction=ROW, alignment="center"))
         self.innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
 
         self.titleLabel = toga.Label("Please enter the following word as your guess\nClick the buttons to match the result :D", style=Pack(padding=(2,5), font_size=16, text_align='center'))
-        self.guessInput = toga.TextInput(value="Enter your guess", style=Pack(padding=(10, 50), font_weight="bold", font_size=18))
+        self.guessInput = toga.TextInput(style=Pack(padding=(10, 50), font_weight="bold", font_size=18))
 
         self.letterButtonsBox = toga.Box(style=Pack(direction=ROW))
         self.submitButtonsBox = toga.Box(style=Pack(direction=ROW))
@@ -32,10 +32,13 @@ class SolverScreen(Screen):
         
         self.eventLoop = asyncio.get_event_loop() #TODO: move to Screen
 
-    def UpdateWord(self, word):
+    def TryUpdateWord(self, word):
         if len(word) != 5:
-            raise AttributeError("Word must be 5 letters long")
-        self.word = word
+            EventSystem.EventOccured(ErrorOccuredEvent("Word must be 5 letters long"))
+            return False
+        else:
+            self.word = word
+            return True
 
     def UpdateScreen(self):
         letterButtons  = [self.CreateLetterButton(letter, colourData) for letter, colourData in zip(self.word.upper(), self.letters)]
@@ -64,34 +67,42 @@ class SolverScreen(Screen):
         return button
     
     def SolverSubmitHandler(self, widget) -> None:
-        EventSystem.EventOccured(SubmitGuessResultsEvent(self.letters))
+        if self.GettingUserInput():
+            self.UserGuessReceived(self.guessInput.value)
+        else:
+            EventSystem.EventOccured(SubmitGuessResultsEvent(self.letters))
     
     def CorrectGuessHandler(self, widget) -> None:
         EventSystem.EventOccured(ReturnToMainMenuEvent())
 
     def BackButtonHandler(self, widget) -> None:
-        EventSystem.EventOccured(ReturnToMainMenuEvent())
+        if self.GettingUserInput():
+            self.ReturnToResultsView()
+        else:
+            EventSystem.EventOccured(ReturnToMainMenuEvent())
+
+    def GettingUserInput(self) -> bool:
+        return len(self.innerBox.children) < 4 #user input is active
 
     def UserGuessButtonHandler(self, widget) -> None:
         self.innerBox.clear()
-        
+        self.guessInput.value = "Enter your guess"
+
         buttonBox = toga.Box(style=Pack(direction=ROW))
         buttonBox.add(self.submitButton, self.backButton)
         self.innerBox.add(self.guessInput, buttonBox)
 
-        #probably want anothe box for this and then can set it to invisible
-        #self.titleLabel.style.visibility = "hidden" #This works. It just leaves the space empty though.
-                                                    #Might need to make a func to add and remove the bits instead
-        #self.submitButtonsBox.style.visibility = "hidden" #may actually want the back and submit button here, but will have to have a check in the handlers to handle ti slightly differently
-        #self.letterButtonsBox.style.visibility = "hidden"
-        #self.innerBox.insert(1, )
+    def UserGuessReceived(self, word):
+        if not self.TryUpdateWord(word):
+            return
+        self.ReturnToResultsView()
 
-        #And an ok button.
-        #After they hit ok, validate inpout is 5 letters (No other checks)
-        #Then remove this text input and update the letter buttons.
-
-        #Could also hide the letter buttons while all this is going on.
-            #As well as the submit and correct guess buttons
+    def ReturnToResultsView(self):
+        self.innerBox.clear()
+        self.submitButtonsBox.insert(0, self.submitButton)
+        self.submitButtonsBox.insert(2, self.backButton)
+        self.innerBox.add(self.titleLabel, self.letterButtonsBox, self.submitButtonsBox, self.userGuessButtonBox)
+        self.UpdateScreen()
 
     async def RemoveError(self):
         self.innerBox.remove(self.errorBox)

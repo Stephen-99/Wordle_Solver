@@ -38,7 +38,7 @@ class ScreenManager:
         EventSystem.subscribe(PlayWordleUpdatedEvent, self.UpdatePlayWordleScreen)
 
     async def UpdateSolverScreen(self, event: NewWordEvent):
-        self.solverScreen.UpdateWord(event.word)
+        self.solverScreen.TryUpdateWord(event.word)
         await self.ChangeScreen(self.solverScreen)
 
     async def ChangeScreen(self, screen: Screen):
