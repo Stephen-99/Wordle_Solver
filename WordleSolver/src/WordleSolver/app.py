@@ -36,8 +36,9 @@ def main():
     # Play wordle, on clicking a box, set cursor to the start ~~ Don't seem to be able to move the cursor with Toga ~~
     # Cause errors to not send back to the home screen ~~ :D ~~
     # Add back buttons to playWordle and solver screens ~~ :D ~~
-    # Allow players to input their own word choices and results so far
-    # Fix long load times
+    # Allow players to input their own word choices and results so far ~~ :D ~~
+    # Fix long initial load times --> what's actually causing that delay? Try profile it.
+    # Make it work on Windows 
     # 2nd letter only highlight if it is in the word twice.
 
 #  ~~~~~  Would like to do  ~~~~~  #
