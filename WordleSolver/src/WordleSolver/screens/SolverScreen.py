@@ -19,9 +19,11 @@ class SolverScreen(Screen):
         self.innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
 
         self.titleLabel = toga.Label("Please enter the following word as your guess\nClick the buttons to match the result :D", style=Pack(padding=(2,5), font_size=16, text_align='center'))
+        self.guessInput = toga.TextInput(value="Enter your guess", style=Pack(padding=(10, 50), font_weight="bold", font_size=18))
+
         self.letterButtonsBox = toga.Box(style=Pack(direction=ROW))
         self.submitButtonsBox = toga.Box(style=Pack(direction=ROW))
-        self.userGuessBox =toga.Box(style=Pack(direction=ROW))
+        self.userGuessButtonBox =toga.Box(style=Pack(direction=ROW))
 
         self.submitButton = toga.Button("Submit", on_press=self.SolverSubmitHandler, style=Pack(padding=5, font_size=12))
         self.correctButton = toga.Button("Correct Guess!", on_press=self.CorrectGuessHandler, style=Pack(padding=5, font_size=12))
@@ -48,9 +50,9 @@ class SolverScreen(Screen):
 
         #TODO: rethink this button layout a little
         self.submitButtonsBox.add(self.submitButton, self.correctButton, self.backButton)
-        self.userGuessBox.add(self.userGuessButton)
+        self.userGuessButtonBox.add(self.userGuessButton)
 
-        self.innerBox.add(self.titleLabel, self.letterButtonsBox, self.submitButtonsBox, self.userGuessBox)
+        self.innerBox.add(self.titleLabel, self.letterButtonsBox, self.submitButtonsBox, self.userGuessButtonBox)
         self.solverBox.add(self.innerBox)
 
         return self.solverBox
@@ -71,12 +73,18 @@ class SolverScreen(Screen):
         EventSystem.EventOccured(ReturnToMainMenuEvent())
 
     def UserGuessButtonHandler(self, widget) -> None:
+        self.innerBox.clear()
+        
+        buttonBox = toga.Box(style=Pack(direction=ROW))
+        buttonBox.add(self.submitButton, self.backButton)
+        self.innerBox.add(self.guessInput, buttonBox)
+
         #probably want anothe box for this and then can set it to invisible
-        self.titleLabel.style.visibility = "hidden" #This works. It just leaves the space empty though.
+        #self.titleLabel.style.visibility = "hidden" #This works. It just leaves the space empty though.
                                                     #Might need to make a func to add and remove the bits instead
-        self.submitButtonsBox.style.visibility = "hidden" #may actually want the back and submit button here, but will have to have a check in the handlers to handle ti slightly differently
-        self.letterButtonsBox.style.visibility = "hidden"
-        self.innerBox.insert(1, toga.TextInput(value="Enter your guess", style=Pack(padding=(10, 50), font_weight="bold", font_size=18)))
+        #self.submitButtonsBox.style.visibility = "hidden" #may actually want the back and submit button here, but will have to have a check in the handlers to handle ti slightly differently
+        #self.letterButtonsBox.style.visibility = "hidden"
+        #self.innerBox.insert(1, )
 
         #And an ok button.
         #After they hit ok, validate inpout is 5 letters (No other checks)
