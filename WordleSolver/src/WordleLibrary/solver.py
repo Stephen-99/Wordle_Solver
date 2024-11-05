@@ -8,9 +8,9 @@ from .WebScraper import *
 
 
 class WordleSolver:
-    def __init__(self):
+    def __init__(self, db: WordleDB, validWords, allowedWords):
         t1 = time.perf_counter(), time.process_time()
-        self.db = WordleDB()
+        self.db = db
         t2 = time.perf_counter(), time.process_time()
         print("DB init:")
         print(f" Real time: {t2[0] - t1[0]:.2f} seconds")
@@ -18,7 +18,7 @@ class WordleSolver:
         print()
 
         t1 = time.perf_counter(), time.process_time()
-        self.initialValidWords, self.initialAllowedWords = self.db.GetWords()
+        self.initialValidWords, self.initialAllowedWords = validWords, allowedWords
         t2 = time.perf_counter(), time.process_time()
         print("DB get words:")
         print(f" Real time: {t2[0] - t1[0]:.2f} seconds")

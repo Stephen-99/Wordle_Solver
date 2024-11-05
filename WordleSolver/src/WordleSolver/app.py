@@ -2,10 +2,10 @@
 This is an app that solves the wordle with you! It also allows you to play a wordle replica
 """
 import toga
-
 import time
 
 from WordleLibrary.solver import WordleSolver as Solver
+from WordleLibrary.Database import WordleDB
 from WordleLibrary.PlayWordle import PlayWordle
 from WordleSolver.screens.ScreenHelpers.PlayWordleRows import PlayWordleRows
 from .EventListeners.ListenerCreator import ListenerCreator
@@ -24,11 +24,14 @@ class WordleSolver(toga.App):
         print(f" CPU time: {t2[1] - t1[1]:.2f} seconds")
         print()
         
+        db = WordleDB()
+        validWords, allowedWords = db.GetWords()
+
         #TODO: Move these 2 into the Injector
         #I could instead do lazy initialization for the solver and playWordle objects. Have them as singletons
         #The listeners can create them as needed.
         t1 = time.perf_counter(), time.process_time()
-        solver = Solver() #takes 1.6s, but onlly 0.2s cpu time
+        solver = Solver(db, validWords, allowedWords) #takes 1.6s, but onlly 0.2s cpu time
         t2 = time.perf_counter(), time.process_time()
         print("initialising solver:")
         print(f" Real time: {t2[0] - t1[0]:.2f} seconds")
@@ -44,7 +47,7 @@ class WordleSolver(toga.App):
         print()
 
         t1 = time.perf_counter(), time.process_time()
-        playWordleClient = PlayWordle()  #takes 1.26s but only 0.17s CPU time
+        playWordleClient = PlayWordle(validWords, allowedWords)  #takes 1.26s but only 0.17s CPU time
         t2 = time.perf_counter(), time.process_time()
         print("init play wordle:")
         print(f" Real time: {t2[0] - t1[0]:.2f} seconds")

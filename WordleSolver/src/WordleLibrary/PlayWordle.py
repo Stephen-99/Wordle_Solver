@@ -7,9 +7,8 @@ from .Database import *
 from .Guess import *
 
 class PlayWordle:
-    def __init__(self):
-        db = WordleDB()
-        self.validWords, self.allowedWords = db.GetWords()
+    def __init__(self, validWords, allowedWords):
+        self.validWords, self.allowedWords = validWords, allowedWords
         self.guesses = 0
         self.answer = self.GetRandomWord()
 
