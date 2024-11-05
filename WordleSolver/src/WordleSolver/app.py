@@ -3,23 +3,61 @@ This is an app that solves the wordle with you! It also allows you to play a wor
 """
 import toga
 
+import time
+
 from WordleLibrary.solver import WordleSolver as Solver
 from WordleLibrary.PlayWordle import PlayWordle
 from WordleSolver.screens.ScreenHelpers.PlayWordleRows import PlayWordleRows
 from .EventListeners.ListenerCreator import ListenerCreator
 
 class WordleSolver(toga.App):
+    #TODO some kind of llocal db caching. Getting the list of words from the db is the culprit.
+        #Also doing it twice. Once for solver and once for playWordle. Re-use the words.
+
+    #Doesn't account for time before startup...
     def startup(self):
+        t1 = time.perf_counter(), time.process_time()
         self.main_window = toga.MainWindow(title=self.formal_name)
+        t2 = time.perf_counter(), time.process_time()
+        print("Setting main window:")
+        print(f" Real time: {t2[0] - t1[0]:.2f} seconds")
+        print(f" CPU time: {t2[1] - t1[1]:.2f} seconds")
+        print()
         
         #TODO: Move these 2 into the Injector
         #I could instead do lazy initialization for the solver and playWordle objects. Have them as singletons
         #The listeners can create them as needed.
-        solver = Solver()
-        wordleRows = PlayWordleRows()
-        playWordleClient = PlayWordle()
+        t1 = time.perf_counter(), time.process_time()
+        solver = Solver() #takes 1.6s, but onlly 0.2s cpu time
+        t2 = time.perf_counter(), time.process_time()
+        print("initialising solver:")
+        print(f" Real time: {t2[0] - t1[0]:.2f} seconds")
+        print(f" CPU time: {t2[1] - t1[1]:.2f} seconds")
+        print()
 
+        t1 = time.perf_counter(), time.process_time()
+        wordleRows = PlayWordleRows()
+        t2 = time.perf_counter(), time.process_time()
+        print("init playWordle rows:")
+        print(f" Real time: {t2[0] - t1[0]:.2f} seconds")
+        print(f" CPU time: {t2[1] - t1[1]:.2f} seconds")
+        print()
+
+        t1 = time.perf_counter(), time.process_time()
+        playWordleClient = PlayWordle()  #takes 1.26s but only 0.17s CPU time
+        t2 = time.perf_counter(), time.process_time()
+        print("init play wordle:")
+        print(f" Real time: {t2[0] - t1[0]:.2f} seconds")
+        print(f" CPU time: {t2[1] - t1[1]:.2f} seconds")
+        print()
+
+        t1 = time.perf_counter(), time.process_time()
         ListenerCreator().SetupListeners(self.ChangeScreen, solver, playWordleClient, wordleRows)
+        t2 = time.perf_counter(), time.process_time()
+        print("listner creator:")
+        print(f" Real time: {t2[0] - t1[0]:.2f} seconds")
+        print(f" CPU time: {t2[1] - t1[1]:.2f} seconds")
+        print()
 
     def ChangeScreen(self, screenContent):
         self.main_window.content = screenContent
@@ -43,6 +81,6 @@ def main():
 
 #  ~~~~~  Would like to do  ~~~~~  #
     # putting GUI stuff on a separate thread. It's all single-threaded atm (done kinda)
-    # Make it work for landscape, or enforce portrait mode
+    # Make it work for landscape, or enforce portrait mode --> only play wordle doesn't fit landscape
     # Nicer won and loss screens
     # An app logo
