@@ -50,31 +50,9 @@ class WordleDB:
         return None, None
 
     def GetWords(self) -> tuple[list[str], list[str]]:
-        #answers, allowedWords = self.UpdateDB()
-        #if not answers:
-
-        #Time overhead is in the initial request to db. the 2nd request is always faster
-        #This also shows the 2nd time the db is hit for the words lists. It's faster.
-            #like a wakeup tiem for the db
-        t1 = time.perf_counter(), time.process_time()
         allowedWords = self.GetAllowedWords()
-        t2 = time.perf_counter(), time.process_time()
-        print("get allowed words:")
-        print(f" Real time: {t2[0] - t1[0]:.2f} seconds")
-        print(f" CPU time: {t2[1] - t1[1]:.2f} seconds")
-        print()
-
-        t1 = time.perf_counter(), time.process_time()
         answers = self.GetAnswers()
-        t2 = time.perf_counter(), time.process_time()
-        print("Get answers:")
-        print(f" Real time: {t2[0] - t1[0]:.2f} seconds")
-        print(f" CPU time: {t2[1] - t1[1]:.2f} seconds")
-        print()
-
         return answers, allowedWords
-        #TODO: run these in parallele maybe
-        #return self.GetAnswers(), self.GetAllowedWords()
 
     def UpdateAnswers(self, words: list[str]):
         answers = self.db["answers"]
