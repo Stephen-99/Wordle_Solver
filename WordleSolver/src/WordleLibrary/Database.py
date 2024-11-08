@@ -14,7 +14,7 @@ class WordleDB:
         dns_res.default_resolver.nameservers=['8.8.8.8']
         self.db = self.ConnectToDB()
 
-    def ConnectToDB(self) -> pymongo.database.Database:
+    def ConnectToDB(self):
         #with open("C:/Dev/Wordle_Solver/WordleSolver/src/WordleLibrary/password") as passFile:
         #    password = passFile.readline()
         password = "4BiCaHWwA25bwHSS"
