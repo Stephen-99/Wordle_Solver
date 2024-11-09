@@ -30,6 +30,11 @@ def main():
 
 #  ~~~~~  Must do before releasing to play store  ~~~~~  #
     # Fix text not fitting on home screen ~~ :D ~~
+    # Register for google play Developer account
+    # Create a 512x512px icon and use it for the app
+    # Take 2+ screenshots using the emulator
+    # Take a 1024x500px feature graphic
+    # Create a store listing
 
 #  ~~~~~  Like to do before releasing to play store  ~~~~~  #
     # Play wordle, jump to next box after entering a letter ~~ :D ~~
@@ -40,6 +45,7 @@ def main():
     # Fix long initial load times --> Reduced ~~ :D ~~
     # Make it work on Windows ~~ :D ~~
     # 2nd letter only highlight if it is in the word twice.
+    # Update release version to be 1.0.0 not 0.0.1
 
 #  ~~~~~  Would like to do  ~~~~~  #
     # putting GUI stuff on a separate thread. It's all single-threaded atm (done kinda)
