@@ -13,3 +13,15 @@ The goal is to have both a playable game where it will randomly generate a word 
 The WordleLibrary folder contains the core algorithms and coding logic. The WordleSolver folder contains the beeware frontend for the app. 
 Currently working to integrate the beeware frontend with the existing code
 Currently set Beeware integration as my default branch so it shows up in my github activity. Once ready to pull it across to main will switch default branches again.
+
+
+## Windows install instructions
+1. Download the .msi file
+2. Double click the msi to install
+3. Search for "Wordle Solver" in windows search to run the program
+
+### Windows uninstall
+1. Search for "add or remove programs" in windows search
+2. Locate Wordle Solver, slect the "..." and  select uninstall
+
+
