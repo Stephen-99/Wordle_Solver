@@ -38,7 +38,7 @@ def main():
     # Add back buttons to playWordle and solver screens ~~ :D ~~
     # Allow players to input their own word choices and results so far ~~ :D ~~
     # Fix long initial load times --> Reduced ~~ :D ~~
-    # Make it work on Windows 
+    # Make it work on Windows ~~ :D ~~
     # 2nd letter only highlight if it is in the word twice.
 
 #  ~~~~~  Would like to do  ~~~~~  #
