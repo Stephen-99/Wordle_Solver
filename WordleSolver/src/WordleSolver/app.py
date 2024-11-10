@@ -32,6 +32,7 @@ def main():
     # Fix text not fitting on home screen ~~ :D ~~
     # Register for google play Developer account
     # Create a 512x512px icon and use it for the app
+        # Tried some AI art. Might b better just to use some modified screenshots from the app
     # Take 2+ screenshots using the emulator
     # Take a 1024x500px feature graphic
     # Create a store listing
