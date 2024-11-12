@@ -27,6 +27,10 @@ class PlayWordleGuessEvent:
     def __init__(self, word: str):
         self.word = word
 
+class SolverGuessByUser:
+    def __init__(self, word: str):
+        self.word = word
+
 class IncorrectGuessEvent:
     def __init__(self, guess: Guess):
         self.guess = guess

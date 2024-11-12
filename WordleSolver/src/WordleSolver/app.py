@@ -36,7 +36,6 @@ def main():
     # Take 2+ screenshots using the emulator
     # Take a 1024x500px feature graphic
     # Create a store listing
-    # BUG: using my own guess still has the old word as the backing word for validating the guess
 
 #  ~~~~~  Like to do before releasing to play store  ~~~~~  #
     # Play wordle, jump to next box after entering a letter ~~ :D ~~

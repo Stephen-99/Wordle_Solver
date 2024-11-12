@@ -11,6 +11,7 @@ class SolverListener:
     def RegisterHandlers(self):
         EventSystem.subscribe(SubmitGuessResultsEvent, self.SubmitGuessHandler)
         EventSystem.subscribe(RunSolverEvent, self.RunSolverHandler)
+        EventSystem.subscribe(SolverGuessByUser, self.UpdateSolverGuess)
 
     async def SubmitGuessHandler(self, event: SubmitGuessResultsEvent):
         self.solver.ProcessGuessResults(event.letters)
@@ -21,6 +22,9 @@ class SolverListener:
         #ok, that didn't seem to be the issue. Try profiling it. Likely the db call just takes too long
             #can cache that too...
         Thread(target=self.SolverSetup).start()
+
+    async def UpdateSolverGuess(self, event: SolverGuessByUser):
+        self.solver.SetUserGuess(event.word)
 
     def SolverSetup(self):
         self.solver.resetSolver()

@@ -7,7 +7,7 @@ from WordleLibrary.LetterColour import LetterColour
 
 from .Screen import Screen
 from WordleSolver.Events import EventSystem
-from WordleSolver.Events.Events import SubmitGuessResultsEvent, ReturnToMainMenuEvent, ErrorOccuredEvent
+from WordleSolver.Events.Events import SubmitGuessResultsEvent, ReturnToMainMenuEvent, ErrorOccuredEvent, SolverGuessByUser
 
 class SolverScreen(Screen):
     def __init__(self, word="tempw"):
@@ -93,10 +93,9 @@ class SolverScreen(Screen):
         self.innerBox.add(self.guessInput, buttonBox)
 
     def UserGuessReceived(self, word):
-        #Need to let solver know to update it's word here too. 
-        #Shouldn't be done in TryUpdateWord as that is called from solver already.
         if not self.TryUpdateWord(word):
             return
+        EventSystem.EventOccured(SolverGuessByUser(word))
         self.ReturnToResultsView()
 
     def ReturnToResultsView(self):

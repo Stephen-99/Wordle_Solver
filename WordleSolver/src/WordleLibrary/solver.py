@@ -40,6 +40,12 @@ class WordleSolver:
         EventSystem.EventOccured(NewWordEvent(self.curGuess.word))
         #TODO: can maybe remove this return
         return self.curGuess.word
+    
+    def SetUserGuess(self, word: str):
+        try:
+            self.curGuess = Guess(word)
+        except InvalidWordLength as e:
+            EventSystem.EventOccured(ErrorOccuredEvent(e.message))
 
     def ProcessGuessResults(self, res: list[LetterColour]):
         if res == None:
