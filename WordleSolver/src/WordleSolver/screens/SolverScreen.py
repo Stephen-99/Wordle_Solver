@@ -93,6 +93,8 @@ class SolverScreen(Screen):
         self.innerBox.add(self.guessInput, buttonBox)
 
     def UserGuessReceived(self, word):
+        #Need to let solver know to update it's word here too. 
+        #Shouldn't be done in TryUpdateWord as that is called from solver already.
         if not self.TryUpdateWord(word):
             return
         self.ReturnToResultsView()
