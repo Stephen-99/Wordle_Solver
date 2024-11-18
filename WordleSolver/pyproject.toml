@@ -13,7 +13,7 @@ formal_name = "Wordle Solver"
 description = "This is an app that solves the wordle with you! It also allows you to play a wordle replica"
 long_description = """More details about the app should go here.
 """
-icon = "src/WordleSolver/resources/WordleSolver"
+icon = "icons/AI1"
 sources = [
     "src/WordleSolver", "src/WordleLibrary",
 ]
