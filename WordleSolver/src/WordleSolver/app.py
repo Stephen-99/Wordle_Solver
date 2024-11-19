@@ -30,11 +30,12 @@ def main():
 
 #  ~~~~~  Must do before releasing to play store  ~~~~~  #
     # Fix text not fitting on home screen ~~ :D ~~
-    # Register for google play Developer account
-    # Create a 512x512px icon and use it for the app
-    # Take 2+ screenshots using the emulator
+    # Register for google play Developer account ~~ created, need to verify id
+    # Create a 512x512px icon and use it for the app ~~ :D ~~
+    # Take 2+ screenshots using the emulator ~~ :D ~~
     # Take a 1024x500px feature graphic
     # Create a store listing
+    # Create a buy me a coffee link and see if it's allowed somewhere (minimum on my gh)
 
 #  ~~~~~  Like to do before releasing to play store  ~~~~~  #
     # Play wordle, jump to next box after entering a letter ~~ :D ~~
