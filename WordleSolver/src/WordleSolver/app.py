@@ -30,7 +30,7 @@ def main():
 
 #  ~~~~~  Must do before releasing to play store  ~~~~~  #
     # Fix text not fitting on home screen ~~ :D ~~
-    # Register for google play Developer account ~~ verification submitted
+    # Register for google play Developer account ~~ :D ~~
     # Create a 512x512px icon and use it for the app ~~ :D ~~
     # Take 2+ screenshots using the emulator ~~ :D ~~
     # Take a 1024x500px feature graphic

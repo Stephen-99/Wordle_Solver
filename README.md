@@ -25,3 +25,8 @@ Currently set Beeware integration as my default branch so it shows up in my gith
 2. Locate Wordle Solver, slect the "..." and  select uninstall
 
 
+## Support Me
+Enjoyed using the app or found my code useful?
+Please consider supporting me for my work.
+https://buymeacoffee.com/stephen99
+
