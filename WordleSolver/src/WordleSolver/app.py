@@ -35,7 +35,8 @@ def main():
     # Take 2+ screenshots using the emulator ~~ :D ~~
     # Take a 1024x500px feature graphic
     # Create a store listing
-    # Create a buy me a coffee link and see if it's allowed somewhere (minimum on my gh)
+    # Create a buy me a coffee link ~~ :D ~~
+    # Update readme. No longer WIP. Add relevant info at the top
 
 #  ~~~~~  Like to do before releasing to play store  ~~~~~  #
     # Play wordle, jump to next box after entering a letter ~~ :D ~~
@@ -52,4 +53,3 @@ def main():
     # putting GUI stuff on a separate thread. It's all single-threaded atm (done kinda)
     # Make it work for landscape, or enforce portrait mode --> only play wordle doesn't fit landscape
     # Nicer won and loss screens
-    # An app logo
