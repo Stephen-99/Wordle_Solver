@@ -36,7 +36,7 @@ def main():
     # Take a 1024x500px feature graphic
     # Create a store listing
     # Create a buy me a coffee link ~~ :D ~~
-    # Update readme. No longer WIP. Add relevant info at the top
+    # Update readme. ~~ :D ~~ Could add some screenshots still. Will also need play store link
 
 #  ~~~~~  Like to do before releasing to play store  ~~~~~  #
     # Play wordle, jump to next box after entering a letter ~~ :D ~~
