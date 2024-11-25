@@ -34,7 +34,7 @@ def main():
     # Create a 512x512px icon and use it for the app ~~ :D ~~
     # Take 2+ screenshots using the emulator ~~ :D ~~
     # Take a 1024x500px feature graphic
-    # Make sure my app is compliant with all play store policies
+    # Make sure my app is compliant with all play store policies ~~ :D ~~ Looks like no issues
     # Create a store listing
     # Create a buy me a coffee link ~~ :D ~~
     # Update readme. ~~ :D ~~ Could add some screenshots still. Will also need play store link
