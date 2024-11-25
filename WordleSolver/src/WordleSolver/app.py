@@ -42,7 +42,7 @@ def main():
 #  ~~~~~  Like to do before releasing to play store  ~~~~~  #
     # Play wordle, on clicking a box, set cursor to the start ~~ Don't seem to be able to move the cursor with Toga ~~
     # 2nd letter only highlight if it is in the word twice.
-    # Update release version to be 1.0.0 not 0.0.1
+    # Update release version to be 1.0.0 not 0.0.1 ~~ Issues. On windows uninstall still shows 0.0.1
 
 #  ~~~~~  Would like to do  ~~~~~  #
     # putting GUI stuff on a separate thread. It's all single-threaded atm (done kinda)
