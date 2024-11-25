@@ -34,18 +34,13 @@ def main():
     # Create a 512x512px icon and use it for the app ~~ :D ~~
     # Take 2+ screenshots using the emulator ~~ :D ~~
     # Take a 1024x500px feature graphic
+    # Make sure my app is compliant with all play store policies
     # Create a store listing
     # Create a buy me a coffee link ~~ :D ~~
     # Update readme. ~~ :D ~~ Could add some screenshots still. Will also need play store link
 
 #  ~~~~~  Like to do before releasing to play store  ~~~~~  #
-    # Play wordle, jump to next box after entering a letter ~~ :D ~~
     # Play wordle, on clicking a box, set cursor to the start ~~ Don't seem to be able to move the cursor with Toga ~~
-    # Cause errors to not send back to the home screen ~~ :D ~~
-    # Add back buttons to playWordle and solver screens ~~ :D ~~
-    # Allow players to input their own word choices and results so far ~~ :D ~~
-    # Fix long initial load times --> Reduced ~~ :D ~~
-    # Make it work on Windows ~~ :D ~~
     # 2nd letter only highlight if it is in the word twice.
     # Update release version to be 1.0.0 not 0.0.1
 
