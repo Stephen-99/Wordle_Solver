@@ -20,6 +20,7 @@ class WordleSolver(toga.App):
         playWordleClient = PlayWordle(validWords, allowedWords)  #takes 1.26s but only 0.17s CPU time
 
         ListenerCreator().SetupListeners(self.ChangeScreen, solver, playWordleClient, wordleRows)
+        #self.icon = TODO: SEEMS this is needed for the title bar to use the icon
 
     def ChangeScreen(self, screenContent):
         self.main_window.content = screenContent
