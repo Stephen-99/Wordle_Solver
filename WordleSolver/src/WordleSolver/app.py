@@ -20,7 +20,6 @@ class WordleSolver(toga.App):
         playWordleClient = PlayWordle(validWords, allowedWords)  #takes 1.26s but only 0.17s CPU time
 
         ListenerCreator().SetupListeners(self.ChangeScreen, solver, playWordleClient, wordleRows)
-        #self.icon = TODO: SEEMS this is needed for the title bar to use the icon
 
     def ChangeScreen(self, screenContent):
         self.main_window.content = screenContent
@@ -34,16 +33,17 @@ def main():
     # Register for google play Developer account ~~ :D ~~
     # Create a 512x512px icon and use it for the app ~~ :D ~~
     # Take 2+ screenshots using the emulator ~~ :D ~~
-    # Take a 1024x500px feature graphic
-    # Make sure my app is compliant with all play store policies ~~ :D ~~ Looks like no issues
-    # Create a store listing
     # Create a buy me a coffee link ~~ :D ~~
+    # Make sure my app is compliant with all play store policies ~~ :D ~~ Looks like no issues
     # Update readme. ~~ :D ~~ Could add some screenshots still. Will also need play store link
+    # Update windows msi to work with self-signed cert.
+    # Take a 1024x500px feature graphic
+    # Create a store listing
 
 #  ~~~~~  Like to do before releasing to play store  ~~~~~  #
     # Play wordle, on clicking a box, set cursor to the start ~~ Don't seem to be able to move the cursor with Toga ~~
     # 2nd letter only highlight if it is in the word twice.
-    # Update release version to be 1.0.0 not 0.0.1 ~~ Issues. On windows uninstall still shows 0.0.1
+    # Update release version to be 1.0.0 not 0.0.1 ~~ Issues. On windows uninstall still shows 0.0.1 This is due to a bug. just accept it.
 
 #  ~~~~~  Would like to do  ~~~~~  #
     # putting GUI stuff on a separate thread. It's all single-threaded atm (done kinda)
