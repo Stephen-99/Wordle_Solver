@@ -38,7 +38,9 @@ def main():
     # Update readme. ~~ :D ~~ Could add some screenshots still. Will also need play store link
     # Update windows msi to work with self-signed cert.
     # Take a 1024x500px feature graphic
+    # Course for publishing app: https://playacademy.exceedlms.com/uploads/resource_courses/targets/2071553/original/index.html?_courseId=7015#/page/65e817d0dcbb5f754ebcefe5
     # Create a store listing
+
 
 #  ~~~~~  Like to do before releasing to play store  ~~~~~  #
     # Play wordle, on clicking a box, set cursor to the start ~~ Don't seem to be able to move the cursor with Toga ~~
