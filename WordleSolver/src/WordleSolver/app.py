@@ -36,9 +36,9 @@ def main():
     # Create a buy me a coffee link ~~ :D ~~
     # Make sure my app is compliant with all play store policies ~~ :D ~~ Looks like no issues
     # Update readme. ~~ :D ~~ Could add some screenshots still. Will also need play store link
-    # Update windows msi to work with self-signed cert.
-    # Take a 1024x500px feature graphic
-    # Course for publishing app: https://playacademy.exceedlms.com/uploads/resource_courses/targets/2071553/original/index.html?_courseId=7015#/page/65e817d0dcbb5f754ebcefe5
+    # Update windows msi to work with self-signed cert. ~~ It's not trusted anyway, and I don't want to pay for a cert, so not going to do this ~~
+    # Take a 1024x500px feature graphic ~~ :D ~~
+    # Course for publishing app ~~ :D ~~
     # Create a store listing
 
 
