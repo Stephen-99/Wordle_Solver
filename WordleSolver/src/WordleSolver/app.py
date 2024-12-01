@@ -39,6 +39,8 @@ def main():
     # Update windows msi to work with self-signed cert. ~~ It's not trusted anyway, and I don't want to pay for a cert, so not going to do this ~~
     # Take a 1024x500px feature graphic ~~ :D ~~
     # Course for publishing app ~~ :D ~~
+    # Self-sign the android app bundle
+    # Test on my phone
     # Create a store listing
 
 
