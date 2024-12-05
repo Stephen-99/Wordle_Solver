@@ -38,6 +38,9 @@ class Screen:
         #Potentially if they go forward and back screens, we want the screen to refresh without the error
         #Then the remove error could be triggered when we don't want it to
             #This should be very easy to fix. Simply set all the cancellations.
+    #Confirmed, currently going forwards and back does still show the error message
+        #Could be as simple as calling RemoveError when updating screen, but then each child class needs to do that
+        #Removes the seperation of concerns a bit more
     
     def ErrorRemovalAfterTimeout(self):
         sleep(5)
