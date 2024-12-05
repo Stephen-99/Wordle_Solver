@@ -23,7 +23,7 @@ class WordleSolver(toga.App):
 
     def ChangeScreen(self, screenContent):
         self.main_window.content = screenContent
-        self.main_window.show()    
+        self.main_window.show()
 
 def main():
     return WordleSolver()
@@ -42,6 +42,7 @@ def main():
     # Self-sign the android app bundle ~~ :D ~~
     # Test on my phone
     # Create a store listing
+    # Scale display based on device size -- currently solver doesn't work portrait mode
 
 
 #  ~~~~~  Like to do before releasing to play store  ~~~~~  #

@@ -9,6 +9,8 @@ from .Screen import Screen
 from WordleSolver.Events import EventSystem
 from WordleSolver.Events.Events import SubmitGuessResultsEvent, ReturnToMainMenuEvent, ErrorOccuredEvent, SolverGuessByUser
 
+
+#Will need to scale font sizes and box sizes so it all fits on the screen as appropritate
 class SolverScreen(Screen):
     def __init__(self, word="tempw"):
         super().__init__()
@@ -16,19 +18,23 @@ class SolverScreen(Screen):
         self.TryUpdateWord(word)
 
         self.solverBox = toga.Box(style=Pack(direction=ROW, alignment="center"))
-        self.innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
+        self.innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center"))
 
-        self.titleLabel = toga.Label("Please enter the following word as your guess\nClick the buttons to match the result :D", style=Pack(padding=(2,5), font_size=16, text_align='center'))
+        #Need to make this and all font size scale dynamically. i.e. change size depending on screen size
+        #Could just do this for our button boxes too.
+        self.titleLabel = toga.Label("Please enter the following word as your guess\nClick the buttons to match the result :D", style=Pack(padding=(2,5), font_size=12, text_align='center'))
         self.guessInput = toga.TextInput(style=Pack(padding=(10, 50), font_weight="bold", font_size=18))
 
+        #Ths seems to be the only box that doesn't dynamically allocate space for it's children. It seems the button sizes are always the same size for the buttons even if the text for them is smaller
+        #Best options here seem to be to put this box inside another column box.
         self.letterButtonsBox = toga.Box(style=Pack(direction=ROW))
         self.submitButtonsBox = toga.Box(style=Pack(direction=ROW))
-        self.userGuessButtonBox =toga.Box(style=Pack(direction=ROW))
+        self.userGuessButtonBox = toga.Box(style=Pack(direction=ROW))
 
         self.submitButton = toga.Button("Submit", on_press=self.SolverSubmitHandler, style=Pack(padding=5, font_size=12))
         self.correctButton = toga.Button("Correct Guess!", on_press=self.CorrectGuessHandler, style=Pack(padding=5, font_size=12))
         self.backButton = toga.Button("Back", on_press=self.BackButtonHandler, style=Pack(padding=5, font_size=12))
-        self.userGuessButton = toga.Button("I've already made a guess", on_press=self.UserGuessButtonHandler, style=Pack(padding=5, font_size=12, flex=-1))
+        self.userGuessButton = toga.Button("I've already made a guess", on_press=self.UserGuessButtonHandler, style=Pack(padding=5, font_size=12))
         
         self.eventLoop = asyncio.get_event_loop() #TODO: move to Screen
 
@@ -43,13 +49,13 @@ class SolverScreen(Screen):
     def UpdateScreen(self):
         letterButtons  = [self.CreateLetterButton(letter, colourData) for letter, colourData in zip(self.word.upper(), self.letters)]
         self.letterButtonsBox.clear()
-        [self.letterButtonsBox.add(button) for button in letterButtons]
+        self.letterButtonsBox.add(*letterButtons)
 
         return self.solverBox
 
     def CreateScreen(self) -> toga.Box:
-        letterButtons  = [self.CreateLetterButton(letter, colourData) for letter, colourData in zip(self.word.upper(), self.letters)]
-        [self.letterButtonsBox.add(button) for button in letterButtons]
+        letterButtons  = [self.CreateLetterButton(letter, colourData) for letter, colourData in zip(self.word.upper(), self.letters)]      
+        self.letterButtonsBox.add(*letterButtons)
 
         #TODO: rethink this button layout a little
         self.submitButtonsBox.add(self.submitButton, self.correctButton, self.backButton)
@@ -62,8 +68,9 @@ class SolverScreen(Screen):
 
     def CreateLetterButton(self, letter, colourData: LetterColour):
         colourData.ResetState()
-        size = 80
-        button = toga.Button(letter, on_press=colourData, style=Pack(padding=5, font_weight="bold", font_size=28, width=size, height=size, color="#ffffff", background_color=colourData.colour))
+        #size = 60
+        #button = toga.Button(letter, on_press=colourData, style=Pack(padding=5, font_weight="bold", font_size=28, width=size, height=size, color="#ffffff", background_color=colourData.colour))
+        button = toga.Button(letter, on_press=colourData, style=Pack(padding=5, font_weight="bold", font_size=12, color="#ffffff", background_color=colourData.colour, flex=-1))
         return button
     
     def SolverSubmitHandler(self, widget) -> None:
