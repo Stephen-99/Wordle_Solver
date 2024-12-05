@@ -2,7 +2,7 @@ import toga
 from WordleSolver.screens.Screen import Screen
 from WordleSolver.screens.MainMenuScreen import MainMenuScreen
 from WordleSolver.screens.SolverScreen import SolverScreen
-from WordleSolver.screens.ErrorScreen import TextScreen
+from WordleSolver.screens.TextScreen import TextScreen
 from WordleSolver.screens.PlayWordleScreen import PlayWordleScreen
 
 from WordleSolver.Events import EventSystem
