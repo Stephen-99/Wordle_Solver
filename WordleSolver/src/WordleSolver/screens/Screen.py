@@ -6,10 +6,12 @@ import threading
 from time import sleep
 
 class Screen:
-    def __init__(self):
+    #TODO: update calls so screenWidth gets passed through.
+    def __init__(self, screenWidth):
         self.errorThread = Thread(target=self.ErrorRemovalAfterTimeout)
         self.threadCancellations = []
         self.errorBox = toga.Box()
+        self.scale = screenWidth / 549 #Scaling to the emulator which is 549 wide
 
     def CreateScreen(self):
         raise NotImplementedError("This should be implemented by all child classes")

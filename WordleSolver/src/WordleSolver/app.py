@@ -42,9 +42,11 @@ def main():
     # Take a 1024x500px feature graphic ~~ :D ~~
     # Course for publishing app ~~ :D ~~
     # Self-sign the android app bundle ~~ :D ~~
-    # Test on my phone
+    # Test on my phone ~~ :D ~~
     # Create a store listing
     # Scale display based on device size -- currently solver doesn't work portrait mode
+    # Allow backspace to work
+    # On loss, say what the word was
 
 
 #  ~~~~~  Like to do before releasing to play store  ~~~~~  #
