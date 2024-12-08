@@ -12,7 +12,7 @@ from .EventListeners.ListenerCreator import ListenerCreator
 class WordleSolver(toga.App):
     def startup(self):
         #This is correct. we seem to lose some veritcal space to navigation bars, but the width is accurate.
-        print("\n\n~~~~~~~ Screen Size:", self.screens[0].size , "~~~~~~~\n\n")
+        print("\n\n~~~~~~~ Screen Size:", self.screens[0].size.width , "~~~~~~~\n\n")
         self.main_window = toga.MainWindow(title=self.formal_name)
         db = WordleDB()
         validWords, allowedWords = db.GetWords()
@@ -21,7 +21,7 @@ class WordleSolver(toga.App):
         wordleRows = PlayWordleRows()
         playWordleClient = PlayWordle(validWords, allowedWords)  #takes 1.26s but only 0.17s CPU time
 
-        ListenerCreator().SetupListeners(self.ChangeScreen, solver, playWordleClient, wordleRows)
+        ListenerCreator().SetupListeners(self.ChangeScreen, solver, playWordleClient, wordleRows, self.screens[0].size.width)
 
     def ChangeScreen(self, screenContent):
         self.main_window.content = screenContent
@@ -45,14 +45,15 @@ def main():
     # Test on my phone ~~ :D ~~
     # Create a store listing
     # Scale display based on device size -- currently solver doesn't work portrait mode
-    # Allow backspace to work
-    # On loss, say what the word was
+    
 
 
 #  ~~~~~  Like to do before releasing to play store  ~~~~~  #
     # Play wordle, on clicking a box, set cursor to the start ~~ Don't seem to be able to move the cursor with Toga ~~
     # 2nd letter only highlight if it is in the word twice.
     # Update release version to be 1.0.0 not 0.0.1 ~~ Issues. On windows uninstall still shows 0.0.1 This is due to a bug. just accept it.
+    # Allow backspace to work
+    # On loss, say what the word was
 
 #  ~~~~~  Would like to do  ~~~~~  #
     # putting GUI stuff on a separate thread. It's all single-threaded atm (done kinda)

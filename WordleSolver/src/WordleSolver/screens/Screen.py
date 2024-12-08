@@ -13,6 +13,9 @@ class Screen:
         self.errorBox = toga.Box()
         self.scale = screenWidth / 549 #Scaling to the emulator which is 549 wide
 
+    def ScaleValue(self, value):
+        return int(value * self.scale)
+
     def CreateScreen(self):
         raise NotImplementedError("This should be implemented by all child classes")
     

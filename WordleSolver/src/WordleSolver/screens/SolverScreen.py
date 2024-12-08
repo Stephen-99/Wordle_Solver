@@ -12,8 +12,8 @@ from WordleSolver.Events.Events import SubmitGuessResultsEvent, ReturnToMainMenu
 
 #Will need to scale font sizes and box sizes so it all fits on the screen as appropritate
 class SolverScreen(Screen):
-    def __init__(self, word="tempw"):
-        super().__init__()
+    def __init__(self, screenWidth, word="tempw"):
+        super().__init__(screenWidth)
         self.letters = [LetterColour() for _ in range(5)]
         self.TryUpdateWord(word)
 

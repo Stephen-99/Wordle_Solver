@@ -10,19 +10,19 @@ from WordleSolver.Events.Events import *
 
 #TODO create a listener interface this can implement.
 class ScreenManager:
-    def __init__(self, changeScreensFunc, wordleRows):
+    def __init__(self, changeScreensFunc, wordleRows, screenWidth):
         self.changeScreens = changeScreensFunc
         self.curScreen = None
         self.RegisterHandlers()
 
         #initiate screens
-        self.solverScreen = SolverScreen()
+        self.solverScreen = SolverScreen(screenWidth)
         self.solverScreen.CreateScreen()
-        self.menuScreen = MainMenuScreen()
+        self.menuScreen = MainMenuScreen(screenWidth)
         self.menuScreen.CreateScreen()
-        self.errorScreen = TextScreen()
+        self.errorScreen = TextScreen(screenWidth)
         self.errorScreen.CreateScreen()
-        self.playWordleScreen = PlayWordleScreen(wordleRows)
+        self.playWordleScreen = PlayWordleScreen(wordleRows, screenWidth)
         self.playWordleScreen.CreateScreen()
 
         #start with menuScreen (This may need to move to a separate startup func)

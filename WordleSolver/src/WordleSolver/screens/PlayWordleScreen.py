@@ -13,8 +13,8 @@ from ..Events.Events import ReturnToMainMenuEvent
 #TODO add keyboard.
     #Should auto pop up, but can add highlighting to show which letters are unavailable or should be used.
 class PlayWordleScreen(Screen):
-    def __init__(self, wordleRows: PlayWordleRows):
-        super().__init__()
+    def __init__(self, wordleRows: PlayWordleRows, screenWidth):
+        super().__init__(screenWidth)
         self.outerBox = toga.Box(style=Pack(direction=ROW, alignment="center"))
         self.innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
         self.buttonBox = toga.Box(style=Pack(direction=ROW, alignment="center"))

@@ -7,8 +7,8 @@ from WordleSolver.Events.Events import PlayWordleEvent, RunSolverEvent
 from .Screen import Screen
 
 class MainMenuScreen(Screen):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, screenWidth):
+        super().__init__(screenWidth)
         self.content = None
 
     def UpdateScreen(self):
