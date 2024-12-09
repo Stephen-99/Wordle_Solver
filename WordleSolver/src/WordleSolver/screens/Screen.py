@@ -11,7 +11,7 @@ class Screen:
         self.errorThread = Thread(target=self.ErrorRemovalAfterTimeout)
         self.threadCancellations = []
         self.errorBox = toga.Box()
-        self.scale = screenWidth / 549 #Scaling to the emulator which is 549 wide
+        self.scale = screenWidth / 549 #Scaling based on the emulator which is 549 wide
 
     def ScaleValue(self, value):
         return int(value * self.scale)

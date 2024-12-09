@@ -44,7 +44,7 @@ def main():
     # Self-sign the android app bundle ~~ :D ~~
     # Test on my phone ~~ :D ~~
     # Create a store listing
-    # Scale display based on device size -- currently solver doesn't work portrait mode
+    # Scale display based on device size -- currently solver doesn't work portrait mode TEST STILL
     
 
 
