@@ -19,11 +19,11 @@ class MainMenuScreen(Screen):
         outerBox = toga.Box(style=Pack(direction=ROW, alignment='center'))
         mainBox = toga.Box(style=Pack(direction=COLUMN, alignment='center', padding=(20, 5), flex=1))
         welcomeTextLabel = toga.Label("Hello! Welcome to Wordle Solver!\n",
-                                      style=Pack(padding=(2,5), font_size=18, text_align='center'))
+                                      style=Pack(padding=(2,5), font_size=self.ScaleValue(24), text_align='center'))
         
         buttonsBox = toga.Box()
-        playButton = toga.Button("Play Wordle", on_press=self.PlayWordleHandler, style=Pack(padding=5, font_size=12))
-        solveButton = toga.Button("Use the solver", on_press=self.RunSolverHandler, style=Pack(padding=5, font_size=12))
+        playButton = toga.Button("Play Wordle", on_press=self.PlayWordleHandler, style=Pack(padding=5, font_size=self.ScaleValue(14)))
+        solveButton = toga.Button("Use the solver", on_press=self.RunSolverHandler, style=Pack(padding=5, font_size=self.ScaleValue(14)))
         buttonsBox.add(playButton, solveButton)
 
         mainBox.add(welcomeTextLabel, buttonsBox)

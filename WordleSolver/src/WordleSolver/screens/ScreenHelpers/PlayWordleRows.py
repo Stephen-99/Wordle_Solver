@@ -8,11 +8,14 @@ from WordleSolver.Events.Events import PlayWordleGuessEvent, ErrorOccuredEvent, 
 from WordleLibrary.LetterColour import LetterColour
 from WordleLibrary.Guess import Guess
 
+#WORK TODO, shouldn't scale to be this small... Also need to scale height not just width. MOREOVER,
+#Padding also needs to scale...
 class PlayWordleRow:
-    SQUARESIZE = 70
+    SQUARESIZE = 70 
     ACTIVECOLOUR = "#848484"
     
-    def __init__(self):
+    def __init__(self, screenWidth):
+        self.squareSize = int(self.SQUARESIZE * screenWidth / 549) + 1 #Same as in Screen.py
         self.squareWithFocusIdx = -1 #No square starts with the focus
         self.squares = [self.CreateTextSquare() for _ in range(5)]
         self.box = toga.Box(style=Pack(direction=ROW))
@@ -25,7 +28,7 @@ class PlayWordleRow:
             square.style.background_color = LetterColour.gray
 
     def CreateTextSquare(self):
-        return toga.TextInput(style=Pack(padding=5, font_weight="bold", font_size=self.SQUARESIZE//2, width=self.SQUARESIZE-10, color="#ffffff", background_color=LetterColour.gray),
+        return toga.TextInput(style=Pack(padding=5, font_weight="bold", font_size=self.squareSize//2, width=self.squareSize-10, color="#ffffff", background_color=LetterColour.gray),
                               on_change=self.FormatTextInput, on_gain_focus=self.FocusWasSetToSquare, readonly=True)
     
     #Formats it to always have 1 character preceded by 1 space
@@ -105,8 +108,8 @@ class PlayWordleRow:
         return word.lower()
 
 class PlayWordleRows:
-    def __init__(self):
-        self.rows = [PlayWordleRow() for _ in range(6)]
+    def __init__(self, screenWidth):
+        self.rows = [PlayWordleRow(screenWidth) for _ in range(6)]
         self.curRowIdx = 0
         self.rows[self.curRowIdx].SetActive()
 

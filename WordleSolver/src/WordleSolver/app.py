@@ -16,7 +16,7 @@ class WordleSolver(toga.App):
         validWords, allowedWords = db.GetWords()
 
         solver = Solver(db, validWords, allowedWords) #takes 1.6s, but onlly 0.2s cpu time
-        wordleRows = PlayWordleRows()
+        wordleRows = PlayWordleRows(self.screens[0].size.width)
         playWordleClient = PlayWordle(validWords, allowedWords)  #takes 1.26s but only 0.17s CPU time
 
         ListenerCreator().SetupListeners(self.ChangeScreen, solver, playWordleClient, wordleRows, self.screens[0].size.width)
