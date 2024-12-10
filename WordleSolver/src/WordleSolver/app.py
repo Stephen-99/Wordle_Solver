@@ -11,8 +11,6 @@ from .EventListeners.ListenerCreator import ListenerCreator
 
 class WordleSolver(toga.App):
     def startup(self):
-        #This is correct. we seem to lose some veritcal space to navigation bars, but the width is accurate.
-        print("\n\n~~~~~~~ Screen Size:", self.screens[0].size.width , "~~~~~~~\n\n")
         self.main_window = toga.MainWindow(title=self.formal_name)
         db = WordleDB()
         validWords, allowedWords = db.GetWords()
