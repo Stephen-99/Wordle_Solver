@@ -11,11 +11,12 @@ from WordleLibrary.Guess import Guess
 #WORK TODO, shouldn't scale to be this small... Also need to scale height not just width. MOREOVER,
 #Padding also needs to scale...
 class PlayWordleRow:
-    SQUARESIZE = 70 
+    SQUARESIZE = 80 
     ACTIVECOLOUR = "#848484"
     
     def __init__(self, screenWidth):
-        self.squareSize = int(self.SQUARESIZE * screenWidth / 549) + 1 #Same as in Screen.py
+        self.scale = screenWidth / 549
+        self.squareSize = self.ScaleValue(self.SQUARESIZE)
         self.squareWithFocusIdx = -1 #No square starts with the focus
         self.squares = [self.CreateTextSquare() for _ in range(5)]
         self.box = toga.Box(style=Pack(direction=ROW))
@@ -27,8 +28,11 @@ class PlayWordleRow:
             square.readonly = True
             square.style.background_color = LetterColour.gray
 
+    def ScaleValue(self, value):
+        return int(value * self.scale) + 1 #Duplicated in Screen
+
     def CreateTextSquare(self):
-        return toga.TextInput(style=Pack(padding=5, font_weight="bold", font_size=self.squareSize//2, width=self.squareSize-10, color="#ffffff", background_color=LetterColour.gray),
+        return toga.TextInput(style=Pack(padding=self.ScaleValue(5), font_weight="bold", font_size=self.squareSize//2, width=self.squareSize, height=self.squareSize + 10, color="#ffffff", background_color=LetterColour.gray),
                               on_change=self.FormatTextInput, on_gain_focus=self.FocusWasSetToSquare, readonly=True)
     
     #Formats it to always have 1 character preceded by 1 space
