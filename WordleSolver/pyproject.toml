@@ -1,17 +1,16 @@
 # This project was generated with 0.3.17 using template: https://github.com/beeware/briefcase-template@v0.3.17
 [tool.briefcase]
 project_name = "Wordle Solver"
-bundle = "com.example"
-version = "1.0.0"
-url = "https://example.com/WordleSolver"
+bundle = "com.solver.wordle"
+version = "1.0.1"
 license = "GNU General Public License v3 or later (GPLv3+)"
 author = "Stephen den Boer"
 author_email = "stephendenboer9@gmail.com"
 
 [tool.briefcase.app.WordleSolver]
 formal_name = "Wordle Solver"
-description = "This is an app that solves the wordle with you! It also allows you to play a wordle replica"
-long_description = """More details about the app should go here."""
+description = "This is an app that solves the wordle with you! It also allows you to play a wordle replica."
+long_description = """Tired of being stuck solving the daily wordle? Wordle solver is here to help! Play alongside the solver and solve even the trickiest words."""
 icon = "icons/AI1"
 
 sources = [

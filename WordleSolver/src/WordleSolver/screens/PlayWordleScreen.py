@@ -25,7 +25,7 @@ class PlayWordleScreen(Screen):
         self.eventLoop = asyncio.get_event_loop()
 
     def CreateScreen(self):
-        self.title = toga.Label("Guess the word!", style=Pack(padding=(2,5), font_size=self.ScaleValue(18), text_align='center')) #TODO: center and format text
+        self.title = toga.Label("Guess the word!", style=Pack(padding=(2,5), font_size=self.ScaleValue(18), text_align='center'))
         self.submitButton = toga.Button("Submit", on_press=self.SubmitWordHandler, style=Pack(padding=5, font_size=self.ScaleValue(14), width=100))
         self.backButton = toga.Button("Back", on_press=self.BackButtonHandler, style=Pack(padding=5, font_size=self.ScaleValue(14), width=100))
         
