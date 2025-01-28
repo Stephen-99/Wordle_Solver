@@ -29,7 +29,7 @@ class PlayWordleRow:
             square.style.background_color = LetterColour.gray
 
     def ScaleValue(self, value):
-        return int(value * self.scale) + 1 #Duplicated in Screen
+        return int(value * self.scale) + 1 #Duplicated in Screen.py and Errorhandler.py
 
     def CreateTextSquare(self):
         return toga.TextInput(style=Pack(padding=self.ScaleValue(5), font_weight="bold", font_size=self.squareSize//2, width=self.squareSize, height=self.squareSize + 10, color="#ffffff", background_color=LetterColour.gray),

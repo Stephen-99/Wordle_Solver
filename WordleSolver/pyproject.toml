@@ -2,9 +2,9 @@
 [tool.briefcase]
 project_name = "Wordle Solver"
 bundle = "com.solver.wordle"
-version = "1.0.2"
+version = "1.0.3"
 license = "GNU General Public License v3 or later (GPLv3+)"
-author = "Stephen den Boer"
+author = "Stpehen den Boer"
 author_email = "stephendenboer9@gmail.com"
 
 [tool.briefcase.app.WordleSolver]

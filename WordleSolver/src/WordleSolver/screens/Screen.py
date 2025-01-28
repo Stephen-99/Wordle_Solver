@@ -14,7 +14,7 @@ class Screen:
         self.scale = screenWidth / 549 #Scaling based on the emulator which is 549 wide
 
     def ScaleValue(self, value):
-        return int(value * self.scale) + 1 #Duplicated in PlayWordleRows.
+        return int(value * self.scale) + 1 #Duplicated in PlayWordleRows and ErrorHandler
 
     def CreateScreen(self):
         raise NotImplementedError("This should be implemented by all child classes")
