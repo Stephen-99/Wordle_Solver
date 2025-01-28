@@ -44,7 +44,11 @@ def main():
     # Create a store listing
     # Scale display based on device size -- currently solver doesn't work portrait mode TEST STILL
     
-
+#  ~~~~~  Issues found during testing  ~~~~~ #
+    # Can't backspace characters in play wordle see (https://toga.readthedocs.io/en/stable/reference/api/resources/command.html)
+        #And https://github.com/beeware/toga/issues/2526 for an example
+    # Placeholder text in "I've already made a guess" needs to be deleted (should be a placeholder not actual text)
+        # Should work... Maybe try only set the text in the TextInput constructor, and re-create the input each time
 
 #  ~~~~~  Like to do before releasing to play store  ~~~~~  #
     # Play wordle, on clicking a box, set cursor to the start ~~ Don't seem to be able to move the cursor with Toga ~~
