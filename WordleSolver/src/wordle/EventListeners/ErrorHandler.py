@@ -2,8 +2,8 @@ import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
-from WordleSolver.Events import EventSystem
-from WordleSolver.Events.Events import *
+from wordle.Events import EventSystem
+from wordle.Events.Events import *
 
 class ErrorHandler:
     def __init__(self, screenWidth):

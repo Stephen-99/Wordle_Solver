@@ -6,7 +6,7 @@ import toga
 from WordleLibrary.solver import WordleSolver as Solver
 from WordleLibrary.Database import WordleDB
 from WordleLibrary.PlayWordle import PlayWordle
-from WordleSolver.screens.ScreenHelpers.PlayWordleRows import PlayWordleRows
+from wordle.screens.ScreenHelpers.PlayWordleRows import PlayWordleRows
 from .EventListeners.ListenerCreator import ListenerCreator
 
 class WordleSolver(toga.App):

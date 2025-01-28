@@ -2,8 +2,8 @@ import toga
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
-from WordleSolver.Events import EventSystem
-from WordleSolver.Events.Events import PlayWordleGuessEvent, ErrorOccuredEvent, PlayWordleUpdatedEvent
+from wordle.Events import EventSystem
+from wordle.Events.Events import PlayWordleGuessEvent, ErrorOccuredEvent, PlayWordleUpdatedEvent
 
 from WordleLibrary.LetterColour import LetterColour
 from WordleLibrary.Guess import Guess

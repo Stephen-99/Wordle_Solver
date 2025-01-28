@@ -1,8 +1,8 @@
-from WordleSolver.Events import EventSystem
-from WordleSolver.Events.Events import *
+from wordle.Events import EventSystem
+from wordle.Events.Events import *
 
 from WordleLibrary.PlayWordle import PlayWordle
-from WordleSolver.screens.ScreenHelpers.PlayWordleRows import PlayWordleRows
+from wordle.screens.ScreenHelpers.PlayWordleRows import PlayWordleRows
 
 class PlayWordleListener:
     def __init__(self, playWordleClient: PlayWordle, wordleRows: PlayWordleRows):

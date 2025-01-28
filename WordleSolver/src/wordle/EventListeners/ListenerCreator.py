@@ -1,11 +1,11 @@
 #To create and setup the listeners
 
 #Listeners
-from WordleSolver.screens.ScreenManager import ScreenManager
+from wordle.screens.ScreenManager import ScreenManager
 from .SolverListener import SolverListener
 from .PlayWordleListener import PlayWordleListener
 from .ErrorHandler import ErrorHandler
-from WordleSolver.screens.ScreenHelpers.PlayWordleRows import PlayWordleRows
+from wordle.screens.ScreenHelpers.PlayWordleRows import PlayWordleRows
 
 #Dependencies of those listeners.
 from WordleLibrary.solver import WordleSolver

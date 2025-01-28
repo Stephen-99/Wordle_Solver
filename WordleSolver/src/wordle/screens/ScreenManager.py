@@ -1,12 +1,12 @@
 import toga
-from WordleSolver.screens.Screen import Screen
-from WordleSolver.screens.MainMenuScreen import MainMenuScreen
-from WordleSolver.screens.SolverScreen import SolverScreen
-from WordleSolver.screens.TextScreen import TextScreen
-from WordleSolver.screens.PlayWordleScreen import PlayWordleScreen
+from wordle.screens.Screen import Screen
+from wordle.screens.MainMenuScreen import MainMenuScreen
+from wordle.screens.SolverScreen import SolverScreen
+from wordle.screens.TextScreen import TextScreen
+from wordle.screens.PlayWordleScreen import PlayWordleScreen
 
-from WordleSolver.Events import EventSystem
-from WordleSolver.Events.Events import *
+from wordle.Events import EventSystem
+from wordle.Events.Events import *
 
 #TODO create a listener interface this can implement.
 class ScreenManager:

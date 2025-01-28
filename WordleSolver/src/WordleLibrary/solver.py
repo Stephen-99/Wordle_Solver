@@ -1,5 +1,5 @@
-from WordleSolver.Events import EventSystem
-from WordleSolver.Events.Events import *
+from wordle.Events import EventSystem
+from wordle.Events.Events import *
 
 from .Guess import *
 from .CharCommonality import *

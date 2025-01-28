@@ -1,7 +1,7 @@
 import random
 
-from WordleSolver.Events import EventSystem
-from WordleSolver.Events.Events import WonGameEvent, LostGameEvent, IncorrectGuessEvent, ErrorOccuredEvent
+from wordle.Events import EventSystem
+from wordle.Events.Events import WonGameEvent, LostGameEvent, IncorrectGuessEvent, ErrorOccuredEvent
 
 from .Database import *
 from .Guess import *

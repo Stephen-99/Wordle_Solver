@@ -1,6 +1,6 @@
 from threading import Thread
-from WordleSolver.Events import EventSystem
-from WordleSolver.Events.Events import *
+from wordle.Events import EventSystem
+from wordle.Events.Events import *
 from WordleLibrary.solver import WordleSolver
 
 class SolverListener:

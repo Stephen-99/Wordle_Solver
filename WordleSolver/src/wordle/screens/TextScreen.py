@@ -3,8 +3,8 @@ from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
 from .Screen import Screen
-from WordleSolver.Events import EventSystem
-from WordleSolver.Events.Events import ReturnToMainMenuEvent
+from wordle.Events import EventSystem
+from wordle.Events.Events import ReturnToMainMenuEvent
 
 #Show error, and on clicking ok, go back to mainScreen
 #If different bahviour required, can extend this class and overide the OkButtonHandler.

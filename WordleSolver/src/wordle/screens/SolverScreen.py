@@ -6,8 +6,8 @@ from toga.style.pack import COLUMN, ROW
 from WordleLibrary.LetterColour import LetterColour
 
 from .Screen import Screen
-from WordleSolver.Events import EventSystem
-from WordleSolver.Events.Events import SubmitGuessResultsEvent, ReturnToMainMenuEvent, ErrorOccuredEvent, SolverGuessByUser
+from wordle.Events import EventSystem
+from wordle.Events.Events import SubmitGuessResultsEvent, ReturnToMainMenuEvent, ErrorOccuredEvent, SolverGuessByUser
 
 
 #Will need to scale font sizes and box sizes so it all fits on the screen as appropritate
