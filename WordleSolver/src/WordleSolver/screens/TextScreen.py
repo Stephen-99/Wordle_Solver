@@ -21,7 +21,7 @@ class TextScreen(Screen):
         self.outerBox = toga.Box(style=Pack(direction=ROW, alignment="center"))
         self.innerBox = toga.Box(style=Pack(direction=COLUMN, alignment="center", flex=1))
         self.CreateTextLabel()
-        self.okButton = toga.Button("Ok", on_press=self.OkButtonHandler, style=Pack(padding=5, font_size=12, width=80))
+        self.okButton = toga.Button("Ok", on_press=self.OkButtonHandler, style=Pack(padding=5, font_size=self.ScaleValue(12), width=self.ScaleValue(80)))
         
         self.innerBox.add(self.text)
         self.innerBox.add(self.okButton)

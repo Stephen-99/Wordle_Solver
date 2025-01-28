@@ -19,4 +19,4 @@ class ListenerCreator:
         self.listeners.append(ScreenManager(changeScreensFunc, wordleRows, screenWidth))
         self.listeners.append(SolverListener(solver))
         self.listeners.append(PlayWordleListener(playWordleClient, wordleRows))
-        self.listeners.append(ErrorHandler())
+        self.listeners.append(ErrorHandler(screenWidth))

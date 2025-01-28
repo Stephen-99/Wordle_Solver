@@ -115,6 +115,7 @@ class SolverScreen(Screen):
         self.errorBox = errorBox
         self.innerBox.add(self.errorBox)
         self.SetErrorTimeout()
+        
         return self.solverBox
     
     

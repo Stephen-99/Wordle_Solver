@@ -6,8 +6,9 @@ from WordleSolver.Events import EventSystem
 from WordleSolver.Events.Events import *
 
 class ErrorHandler:
-    def __init__(self):
+    def __init__(self, screenWidth):
         self.RegisterHandlers()
+        self.scale = screenWidth / 549 #Scaling based on the emulator which is 549 wide
 
 #TODO: make sure this is getting created and called.
     def RegisterHandlers(self):
@@ -22,8 +23,11 @@ class ErrorHandler:
         #May need to do that by raising a new type fo event.
 
     def CreateErrorBox(self, errorMsg: str):
-        box = toga.Box(style=Pack(direction=COLUMN, background_color="#FFEBEE", padding=10))
-        msgLabel = toga.Label(text=errorMsg, style=Pack(color="#FF0000", font_size=16, text_align='center'))
+        box = toga.Box(style=Pack(direction=COLUMN, background_color="#FFEBEE", padding=self.ScaleValue(10)))
+        msgLabel = toga.Label(text=errorMsg, style=Pack(color="#FF0000", font_size=self.ScaleValue(16), text_align='center'))
 
         box.add(msgLabel)
         return box
+    
+    def ScaleValue(self, value): #Duplicated from Screen.py and playWordleRows
+        return int(value * self.scale) + 1
