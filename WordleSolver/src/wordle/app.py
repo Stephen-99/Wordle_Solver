@@ -2,6 +2,7 @@
 This is an app that solves the wordle with you! It also allows you to play a wordle replica
 """
 import toga
+from toga import Key
 
 from WordleLibrary.solver import WordleSolver as Solver
 from WordleLibrary.Database import WordleDB
@@ -11,6 +12,17 @@ from .EventListeners.ListenerCreator import ListenerCreator
 
 class WordleSolver(toga.App):
     def startup(self):
+        #Windows keeps saying the value argument is invalid whatever key is used. Android just doesn't seem to work...
+        #might be desktop only?
+        #Is there another way to setup events without commands??
+        backspaceCommand = toga.Command(
+            self.BackspacePressed, 
+            "BACKSPACE",
+            group=toga.Group.EDIT,
+            shortcut=Key.BACKSPACE
+        )
+        self.commands.add(backspaceCommand)
+
         self.main_window = toga.MainWindow(title=self.formal_name)
         db = WordleDB()
         validWords, allowedWords = db.GetWords()
@@ -21,9 +33,13 @@ class WordleSolver(toga.App):
 
         ListenerCreator().SetupListeners(self.ChangeScreen, solver, playWordleClient, wordleRows, self.screens[0].size.width)
 
+
     def ChangeScreen(self, screenContent):
         self.main_window.content = screenContent
         self.main_window.show()
+
+    def BackspacePressed(e, y):
+        print("\n~~~~~~~Backsapce was pressed. ~~~~~~~\n", e, y)
 
 def main():
     return WordleSolver()
@@ -49,6 +65,8 @@ def main():
         #And https://github.com/beeware/toga/issues/2526 for an example
     # Placeholder text in "I've already made a guess" needs to be deleted (should be a placeholder not actual text)
         # Should work... Maybe try only set the text in the TextInput constructor, and re-create the input each time
+    # Wasn't scaling properly on mum's phone and was still cut off. Even wtihout the error message.
+    # Author in about is spelt Stphen -- Fixed
 
 #  ~~~~~  Like to do before releasing to play store  ~~~~~  #
     # Play wordle, on clicking a box, set cursor to the start ~~ Don't seem to be able to move the cursor with Toga ~~
